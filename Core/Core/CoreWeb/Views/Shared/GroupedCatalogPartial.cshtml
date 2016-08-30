@@ -1,0 +1,38 @@
+﻿@model CoreWeb.Models.Catalog.GroupedListModel
+<div id="menu-panel" class="k-toolbar" style="border-style: none">
+    <ul id="menu" style="border-style: none; background-color: transparent; background-image: none;"></ul>
+</div>
+<div id="horizontal">
+    <div id="treeview" style="height: 100%"></div>
+    <div id="grid" style="border-style: none; height: 100%"></div>
+</div>
+<script>
+    var t = asu.common.simpleTree({
+        container: $("#treeview"),
+        baseGroup: "@Model.GroupID", popup: editWnd, controller: "@Url.Action("")",
+        change: function (e) { g.dataSource.read() }
+    });
+    var g = asu.common.groupedGrid({
+        container: $("#grid"), popup: editWnd,
+        fields: {@Html.KendoModelFields(Model.Columns) }, columns: [@Html.KendoGridColumns(Model.Columns)],
+        group: function () { return (t.curItem() == undefined) ? { ID: 0 } : t.curItem() },
+        controller: "@Url.Action("")"
+    });
+    var ap = {
+        add: function () { t.add() }, add_o: function () { g.add() }, edit: function () { if (g.select().length == 0) t.edit(); else g.edit() }, del: function () { if (g.select().length == 0) t.del(); else g.del() },
+        role: function () { (g.select().length == 0) ? asu.role.access.popup(t.curID(), t.curItem()["Name"]) : asu.role.access.popup(g.curID(), g.curItem()["Name"]) }
+    };
+    asu.common.mainMenu({
+        items: asu.common.menuData(), owner: ap, container: $("#menu")
+    });
+    function newElement(id) { g.newElement(id) } function newGroup(id) { t.newGroup(id) } function editGroup(id) { t.editGroup(id) } function editElement(id) { g.editElement(id) }
+    $("#horizontal").kendoSplitter({ panes: [{ collapsible: false, min: "200px", max: "400px", size: "220px" }, { collapsible: false }] });
+    $(".k-selectable").dblclick(g.edit);
+    function resizeContainers() {
+        var headerHeight = $("#menu-panel").outerHeight(true),
+            panel = $("#horizontal");
+        panel.height(mainHeight() - headerHeight - 3);
+        panel.data('kendoSplitter').resize();
+    }
+    $(document).ready(resizeContainers);
+</script>

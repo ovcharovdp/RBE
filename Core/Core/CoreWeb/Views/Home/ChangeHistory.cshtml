@@ -1,0 +1,28 @@
+﻿@model CoreAPI.ChangeHistory.IWorkItemLoader
+<div id="menu-panel" class="k-toolbar" style="border-style: none">
+    <ul id="menu" style="border-style: none; background-color: transparent; background-image: none;"></ul>
+</div>
+<div id="changeList" class="k-widget k-splitter" style="padding:10px; overflow:scroll">
+    @foreach (var i in Model.Items.GroupBy(p => new { p.IterationName, p.IterationFinishDate }).OrderByDescending(p => p.Key.IterationFinishDate))
+    {
+        <h3 class="k-block @(i.Key.IterationFinishDate<DateTime.Now ? "k-success-colored":"")">
+            <span class="k-icon @(i.Key.IterationFinishDate < DateTime.Now ? "k-i-tick" : "k-i-calendar")"></span> @i.Key.IterationName (@i.Key.IterationFinishDate.ToString("dd.MM.yyyy"))
+        </h3>
+        foreach (var t in i.GroupBy(p => p.Type))
+        {
+            <h4>@("Ошибка".Equals(t.Key) ? "Исправления:" : "Расширения:")</h4>
+            <ul>
+                @foreach (var w in t)
+                {
+                    <li>@w.Title</li>}
+            </ul>}
+    }
+</div>
+<script>
+    asu.common.mainMenu({ items: [], owner: {} });
+    function resizeContainers() {
+        var headerHeight = $("#menu-panel").outerHeight(true);
+        $("#changeList").height(mainHeight() - headerHeight - 2);
+    }
+    $(document).ready(resizeContainers);
+</script>

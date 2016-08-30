@@ -1,0 +1,74 @@
+﻿@model CoreWeb.Models.Catalog.GroupedListModel
+
+<div id="horizontal" style="border-style: none">
+    <div>
+        <div id="menu-panel" class="k-toolbar">
+            <ul id="menu" style="border-style: none; background-color: transparent; background-image: none;"></ul>
+        </div>
+        <div id="treeview" style="border-width: 1px 0 0 0;"></div>
+    </div>
+    <div style="border-style: none;">
+        <div id="tabstrip" style="border-style: none; display: none">
+            <ul style="padding: 0">
+                <li class="k-state-active">Члены</li>
+                <li>Разрешения</li>
+            </ul>
+            <div style="padding: 0; margin: 0; border-style: none">
+                <div id="grid" style="border-width: 1px 0 0 0"></div>
+            </div>
+            <div style="padding: 0; margin: 0; border-style: none">
+                Permission
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/x-kendo-template" id="memberTempl"><div id="memberMenu" style="border-style:none;"></div></script>
+<script>
+    var ts = $("#tabstrip").kendoTabStrip({ animation: 0 }).data('kendoTabStrip');
+    var dataGroup = asu.common.tree({
+        container: $("#treeview"),
+        baseGroup: "@Model.GroupID",
+        popup: editWnd,
+        controller: "@Url.Action("")",
+        change: function (e) {
+            var i = this.dataItem(this.select());
+            if (i.f == 0 || i.Name == "Все") { ts.element.hide() } else { ts.element.show(); dataGrid.dataSource.read() }
+        },
+        entityName: "роль"
+    });
+    asu.common.mainMenu({
+        items: [
+            {
+                text: "", spriteCssClass: "i-add",
+                title: "Добавить новую роль или группу",
+                items: [
+                    { code: "add_o", text: "Роль", title: "Добавить новую роль" },
+                    { code: "add", text: "Группу", title: "Добавить новую группу" }]
+            },
+            { code: "edit", text: "", spriteCssClass: "i-edit", title: "Изменить" },
+            { code: "del", text: "", spriteCssClass: "i-del", title: "Удалить" }
+        ], owner: dataGroup, container: $("#menu")
+    });
+    function newElement(id) { dataGroup.newElement(id) }
+    function newGroup(id) { dataGroup.newGroup(id) }
+    function editGroup(id) { dataGroup.editGroup(id) }
+    function editElement(id) { dataGroup.editElement(id) }
+    $("#horizontal").kendoSplitter({ panes: [{ collapsible: false, min: "200px", max: "400px", size: "220px" }, { collapsible: false }] });
+    var dataGrid = asu.common.linkGrid({
+        container: $("#grid"), entity: "Member", entityName: "пользователя",
+        toolbar: $("#memberTempl"), popup: editWnd,
+        fields: {@Html.KendoModelFields(Model.Columns) },
+        columns: [@Html.KendoGridColumns(Model.Columns)],
+        group: function () { return (dataGroup.curItem() == undefined) ? { ID: 0 } : dataGroup.curItem() },
+        controller: "@Url.Action("")"
+    });
+    asu.common.menu({ items: [{ code: "add", text: "Добавить..." }, { code: "del", text: "Удалить" }], owner: dataGrid, container: $("#memberMenu") });
+    function resizeContainers() {
+        var headerHeight = $("#menu-panel").outerHeight(true), panel = $("#horizontal");
+        panel.height(mainHeight());
+        panel.data('kendoSplitter').resize();
+        dataGroup.element.outerHeight(mainHeight() - headerHeight)
+        dataGrid.element.height(mainHeight() - headerHeight + 5);
+    }
+    $(document).ready(resizeContainers);
+</script>

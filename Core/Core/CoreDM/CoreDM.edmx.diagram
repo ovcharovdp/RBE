@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cad7d240625c42a496bc3ab3d2c3a593" Name="Main" ZoomLevel="93">
+        <EntityTypeShape EntityType="CoreDM.ObjBlob" Width="1.5" PointX="8.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CoreDM.ObjGroupObject" Width="1.5" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="CoreDM.ObjGroup" Width="1.5" PointX="0.5" PointY="4.875" />
+        <EntityTypeShape EntityType="CoreDM.SysMenu" Width="1.5" PointX="4.5" PointY="0.5" />
+        <AssociationConnector Association="CoreDM.SYS_MENU_FK1" />
+        <EntityTypeShape EntityType="CoreDM.SysReport" Width="1.5" PointX="6.5" PointY="2.625" />
+        <AssociationConnector Association="CoreDM.SYS_INHERIT_ROLE1" />
+        <AssociationConnector Association="CoreDM.OBJ_GROUP_OBJECT_FK" />
+        <EntityTypeShape EntityType="CoreDM.SysConst" Width="1.5" PointX="6.5" PointY="0.5" />
+        <EntityTypeShape EntityType="CoreDM.ObjCatalog" Width="1.5" PointX="2.5" PointY="4.875" />
+        <AssociationConnector Association="CoreDM.OBJ_CATALOG_FK" />
+        <EntityTypeShape EntityType="CoreDM.ObjCatalogField" Width="1.5" PointX="2.5" PointY="0.5" />
+        <AssociationConnector Association="CoreDM.OBJ_CATALOG_FIELD_FK" />
+        <EntityTypeShape EntityType="CoreDM.ObjCatalogRule" Width="1.5" PointX="6.5" PointY="4.875" />
+        <EntityTypeShape EntityType="CoreDM.ObjCatalogState" Width="1.5" PointX="4.5" PointY="4.875" />
+        <AssociationConnector Association="CoreDM.OBJ_CATALOG_STATE_FK" />
+        <AssociationConnector Association="CoreDM.OBJ_CATALOG_RULE_FK1" />
+        <AssociationConnector Association="CoreDM.OBJ_CATALOG_RULE_FK2" />
+        </Diagram>
+      <Diagram DiagramId="39515e56c6db46e7b6b329b7d5c9ce7a" Name="Role" >
+        <EntityTypeShape EntityType="CoreDM.SysInheritRole" Width="1.5" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="CoreDM.SysObjectRole" Width="1.5" PointX="4.75" PointY="0.5" />
+        <EntityTypeShape EntityType="CoreDM.SysUser" Width="1.5" PointX="0.5" PointY="3" />
+        <EntityTypeShape EntityType="CoreDM.SysRole" Width="1.5" PointX="2.625" PointY="0.5" />
+        <AssociationConnector Association="CoreDM.SYS_OBJECT_ROLE_FK1" />
+        <AssociationConnector Association="CoreDM.SYS_INHERIT_ROLE_FK1" />
+        <AssociationConnector Association="CoreDM.SYS_INHERIT_ROLE_FK2" />
+        <EntityTypeShape EntityType="CoreDM.SysUserRole" Width="1.5" PointX="2.625" PointY="3.25" />
+        <AssociationConnector Association="CoreDM.SYS_USER_ROLE_FK2" />
+        <AssociationConnector Association="CoreDM.SYS_USER_ROLE_FK1" />
+      </Diagram>
+      <Diagram DiagramId="b76cca08717c49018b93841539e1748d" Name="ObjParam" >
+        <EntityTypeShape EntityType="CoreDM.ObjParam" Width="1.5" PointX="2.5" PointY="0.5" />
+        <EntityTypeShape EntityType="CoreDM.ObjParamItem" Width="1.5" PointX="0.5" PointY="2.625" />
+        <AssociationConnector Association="CoreDM.OBJ_PARAM_ITEM_FK" />
+        <EntityTypeShape EntityType="CoreDM.ObjParamSetItem" Width="1.5" PointX="0.5" PointY="0.5" />
+        <AssociationConnector Association="CoreDM.OBJ_PARAM_SET_ITEM_FK" />
+        <EntityTypeShape EntityType="CoreDM.ObjParamValue" Width="1.5" PointX="4.5" PointY="0.5" />
+        <AssociationConnector Association="CoreDM.OBJ_PARAM_VALUE_FK" />
+        <AssociationConnector Association="CoreDM.OBJ_PARAM_SET_ITEM_FK1" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

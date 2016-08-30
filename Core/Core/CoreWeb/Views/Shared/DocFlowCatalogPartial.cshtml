@@ -1,0 +1,33 @@
+﻿@model CoreWeb.Models.Catalog.DocFlowModel
+<style>
+@foreach (var _state in Model.States.Where(p=>!string.IsNullOrEmpty(p.CssStyle)))
+{
+    <text> .gridDF_row_@(_state.ID){@(_state.CssStyle)}</text>
+}</style>
+<div id="toolbar" style="border-style:none none solid none" data-role="toolbar" data-bind="events:{click:cmd}" data-items="@Html.Raw(string.Format(
+        "[{0}{1}{2}]", "{ 'type': 'button', 'id': 'menu', 'spriteCssClass': 'i-menu' }",
+        ",{'type': 'buttonGroup', 'buttons': [{ 'id': 'add', 'spriteCssClass': 'i-add' }" +
+        ",{ 'id': 'edit', 'spriteCssClass': 'i-edit' },{ 'id': 'del', 'spriteCssClass': 'i-del'},{ 'id': 'reload', 'spriteCssClass': 'i-reload'}]}",
+        Model.Columns.Any(p => p.Exportable) ? ",{ 'type': 'button', 'id': 'saveAsExcel', 'spriteCssClass': 'i-excel', text: ' Экспорт в Excel' }" : ""))"></div>
+<div id="grid" style="border-style: none; height: 100%;" data-role="grid" data-selectable="true" data-sortable="true" data-filterable="{extra:false}"
+     data-scrollable="true" data-pageable="true" data-bind="source: elements, events:{dataBound: dataBound, change:selectElement}" data-columns='[@Html.KendoGridColumns(Model.Columns)]'></div>
+<script>
+    var docFlowModel = asu.docFlow.docFlowModel({
+        fields: {@Html.KendoModelFields(Model.Columns) },
+        url: "@Url.Action("")",
+        popup: editWnd,
+        entity: "@Model.ODataEntity",
+        expand: "@Model.ExpandEntity",
+        columnsExcel: [@Html.KendoGridColumns(Model.Columns.Where(p=>p.Exportable).ToList())],
+        container: $("#grid"),
+        toolbar: $("#toolbar")
+    });
+    kendo.bind($("#content"), docFlowModel);
+    function newElement(id) { docFlowModel.newElement() }
+    function editElement(id) { docFlowModel.editElement() }
+    function resizeContainers() {
+        var headerHeight = $("#toolbar").outerHeight(true), dataGrid = $("#grid").data("kendoGrid");
+        dataGrid.element.height(mainHeight() - headerHeight); dataGrid.resize();
+    }
+    $(document).ready(resizeContainers);
+</script>

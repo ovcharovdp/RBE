@@ -1,0 +1,20 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Ядро платформы (руководство разработчика)</title>
+</head>
+<body class="vendor-book">
+    <div class="details">
+        <span class="vendor">ООО &quot;ТатАСУ&quot;</span>
+        <span class="locale">ru-ru</span>
+        <span class="product">Справка по ядру платформы</span>
+        <span class="name">Ядро платформы (руководство разработчика)</span>
+    </div>
+    <div class="package-list">
+        <div class="package">
+            <!-- NOTE: The "name" span value cannot contain any periods! -->
+            <span class="name">CoreDoc</span>
+            <a class="current-link" href="CoreDoc.mshc">CoreDoc.mshc</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+﻿@model CoreWeb.Models.Catalog.GroupedListModel
+<div id="toolbar" style="border-style:none none solid none" data-role="toolbar" data-bind="events:{click:cmd}"
+     data-items='[{ "type": "button", "id": "menu", "spriteCssClass": "i-menu" },
+            {"type": "splitButton", "id": "add_o", "spriteCssClass": "i-add", "menuButtons": [{ "id": "add", "text": " Группа", "spriteCssClass":"folder"}]},
+            {"type": "buttonGroup", "buttons": [{ "id": "edit", "spriteCssClass": "i-edit" }, { "id": "del", "spriteCssClass": "i-del"}]}]'></div>
+<div id="horizontal" style="border:none" data-role="splitter" data-panes="[{collapsible:false,min:'200px',max:'400px',size:'220px'},{collapsible:false}]">
+    <div data-role="treeview" data-text-field="Name"
+         data-spritecssclass-field="spriteCssClass" data-bind="source:treeDS,events:{change:changeGroup}"></div>
+    <div style="border-style: none" data-role="grid" data-auto-bind="false" data-selectable="true" data-sortable="true" data-filterable="{extra:false}"
+         data-scrollable="true" data-bind="source: elements, events:{change:selectElement}" data-columns='[@Html.KendoGridColumns(Model.Columns)]'></div>
+</div>
+<script>
+    var m = asu.catalog.catalogModel({fields:{@Html.KendoModelFields(Model.Columns)},rootID:@Model.GroupID,url:"@Url.Action("")",popup: editWnd});
+    kendo.bind($("#content"), m);
+    function newElement(id) { m.newElement() }
+    function newGroup(id) { m.newGroup() }
+    function editGroup(id) { m.editGroup() }
+    function editElement(id) { m.editElement() }
+    function resizeContainers() {
+        var headerHeight = $("#toolbar").outerHeight(true), panel = $("#horizontal");
+        panel.height(mainHeight()-headerHeight);
+        panel.data('kendoSplitter').resize();
+    }
+    $(document).ready(resizeContainers);
+</script>

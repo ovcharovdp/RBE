@@ -1,0 +1,20 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    ViewBag.Title = "Ошибка";
+}
+<div id="wrap_error">
+    <h3 class="title_error">@Response.StatusCode</h3>
+    <span class="line_1_error">@Response.StatusDescription</span>
+    <br />
+    @if (Model != null)
+    {
+        <span class="line_2_error">@CoreAPI.Types.ErrorManager.GetFullMessage(Model.Exception)</span>
+        <br />
+    }
+    <button class="k-button k-primary" onclick="back_on_page()">Вернуться</button>
+</div>
+<script>
+    function back_on_page() {
+        window.history.back();
+    }
+</script>

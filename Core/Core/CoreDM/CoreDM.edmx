@@ -1,0 +1,2056 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище CoreDM" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="11.2" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="OBJ$BLOB">
+          <Key>
+            <PropertyRef Name="PARENT_ID" />
+            <PropertyRef Name="ORDER_ID" />
+          </Key>
+          <Property Name="PARENT_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="DATA" Type="blob" Nullable="false" />
+          <Property Name="ORDER_ID" Type="number" Precision="2" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OBJ$CATALOG">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="GID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="500" />
+          <Property Name="ROOT_GROUP_ID" Type="number" Precision="12" Scale="0" />
+        </EntityType>
+        <EntityType Name="OBJ$CATALOG_FIELD">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="CODE" Type="varchar2" MaxLength="30" Nullable="false" />
+          <Property Name="TYPE" Type="varchar2" MaxLength="10" Nullable="false" />
+          <Property Name="WIDTH" Type="number" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="FILTERABLE" Type="number" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="SORTABLE" Type="number" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="FORMAT" Type="varchar2" MaxLength="40" />
+          <Property Name="ORDER_ID" Type="number" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="UI" Type="varchar2" MaxLength="20" />
+          <Property Name="TEMLATE" Type="varchar2" MaxLength="1000" />
+          <Property Name="DETAILED" Type="number" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="EXPORTABLE" Type="number" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="CATALOG_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OBJ$CATALOG_RULE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="STATE_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="20" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="100" />
+          <Property Name="IMAGE_NAME" Type="varchar2" MaxLength="50" />
+          <Property Name="FINISH_STATE_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="ORDER_ID" Type="number" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="CONFIRM_TEXT" Type="varchar2" MaxLength="100" />
+          <Property Name="CODE" Type="varchar2" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="OBJ$CATALOG_STATE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="CATALOG_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="20" Nullable="false" />
+          <Property Name="CSS_STYLE" Type="varchar2" MaxLength="100" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="100" />
+          <Property Name="CODE" Type="varchar2" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OBJ$GROUP_OBJECT">
+          <Key>
+            <PropertyRef Name="GROUP_ID" />
+            <PropertyRef Name="OBJECT_ID" />
+          </Key>
+          <Property Name="GROUP_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="OBJECT_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OBJ$GROUPS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="255" />
+          <Property Name="CODE" Type="varchar2" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="OBJ$PARAM">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="200" />
+          <Property Name="TYPE" Type="varchar2" MaxLength="10" Nullable="false" />
+          <Property Name="CODE" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="MAX_COUNT" Type="number" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="LENGTH" Type="number" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="PRECISION" Type="number" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="ORDER_ID" Type="number" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="UI" Type="varchar2" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="OBJ$PARAM_ITEM">
+          <Key>
+            <PropertyRef Name="PARAM_ID" />
+            <PropertyRef Name="ORDER_ID" />
+          </Key>
+          <Property Name="PARAM_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="ORDER_ID" Type="number" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="LABEL" Type="varchar2" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="OBJ$PARAM_SET_ITEM">
+          <Key>
+            <PropertyRef Name="PARENT_ID" />
+            <PropertyRef Name="PARAM_ID" />
+          </Key>
+          <Property Name="PARENT_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="PARAM_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="ORDER_ID" Type="number" Precision="2" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OBJ$PARAM_VALUE">
+          <Key>
+            <PropertyRef Name="PARENT_ID" />
+            <PropertyRef Name="PARAM_ID" />
+            <PropertyRef Name="ORDER_ID" />
+          </Key>
+          <Property Name="PARENT_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="PARAM_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="ORDER_ID" Type="number" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="VARCHAR_VALUE" Type="varchar2" MaxLength="1000" />
+          <Property Name="NUMBER_VALUE" Type="number" Precision="38" Scale="0" />
+          <Property Name="DATE_VALUE" Type="date" />
+          <Property Name="ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="OBJECT_VALUE" Type="number" Precision="12" Scale="0" />
+        </EntityType>
+        <EntityType Name="ORG$DEPARTMENT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="PARENT_ID" Type="number" Precision="12" Scale="0" />
+          <Property Name="NAME" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="TYPE_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="FULL_NAME" Type="varchar2" MaxLength="255" />
+          <Property Name="STRUCT_NAME" Type="varchar2" MaxLength="255" />
+          <Property Name="SHORT_NAME" Type="varchar2" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SYS$CONST">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="GID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="255" />
+          <Property Name="VALUE" Type="number" Precision="12" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SYS$DICTIONARY">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="CODE" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="SYS$INHERIT_ROLE">
+          <Key>
+            <PropertyRef Name="HEIR_ROLE_ID" />
+            <PropertyRef Name="ROLE_ID" />
+          </Key>
+          <Property Name="HEIR_ROLE_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="ROLE_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="CREATE_DATE" Type="date" />
+        </EntityType>
+        <EntityType Name="SYS$MENU">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="255" />
+          <Property Name="IMAGE_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="PARENT_ID" Type="number" Precision="12" Scale="0" />
+          <Property Name="URL" Type="varchar2" MaxLength="255" />
+          <Property Name="PARAMS" Type="varchar2" MaxLength="255" />
+          <Property Name="TYPE" Type="varchar2" MaxLength="10" Nullable="false" />
+          <Property Name="ORDER_ID" Type="number" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="IS_VISIBLE" Type="number" Precision="1" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SYS$OBJECT_ROLE">
+          <Key>
+            <PropertyRef Name="ROLE_ID" />
+            <PropertyRef Name="OBJECT_ID" />
+          </Key>
+          <Property Name="ROLE_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="OBJECT_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="ON_READ" Type="varchar2" MaxLength="1" Nullable="false" />
+          <Property Name="ON_UPDATE" Type="varchar2" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SYS$REPORT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="255" />
+          <Property Name="PATH" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="URL" Type="varchar2" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SYS$ROLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="CODE" Type="varchar2" MaxLength="50" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="SYS$USER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="LASTLOGON" Type="date" />
+          <Property Name="FULL_NAME" Type="varchar2" MaxLength="255" />
+          <Property Name="ALIAS" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="IS_AD" Type="number" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="PSWD" Type="varchar2" MaxLength="32" />
+          <Property Name="EMAIL" Type="varchar2" MaxLength="50" />
+          <Property Name="IS_BLOCKED" Type="number" Precision="1" Scale="0" />
+          <Property Name="STATE_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="IS_ADMIN" Type="number" Precision="1" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SYS$USER_ROLE">
+          <Key>
+            <PropertyRef Name="USER_ID" />
+            <PropertyRef Name="ROLE_ID" />
+          </Key>
+          <Property Name="USER_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="ROLE_ID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="START_DATE" Type="date" />
+        </EntityType>
+        <Association Name="OBJ$CATALOG_FIELD_FK">
+          <End Role="OBJ$CATALOG" Type="Self.OBJ$CATALOG" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OBJ$CATALOG_FIELD" Type="Self.OBJ$CATALOG_FIELD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBJ$CATALOG">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OBJ$CATALOG_FIELD">
+              <PropertyRef Name="CATALOG_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OBJ$CATALOG_FK">
+          <End Role="OBJ$GROUPS" Type="Self.OBJ$GROUPS" Multiplicity="0..1" />
+          <End Role="OBJ$CATALOG" Type="Self.OBJ$CATALOG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBJ$GROUPS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OBJ$CATALOG">
+              <PropertyRef Name="ROOT_GROUP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OBJ$CATALOG_RULE_FK1">
+          <End Role="OBJ$CATALOG_STATE" Type="Self.OBJ$CATALOG_STATE" Multiplicity="1" />
+          <End Role="OBJ$CATALOG_RULE" Type="Self.OBJ$CATALOG_RULE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBJ$CATALOG_STATE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OBJ$CATALOG_RULE">
+              <PropertyRef Name="STATE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OBJ$CATALOG_RULE_FK2">
+          <End Role="OBJ$CATALOG_STATE" Type="Self.OBJ$CATALOG_STATE" Multiplicity="1" />
+          <End Role="OBJ$CATALOG_RULE" Type="Self.OBJ$CATALOG_RULE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBJ$CATALOG_STATE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OBJ$CATALOG_RULE">
+              <PropertyRef Name="FINISH_STATE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OBJ$CATALOG_STATE_FK">
+          <End Role="OBJ$CATALOG" Type="Self.OBJ$CATALOG" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OBJ$CATALOG_STATE" Type="Self.OBJ$CATALOG_STATE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBJ$CATALOG">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OBJ$CATALOG_STATE">
+              <PropertyRef Name="CATALOG_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OBJ$GROUP_OBJECT_FK">
+          <End Role="OBJ$GROUPS" Type="Self.OBJ$GROUPS" Multiplicity="1" />
+          <End Role="OBJ$GROUP_OBJECT" Type="Self.OBJ$GROUP_OBJECT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBJ$GROUPS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OBJ$GROUP_OBJECT">
+              <PropertyRef Name="GROUP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OBJ$PARAM_ITEM_FK">
+          <End Role="OBJ$PARAM" Type="Self.OBJ$PARAM" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OBJ$PARAM_ITEM" Type="Self.OBJ$PARAM_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBJ$PARAM">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OBJ$PARAM_ITEM">
+              <PropertyRef Name="PARAM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OBJ$PARAM_SET_ITEM_FK">
+          <End Role="OBJ$PARAM" Type="Self.OBJ$PARAM" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OBJ$PARAM_SET_ITEM" Type="Self.OBJ$PARAM_SET_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBJ$PARAM">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OBJ$PARAM_SET_ITEM">
+              <PropertyRef Name="PARENT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OBJ$PARAM_SET_ITEM_FK1">
+          <End Role="OBJ$PARAM" Type="Self.OBJ$PARAM" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OBJ$PARAM_SET_ITEM" Type="Self.OBJ$PARAM_SET_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBJ$PARAM">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OBJ$PARAM_SET_ITEM">
+              <PropertyRef Name="PARAM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OBJ$PARAM_VALUE_FK">
+          <End Role="OBJ$PARAM" Type="Self.OBJ$PARAM" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OBJ$PARAM_VALUE" Type="Self.OBJ$PARAM_VALUE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBJ$PARAM">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OBJ$PARAM_VALUE">
+              <PropertyRef Name="PARAM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ORG$DEPARTMENT_FK1">
+          <End Role="ORG$DEPARTMENT" Type="Self.ORG$DEPARTMENT" Multiplicity="0..1" />
+          <End Role="ORG$DEPARTMENT1" Type="Self.ORG$DEPARTMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORG$DEPARTMENT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ORG$DEPARTMENT1">
+              <PropertyRef Name="PARENT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ORG$DEPARTMENT_FK2">
+          <End Role="SYS$DICTIONARY" Type="Self.SYS$DICTIONARY" Multiplicity="1" />
+          <End Role="ORG$DEPARTMENT" Type="Self.ORG$DEPARTMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS$DICTIONARY">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ORG$DEPARTMENT">
+              <PropertyRef Name="TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SYS$INHERIT_ROLE_FK1">
+          <End Role="SYS$ROLE" Type="Self.SYS$ROLE" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SYS$INHERIT_ROLE" Type="Self.SYS$INHERIT_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS$ROLE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SYS$INHERIT_ROLE">
+              <PropertyRef Name="HEIR_ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SYS$INHERIT_ROLE_FK2">
+          <End Role="SYS$ROLE" Type="Self.SYS$ROLE" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SYS$INHERIT_ROLE" Type="Self.SYS$INHERIT_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS$ROLE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SYS$INHERIT_ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SYS$MENU_FK1">
+          <End Role="SYS$MENU" Type="Self.SYS$MENU" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SYS$MENU1" Type="Self.SYS$MENU" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS$MENU">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SYS$MENU1">
+              <PropertyRef Name="PARENT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SYS$OBJECT_ROLE_FK1">
+          <End Role="SYS$ROLE" Type="Self.SYS$ROLE" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SYS$OBJECT_ROLE" Type="Self.SYS$OBJECT_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS$ROLE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SYS$OBJECT_ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SYS$USER_FK">
+          <End Role="OBJ$CATALOG_STATE" Type="Self.OBJ$CATALOG_STATE" Multiplicity="1" />
+          <End Role="SYS$USER" Type="Self.SYS$USER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBJ$CATALOG_STATE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SYS$USER">
+              <PropertyRef Name="STATE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SYS$USER_ROLE_FK1">
+          <End Role="SYS$USER" Type="Self.SYS$USER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SYS$USER_ROLE" Type="Self.SYS$USER_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS$USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SYS$USER_ROLE">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SYS$USER_ROLE_FK2">
+          <End Role="SYS$ROLE" Type="Self.SYS$ROLE" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SYS$USER_ROLE" Type="Self.SYS$USER_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS$ROLE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SYS$USER_ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище CoreDMContainer">
+          <EntitySet Name="OBJ$BLOB" EntityType="Self.OBJ$BLOB" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="OBJ$CATALOG" EntityType="Self.OBJ$CATALOG" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="OBJ$CATALOG_FIELD" EntityType="Self.OBJ$CATALOG_FIELD" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="OBJ$CATALOG_RULE" EntityType="Self.OBJ$CATALOG_RULE" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="OBJ$CATALOG_STATE" EntityType="Self.OBJ$CATALOG_STATE" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="OBJ$GROUP_OBJECT" EntityType="Self.OBJ$GROUP_OBJECT" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="OBJ$GROUPS" EntityType="Self.OBJ$GROUPS" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="OBJ$PARAM" EntityType="Self.OBJ$PARAM" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="OBJ$PARAM_ITEM" EntityType="Self.OBJ$PARAM_ITEM" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="OBJ$PARAM_SET_ITEM" EntityType="Self.OBJ$PARAM_SET_ITEM" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="OBJ$PARAM_VALUE" EntityType="Self.OBJ$PARAM_VALUE" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="ORG$DEPARTMENT" EntityType="Self.ORG$DEPARTMENT" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="SYS$CONST" EntityType="Self.SYS$CONST" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="SYS$DICTIONARY" EntityType="Self.SYS$DICTIONARY" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="SYS$INHERIT_ROLE" EntityType="Self.SYS$INHERIT_ROLE" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="SYS$MENU" EntityType="Self.SYS$MENU" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="SYS$OBJECT_ROLE" EntityType="Self.SYS$OBJECT_ROLE" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="SYS$REPORT" EntityType="Self.SYS$REPORT" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="SYS$ROLE" EntityType="Self.SYS$ROLE" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="SYS$USER" EntityType="Self.SYS$USER" Schema="GEOCAT" store:Type="Tables" />
+          <EntitySet Name="SYS$USER_ROLE" EntityType="Self.SYS$USER_ROLE" Schema="GEOCAT" store:Type="Tables" />
+          <AssociationSet Name="OBJ$CATALOG_FIELD_FK" Association="Self.OBJ$CATALOG_FIELD_FK">
+            <End Role="OBJ$CATALOG" EntitySet="OBJ$CATALOG" />
+            <End Role="OBJ$CATALOG_FIELD" EntitySet="OBJ$CATALOG_FIELD" />
+          </AssociationSet>
+          <AssociationSet Name="OBJ$CATALOG_FK" Association="Self.OBJ$CATALOG_FK">
+            <End Role="OBJ$GROUPS" EntitySet="OBJ$GROUPS" />
+            <End Role="OBJ$CATALOG" EntitySet="OBJ$CATALOG" />
+          </AssociationSet>
+          <AssociationSet Name="OBJ$CATALOG_RULE_FK1" Association="Self.OBJ$CATALOG_RULE_FK1">
+            <End Role="OBJ$CATALOG_STATE" EntitySet="OBJ$CATALOG_STATE" />
+            <End Role="OBJ$CATALOG_RULE" EntitySet="OBJ$CATALOG_RULE" />
+          </AssociationSet>
+          <AssociationSet Name="OBJ$CATALOG_RULE_FK2" Association="Self.OBJ$CATALOG_RULE_FK2">
+            <End Role="OBJ$CATALOG_STATE" EntitySet="OBJ$CATALOG_STATE" />
+            <End Role="OBJ$CATALOG_RULE" EntitySet="OBJ$CATALOG_RULE" />
+          </AssociationSet>
+          <AssociationSet Name="OBJ$CATALOG_STATE_FK" Association="Self.OBJ$CATALOG_STATE_FK">
+            <End Role="OBJ$CATALOG" EntitySet="OBJ$CATALOG" />
+            <End Role="OBJ$CATALOG_STATE" EntitySet="OBJ$CATALOG_STATE" />
+          </AssociationSet>
+          <AssociationSet Name="OBJ$GROUP_OBJECT_FK" Association="Self.OBJ$GROUP_OBJECT_FK">
+            <End Role="OBJ$GROUPS" EntitySet="OBJ$GROUPS" />
+            <End Role="OBJ$GROUP_OBJECT" EntitySet="OBJ$GROUP_OBJECT" />
+          </AssociationSet>
+          <AssociationSet Name="OBJ$PARAM_ITEM_FK" Association="Self.OBJ$PARAM_ITEM_FK">
+            <End Role="OBJ$PARAM" EntitySet="OBJ$PARAM" />
+            <End Role="OBJ$PARAM_ITEM" EntitySet="OBJ$PARAM_ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="OBJ$PARAM_SET_ITEM_FK" Association="Self.OBJ$PARAM_SET_ITEM_FK">
+            <End Role="OBJ$PARAM" EntitySet="OBJ$PARAM" />
+            <End Role="OBJ$PARAM_SET_ITEM" EntitySet="OBJ$PARAM_SET_ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="OBJ$PARAM_SET_ITEM_FK1" Association="Self.OBJ$PARAM_SET_ITEM_FK1">
+            <End Role="OBJ$PARAM" EntitySet="OBJ$PARAM" />
+            <End Role="OBJ$PARAM_SET_ITEM" EntitySet="OBJ$PARAM_SET_ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="OBJ$PARAM_VALUE_FK" Association="Self.OBJ$PARAM_VALUE_FK">
+            <End Role="OBJ$PARAM" EntitySet="OBJ$PARAM" />
+            <End Role="OBJ$PARAM_VALUE" EntitySet="OBJ$PARAM_VALUE" />
+          </AssociationSet>
+          <AssociationSet Name="ORG$DEPARTMENT_FK1" Association="Self.ORG$DEPARTMENT_FK1">
+            <End Role="ORG$DEPARTMENT" EntitySet="ORG$DEPARTMENT" />
+            <End Role="ORG$DEPARTMENT1" EntitySet="ORG$DEPARTMENT" />
+          </AssociationSet>
+          <AssociationSet Name="ORG$DEPARTMENT_FK2" Association="Self.ORG$DEPARTMENT_FK2">
+            <End Role="SYS$DICTIONARY" EntitySet="SYS$DICTIONARY" />
+            <End Role="ORG$DEPARTMENT" EntitySet="ORG$DEPARTMENT" />
+          </AssociationSet>
+          <AssociationSet Name="SYS$INHERIT_ROLE_FK1" Association="Self.SYS$INHERIT_ROLE_FK1">
+            <End Role="SYS$ROLE" EntitySet="SYS$ROLE" />
+            <End Role="SYS$INHERIT_ROLE" EntitySet="SYS$INHERIT_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="SYS$INHERIT_ROLE_FK2" Association="Self.SYS$INHERIT_ROLE_FK2">
+            <End Role="SYS$ROLE" EntitySet="SYS$ROLE" />
+            <End Role="SYS$INHERIT_ROLE" EntitySet="SYS$INHERIT_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="SYS$MENU_FK1" Association="Self.SYS$MENU_FK1">
+            <End Role="SYS$MENU" EntitySet="SYS$MENU" />
+            <End Role="SYS$MENU1" EntitySet="SYS$MENU" />
+          </AssociationSet>
+          <AssociationSet Name="SYS$OBJECT_ROLE_FK1" Association="Self.SYS$OBJECT_ROLE_FK1">
+            <End Role="SYS$ROLE" EntitySet="SYS$ROLE" />
+            <End Role="SYS$OBJECT_ROLE" EntitySet="SYS$OBJECT_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="SYS$USER_FK" Association="Self.SYS$USER_FK">
+            <End Role="OBJ$CATALOG_STATE" EntitySet="OBJ$CATALOG_STATE" />
+            <End Role="SYS$USER" EntitySet="SYS$USER" />
+          </AssociationSet>
+          <AssociationSet Name="SYS$USER_ROLE_FK1" Association="Self.SYS$USER_ROLE_FK1">
+            <End Role="SYS$USER" EntitySet="SYS$USER" />
+            <End Role="SYS$USER_ROLE" EntitySet="SYS$USER_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="SYS$USER_ROLE_FK2" Association="Self.SYS$USER_ROLE_FK2">
+            <End Role="SYS$ROLE" EntitySet="SYS$ROLE" />
+            <End Role="SYS$USER_ROLE" EntitySet="SYS$USER_ROLE" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CoreDM" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CoreEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="ObjBlobs" EntityType="CoreDM.ObjBlob" />
+          <EntitySet Name="SysDictionaries" EntityType="CoreDM.SysDictionary" />
+          <EntitySet Name="SysRoles" EntityType="CoreDM.SysRole" />
+          <EntitySet Name="SysUsers" EntityType="CoreDM.SysUser" />
+          <EntitySet Name="SysUserRoles" EntityType="CoreDM.SysUserRole" />
+          <EntitySet Name="ObjGroupObjects" EntityType="CoreDM.ObjGroupObject" />
+          <EntitySet Name="ObjGroups" EntityType="CoreDM.ObjGroup" />
+          <EntitySet Name="ObjParams" EntityType="CoreDM.ObjParam" />
+          <EntitySet Name="ObjParamItems" EntityType="CoreDM.ObjParamItem" />
+          <EntitySet Name="ObjParamSetItems" EntityType="CoreDM.ObjParamSetItem" />
+          <EntitySet Name="ObjParamValues" EntityType="CoreDM.ObjParamValue" />
+          <AssociationSet Name="SYS_USER_ROLE_FK2" Association="CoreDM.SYS_USER_ROLE_FK2">
+            <End Role="SysRole" EntitySet="SysRoles" />
+            <End Role="SysUserRole" EntitySet="SysUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="SYS_USER_ROLE_FK1" Association="CoreDM.SYS_USER_ROLE_FK1">
+            <End Role="SysUser" EntitySet="SysUsers" />
+            <End Role="SysUserRole" EntitySet="SysUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="OBJ_PARAM_ITEM_FK" Association="CoreDM.OBJ_PARAM_ITEM_FK">
+            <End Role="ObjParam" EntitySet="ObjParams" />
+            <End Role="ObjParamItem" EntitySet="ObjParamItems" />
+          </AssociationSet>
+          <AssociationSet Name="OBJ_PARAM_SET_ITEM_FK" Association="CoreDM.OBJ_PARAM_SET_ITEM_FK">
+            <End Role="ObjParam" EntitySet="ObjParams" />
+            <End Role="ObjParamSetItem" EntitySet="ObjParamSetItems" />
+          </AssociationSet>
+          <AssociationSet Name="OBJ_PARAM_VALUE_FK" Association="CoreDM.OBJ_PARAM_VALUE_FK">
+            <End Role="ObjParam" EntitySet="ObjParams" />
+            <End Role="ObjParamValue" EntitySet="ObjParamValues" />
+          </AssociationSet>
+          <EntitySet Name="SysObjectRoles" EntityType="CoreDM.SysObjectRole" />
+          <AssociationSet Name="SYS_OBJECT_ROLE_FK1" Association="CoreDM.SYS_OBJECT_ROLE_FK1">
+            <End Role="SysRole" EntitySet="SysRoles" />
+            <End Role="SYS_OBJECT_ROLE" EntitySet="SysObjectRoles" />
+          </AssociationSet>
+          <EntitySet Name="OrgDepartments" EntityType="CoreDM.OrgDepartment" />
+          <AssociationSet Name="ORG_DEPARTMENT_FK1" Association="CoreDM.ORG_DEPARTMENT_FK1">
+            <End Role="ORG_DEPARTMENT" EntitySet="OrgDepartments" />
+            <End Role="ORG_DEPARTMENT1" EntitySet="OrgDepartments" />
+          </AssociationSet>
+          <AssociationSet Name="ORG_DEPARTMENT_FK2" Association="CoreDM.ORG_DEPARTMENT_FK2">
+            <End Role="SysDictionary" EntitySet="SysDictionaries" />
+            <End Role="ORG_DEPARTMENT" EntitySet="OrgDepartments" />
+          </AssociationSet>
+          <EntitySet Name="SysMenus" EntityType="CoreDM.SysMenu" />
+          <AssociationSet Name="SYS_MENU_FK1" Association="CoreDM.SYS_MENU_FK1">
+            <End Role="SYS_MENU" EntitySet="SysMenus" />
+            <End Role="SYS_MENU1" EntitySet="SysMenus" />
+          </AssociationSet>
+          <EntitySet Name="SysReports" EntityType="CoreDM.SysReport" />
+          <EntitySet Name="SysInheritRoles" EntityType="CoreDM.SysInheritRole" />
+          <AssociationSet Name="SYS_INHERIT_ROLE_FK1" Association="CoreDM.SYS_INHERIT_ROLE_FK1">
+            <End Role="SysRole" EntitySet="SysRoles" />
+            <End Role="SYS_INHERIT_ROLE" EntitySet="SysInheritRoles" />
+          </AssociationSet>
+          <AssociationSet Name="SYS_INHERIT_ROLE_FK2" Association="CoreDM.SYS_INHERIT_ROLE_FK2">
+            <End Role="SysRole" EntitySet="SysRoles" />
+            <End Role="SYS_INHERIT_ROLE" EntitySet="SysInheritRoles" />
+          </AssociationSet>
+          <AssociationSet Name="OBJ_GROUP_OBJECT_FK" Association="CoreDM.OBJ_GROUP_OBJECT_FK">
+            <End Role="ObjGroup" EntitySet="ObjGroups" />
+            <End Role="ObjGroupObject" EntitySet="ObjGroupObjects" />
+          </AssociationSet>
+          <AssociationSet Name="OBJ_PARAM_SET_ITEM_FK1" Association="CoreDM.OBJ_PARAM_SET_ITEM_FK1">
+            <End Role="ObjParam" EntitySet="ObjParams" />
+            <End Role="ObjParamSetItem" EntitySet="ObjParamSetItems" />
+          </AssociationSet>
+          <EntitySet Name="SysConsts" EntityType="CoreDM.SysConst" />
+          <EntitySet Name="ObjCataloges" EntityType="CoreDM.ObjCatalog" />
+          <AssociationSet Name="OBJ_CATALOG_FK" Association="CoreDM.OBJ_CATALOG_FK">
+            <End Role="ObjGroup" EntitySet="ObjGroups" />
+            <End Role="OBJ_CATALOG" EntitySet="ObjCataloges" />
+          </AssociationSet>
+          <EntitySet Name="ObjCatalogFields" EntityType="CoreDM.ObjCatalogField" />
+          <AssociationSet Name="OBJ_CATALOG_FIELD_FK" Association="CoreDM.OBJ_CATALOG_FIELD_FK">
+            <End Role="ObjCatalog" EntitySet="ObjCataloges" />
+            <End Role="OBJ_CATALOG_FIELD" EntitySet="ObjCatalogFields" />
+          </AssociationSet>
+          <EntitySet Name="ObjCatalogRules" EntityType="CoreDM.ObjCatalogRule" />
+          <EntitySet Name="ObjCatalogStates" EntityType="CoreDM.ObjCatalogState" />
+          <AssociationSet Name="OBJ_CATALOG_STATE_FK" Association="CoreDM.OBJ_CATALOG_STATE_FK">
+            <End Role="ObjCatalog" EntitySet="ObjCataloges" />
+            <End Role="OBJ_CATALOG_STATE" EntitySet="ObjCatalogStates" />
+          </AssociationSet>
+          <AssociationSet Name="OBJ_CATALOG_RULE_FK1" Association="CoreDM.OBJ_CATALOG_RULE_FK1">
+            <End Role="OBJ_CATALOG_STATE" EntitySet="ObjCatalogStates" />
+            <End Role="OBJ_CATALOG_RULE" EntitySet="ObjCatalogRules" />
+          </AssociationSet>
+          <AssociationSet Name="OBJ_CATALOG_RULE_FK2" Association="CoreDM.OBJ_CATALOG_RULE_FK2">
+            <End Role="OBJ_CATALOG_STATE" EntitySet="ObjCatalogStates" />
+            <End Role="OBJ_CATALOG_RULE" EntitySet="ObjCatalogRules" />
+          </AssociationSet>
+          <AssociationSet Name="SYS_USER_FK" Association="CoreDM.SYS_USER_FK">
+            <End Role="OBJ_CATALOG_STATE" EntitySet="ObjCatalogStates" />
+            <End Role="SysUser" EntitySet="SysUsers" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="ObjBlob">
+          <Documentation>
+            <Summary>Данные объекта (файлы картинок и т.п.)</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="ParentID" />
+            <PropertyRef Name="Order" />
+          </Key>
+          <Property Name="ParentID" Type="Int64" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор объекта</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Data" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" >
+            <Documentation>
+              <Summary>Данные</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Order" Type="Byte" Nullable="false" >
+            <Documentation>
+              <Summary>Порядок</Summary>
+            </Documentation>
+          </Property>
+        </EntityType>
+        <EntityType Name="SysDictionary">
+          <Documentation>
+            <Summary>Словарь значений</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Наименование</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Код</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Description" MaxLength="255" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Описание</Summary>
+            </Documentation>
+          </Property>
+        </EntityType>
+        <EntityType Name="SysRole">
+          <Documentation>
+            <Summary>Роли доступа</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Наименование</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Code" MaxLength="50" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Код</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="UserRoles" Relationship="CoreDM.SYS_USER_ROLE_FK2" FromRole="SysRole" ToRole="SysUserRole" >
+            <Documentation>
+              <Summary>Список связок пользователя с ролью</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <Property Type="String" Name="Description" MaxLength="255" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Описание</Summary>
+            </Documentation>
+          </Property>
+        </EntityType>
+        <EntityType Name="SysUser">
+          <Documentation>
+            <Summary>Пользователь системы</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Наименование</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="DateTime" Name="LastLogon" Precision="0" >
+            <Documentation>
+              <Summary>Дата последнего входа</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="UserRoles" Relationship="CoreDM.SYS_USER_ROLE_FK1" FromRole="SysUser" ToRole="SysUserRole" >
+            <Documentation>
+              <Summary>Список связок пользователя с ролью</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <Property Type="String" Name="FullName" MaxLength="255" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Полное имя</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Alias" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Псевдоним</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Boolean" Name="IsAD" Nullable="false" DefaultValue="true" >
+            <Documentation>
+              <Summary>Признак учетной записи Active Directory</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Password" MaxLength="32" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Пароль</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="eMail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Электронная почта пользователя</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" DefaultValue="false" >
+            <Documentation>
+              <Summary>Признак того, что пользователь является администратором системы</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="State" Relationship="CoreDM.SYS_USER_FK" FromRole="SysUser" ToRole="OBJ_CATALOG_STATE" >
+            <Documentation>
+              <Summary>Состояние</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <EntityType Name="SysUserRole">
+          <Documentation>
+            <Summary>Связка пользователя с ролью</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Type="Int64" Name="UserID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор пользователя</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int64" Name="RoleID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор роли</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="DateTime" Name="StartDate" Precision="0" >
+            <Documentation>
+              <Summary>Дата назначения</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Role" Relationship="CoreDM.SYS_USER_ROLE_FK2" FromRole="SysUserRole" ToRole="SysRole" >
+            <Documentation>
+              <Summary>Роль</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="User" Relationship="CoreDM.SYS_USER_ROLE_FK1" FromRole="SysUserRole" ToRole="SysUser" >
+            <Documentation>
+              <Summary>Пользователь</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <EntityType Name="ObjGroupObject">
+          <Documentation>
+            <Summary>Связка объекта с группой</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="GroupID" />
+            <PropertyRef Name="ObjectID" />
+          </Key>
+          <Property Type="Int64" Name="GroupID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор группы</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int64" Name="ObjectID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор объекта</Summary>
+            </Documentation>
+          </Property>
+        </EntityType>
+        <EntityType Name="ObjGroup">
+          <Documentation>
+            <Summary>Группы</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Наименование</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Description" MaxLength="255" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Описание</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Code" MaxLength="50" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Код</Summary>
+            </Documentation>
+          </Property>
+        </EntityType>
+        <EntityType Name="ObjParam">
+          <Documentation>
+            <Summary>Параметр объекта</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Наименование</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Description" MaxLength="200" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Описание</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Type" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Тип</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Код</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Byte" Name="MaxCount" Nullable="false" >
+            <Documentation>
+              <Summary>Максимальное количество значений</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int16" Name="Length" Nullable="false" >
+            <Documentation>
+              <Summary>Максимальная длина значения</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Byte" Name="Precision" Nullable="false" >
+            <Documentation>
+              <Summary>Точность</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Byte" Name="Order" Nullable="false" >
+            <Documentation>
+              <Summary>Порядок (учитывается при отображении полей ввода)</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Items" Relationship="CoreDM.OBJ_PARAM_ITEM_FK" FromRole="ObjParam" ToRole="ObjParamItem" >
+            <Documentation>
+              <Summary>Допустимые значения параметра</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="SetItems" Relationship="CoreDM.OBJ_PARAM_SET_ITEM_FK" FromRole="ObjParam" ToRole="ObjParamSetItem" >
+            <Documentation>
+              <Summary>Вложенные параметры</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="Values" Relationship="CoreDM.OBJ_PARAM_VALUE_FK" FromRole="ObjParam" ToRole="ObjParamValue" >
+            <Documentation>
+              <Summary>Значения параметра</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <Property Type="String" Name="UI" MaxLength="20" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Способ выбора значения</Summary>
+            </Documentation>
+          </Property>
+        </EntityType>
+        <EntityType Name="ObjParamItem">
+          <Documentation>
+            <Summary>Допустимые значения параметра</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="ParamID" />
+            <PropertyRef Name="Order" />
+          </Key>
+          <Property Type="Int64" Name="ParamID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор параметра</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Значение</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Byte" Name="Order" Nullable="false" >
+            <Documentation>
+              <Summary>Порядок</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Label" MaxLength="50" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Надпись значения (используется для отображения)</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Param" Relationship="CoreDM.OBJ_PARAM_ITEM_FK" FromRole="ObjParamItem" ToRole="ObjParam" >
+            <Documentation>
+              <Summary>Параметр, к которому относится значение</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <EntityType Name="ObjParamSetItem">
+          <Documentation>
+            <Summary>Подчиненные параметры</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="ParentID" />
+            <PropertyRef Name="ParamID" />
+          </Key>
+          <Property Type="Int64" Name="ParentID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор родительского параметра</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int64" Name="ParamID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор подчиненного параметра</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Byte" Name="Order" Nullable="false" >
+            <Documentation>
+              <Summary>Порядок</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Param" Relationship="CoreDM.OBJ_PARAM_SET_ITEM_FK1" FromRole="ObjParamSetItem" ToRole="ObjParam" >
+            <Documentation>
+              <Summary>Параметр набора</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <EntityType Name="ObjParamValue">
+          <Documentation>
+            <Summary>Значения параметра объекта</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="ParentID" />
+            <PropertyRef Name="ParamID" />
+            <PropertyRef Name="Order" />
+          </Key>
+          <Property Type="Int64" Name="ParentID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор объекта</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int64" Name="ParamID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор параметра</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Byte" Name="Order" Nullable="false" >
+            <Documentation>
+              <Summary>Порядок</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="VarcharValue" MaxLength="1000" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Строковое значение</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Decimal" Name="NumberValue" Precision="38" Scale="0" >
+            <Documentation>
+              <Summary>Числовое значение</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="DateTime" Name="DateValue" Precision="0" >
+            <Documentation>
+              <Summary>Значение типа дата</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int64" Name="ID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int64" Name="ObjectValue" >
+            <Documentation>
+              <Summary>Значение-объект</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Param" Relationship="CoreDM.OBJ_PARAM_VALUE_FK" FromRole="ObjParamValue" ToRole="ObjParam" >
+            <Documentation>
+              <Summary>Параметр</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <Association Name="SYS_USER_ROLE_FK2">
+          <End Type="CoreDM.SysRole" Role="SysRole" Multiplicity="1" />
+          <End Type="CoreDM.SysUserRole" Role="SysUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysRole">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SysUserRole">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SYS_USER_ROLE_FK1">
+          <End Type="CoreDM.SysUser" Role="SysUser" Multiplicity="1" />
+          <End Type="CoreDM.SysUserRole" Role="SysUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SysUserRole">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OBJ_PARAM_ITEM_FK">
+          <End Type="CoreDM.ObjParam" Role="ObjParam" Multiplicity="1" />
+          <End Type="CoreDM.ObjParamItem" Role="ObjParamItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjParam">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ObjParamItem">
+              <PropertyRef Name="ParamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OBJ_PARAM_SET_ITEM_FK">
+          <End Type="CoreDM.ObjParam" Role="ObjParam" Multiplicity="1" />
+          <End Type="CoreDM.ObjParamSetItem" Role="ObjParamSetItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjParam">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ObjParamSetItem">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OBJ_PARAM_VALUE_FK">
+          <End Type="CoreDM.ObjParam" Role="ObjParam" Multiplicity="1" />
+          <End Type="CoreDM.ObjParamValue" Role="ObjParamValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjParam">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ObjParamValue">
+              <PropertyRef Name="ParamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SysObjectRole">
+          <Documentation>
+            <Summary>Связка объекта с ролью</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="ObjectID" />
+          </Key>
+          <Property Type="Int64" Name="RoleID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор роли</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int64" Name="ObjectID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор объекта</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="OnRead" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Признак доступа на чтение</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="OnUpdate" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Признак доступа на изменение</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Role" Relationship="CoreDM.SYS_OBJECT_ROLE_FK1" FromRole="SYS_OBJECT_ROLE" ToRole="SysRole" />
+        </EntityType>
+        <Association Name="SYS_OBJECT_ROLE_FK1">
+          <End Type="CoreDM.SysRole" Role="SysRole" Multiplicity="1">
+          </End>
+          <End Type="CoreDM.SysObjectRole" Role="SYS_OBJECT_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysRole">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SYS_OBJECT_ROLE">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OrgDepartment">
+          <Documentation>
+            <Summary>Организационная единица</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int64" Name="ParentID" >
+            <Documentation>
+              <Summary>Идентификатор вышестоящей организации</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Наименование</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int64" Name="TypeID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор типа</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="FullName" MaxLength="255" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Полное имя</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="StructName" MaxLength="255" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Структурное имя</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="ShortName" MaxLength="50" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Короткое имя (обозначение)</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Childs" Relationship="CoreDM.ORG_DEPARTMENT_FK1" FromRole="ORG_DEPARTMENT" ToRole="ORG_DEPARTMENT1" >
+            <Documentation>
+              <Summary>Подчиненные организации</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="Parent" Relationship="CoreDM.ORG_DEPARTMENT_FK1" FromRole="ORG_DEPARTMENT1" ToRole="ORG_DEPARTMENT" >
+            <Documentation>
+              <Summary>Вышестоящая организация</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="Type" Relationship="CoreDM.ORG_DEPARTMENT_FK2" FromRole="ORG_DEPARTMENT" ToRole="SysDictionary" >
+            <Documentation>
+              <Summary>Тип</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <Association Name="ORG_DEPARTMENT_FK1">
+          <End Type="CoreDM.OrgDepartment" Role="ORG_DEPARTMENT" Multiplicity="0..1" />
+          <End Type="CoreDM.OrgDepartment" Role="ORG_DEPARTMENT1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORG_DEPARTMENT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ORG_DEPARTMENT1">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ORG_DEPARTMENT_FK2">
+          <End Type="CoreDM.SysDictionary" Role="SysDictionary" Multiplicity="1" />
+          <End Type="CoreDM.OrgDepartment" Role="ORG_DEPARTMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysDictionary">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ORG_DEPARTMENT">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SysMenu">
+          <Documentation>
+            <Summary>Пункт меню</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Наименование</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Description" MaxLength="255" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Описание</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="ImageName" MaxLength="100" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Имя файла пиктограммы, используемой при отображении</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int64" Name="ParentID" >
+            <Documentation>
+              <Summary>Родительский пункт меню</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Url" MaxLength="255" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Команда</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Params" MaxLength="255" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Параметры команды</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Type" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Тип меню</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Childs" Relationship="CoreDM.SYS_MENU_FK1" FromRole="SYS_MENU" ToRole="SYS_MENU1" >
+            <Documentation>
+              <Summary>Дочерние пункты меню</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="Parent" Relationship="CoreDM.SYS_MENU_FK1" FromRole="SYS_MENU1" ToRole="SYS_MENU" >
+            <Documentation>
+              <Summary>Родительский пункт меню</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <Property Type="Byte" Name="Order" Nullable="false" >
+            <Documentation>
+              <Summary>Порядок (для сортировки)</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Boolean" Name="IsVisible" Nullable="false" >
+            <Documentation>
+              <Summary>Признак отображения в виде плитки</Summary>
+            </Documentation>
+          </Property>
+        </EntityType>
+        <Association Name="SYS_MENU_FK1">
+          <End Type="CoreDM.SysMenu" Role="SYS_MENU" Multiplicity="0..1">
+          </End>
+          <End Type="CoreDM.SysMenu" Role="SYS_MENU1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_MENU">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SYS_MENU1">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SysReport">
+          <Documentation>
+            <Summary>Отчеты</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Наименование</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Description" MaxLength="255" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Описание</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Path" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Путь к отчету на сервере</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Url" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Ссылка на сервер отчетов</Summary>
+            </Documentation>
+          </Property>
+        </EntityType>
+        <EntityType Name="SysInheritRole">
+          <Documentation>
+            <Summary>Унаследованные роли</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="HeirRoleID" />
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Type="Int64" Name="HeirRoleID" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор роли-наследника</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int64" Name="RoleID" Nullable="false" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" >
+            <Documentation>
+              <Summary>Идентификатор наследуемой роли</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="DateTime" Name="LinkDate" Precision="0" >
+            <Documentation>
+              <Summary>Дата связки</Summary>
+            </Documentation>
+          </Property>
+        </EntityType>
+        <Association Name="SYS_INHERIT_ROLE_FK1">
+          <End Type="CoreDM.SysRole" Role="SysRole" Multiplicity="1">
+          </End>
+          <End Type="CoreDM.SysInheritRole" Role="SYS_INHERIT_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysRole">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SYS_INHERIT_ROLE">
+              <PropertyRef Name="HeirRoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SYS_INHERIT_ROLE_FK2">
+          <End Type="CoreDM.SysRole" Role="SysRole" Multiplicity="1">
+          </End>
+          <End Type="CoreDM.SysInheritRole" Role="SYS_INHERIT_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysRole">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SYS_INHERIT_ROLE">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OBJ_GROUP_OBJECT_FK">
+          <End Type="CoreDM.ObjGroup" Role="ObjGroup" Multiplicity="1">
+          </End>
+          <End Type="CoreDM.ObjGroupObject" Role="ObjGroupObject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ObjGroupObject">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OBJ_PARAM_SET_ITEM_FK1">
+          <End Type="CoreDM.ObjParam" Role="ObjParam" Multiplicity="1">
+          </End>
+          <End Type="CoreDM.ObjParamSetItem" Role="ObjParamSetItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjParam">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ObjParamSetItem">
+              <PropertyRef Name="ParamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SysConst">
+          <Documentation>
+            <Summary>Константы системы</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="GID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Value" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ObjCatalog">
+          <Documentation>
+            <Summary>Журнал системы</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="GID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Глобальный идентификатор журнала</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Наименование (заголовок)</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Описание</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="RootID" Type="Int64" >
+            <Documentation>
+              <Summary>Идентификатор корневой группы элементов группового журнала</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Fields" Relationship="CoreDM.OBJ_CATALOG_FIELD_FK" FromRole="ObjCatalog" ToRole="OBJ_CATALOG_FIELD" >
+            <Documentation>
+              <Summary>Поля журнала</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="States" Relationship="CoreDM.OBJ_CATALOG_STATE_FK" FromRole="ObjCatalog" ToRole="OBJ_CATALOG_STATE" >
+            <Documentation>
+              <Summary>Состояния объекта</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <Association Name="OBJ_CATALOG_FK">
+          <End Type="CoreDM.ObjGroup" Role="ObjGroup" Multiplicity="0..1" />
+          <End Type="CoreDM.ObjCatalog" Role="OBJ_CATALOG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OBJ_CATALOG">
+              <PropertyRef Name="RootID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ObjCatalogField">
+          <Documentation>
+            <Summary>Поля журналов</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Наименование (заголовок) поля</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Код. Должен совпадать с полем класса, возвращаемого с сервера</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Тип</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Width" Type="Int16" Nullable="false" DefaultValue="0" >
+            <Documentation>
+              <Summary>Максимальная длина значения</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Filterable" Type="Boolean" Nullable="false" DefaultValue="false" >
+            <Documentation>
+              <Summary>Признак возможности установки фильтра</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Sortable" Type="Boolean" Nullable="false" DefaultValue="false" >
+            <Documentation>
+              <Summary>Признак сортировки</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Format" Type="String" MaxLength="40" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Формат отображения значения</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Order" Type="Byte" Nullable="false" >
+            <Documentation>
+              <Summary>Порядок поля в журнале</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="UI" Type="String" MaxLength="20" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Способ выбора значения</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Template" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Шаблон отображения значений</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Detailed" Type="Boolean" Nullable="false" DefaultValue="false" >
+            <Documentation>
+              <Summary>Признак вывода поля в панель "Подробно"</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Exportable" Type="Boolean" Nullable="false" >
+            <Documentation>
+              <Summary>Признак экспорта в Excel</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Catalog" Relationship="CoreDM.OBJ_CATALOG_FIELD_FK" FromRole="OBJ_CATALOG_FIELD" ToRole="ObjCatalog" >
+            <Documentation>
+              <Summary>Журнал</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <Association Name="OBJ_CATALOG_FIELD_FK">
+          <End Type="CoreDM.ObjCatalog" Role="ObjCatalog" Multiplicity="1">
+          </End>
+          <End Type="CoreDM.ObjCatalogField" Role="OBJ_CATALOG_FIELD" Multiplicity="*" />
+        </Association>
+        <EntityType Name="ObjCatalogRule">
+          <Documentation>
+            <Summary>Правило изменения состояния объекта</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Наименование (отображается в журнале)</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Описание</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Пиктограмма правила в журнале</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Order" Type="Byte" Nullable="false" >
+            <Documentation>
+              <Summary>Порядок</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="ConfirmText" Type="String" MaxLength="100" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Текст подтверждения выполнения</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="FinishState" Relationship="CoreDM.OBJ_CATALOG_RULE_FK2" FromRole="OBJ_CATALOG_RULE" ToRole="OBJ_CATALOG_STATE" >
+            <Documentation>
+              <Summary>Конечное состояние объекта</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <Property Name="Code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Код</Summary>
+            </Documentation>
+          </Property>
+        </EntityType>
+        <EntityType Name="ObjCatalogState">
+          <Documentation>
+            <Summary>Состояние объекта</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Наименование</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="CssStyle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Css стиль объекта</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Описание</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" >
+            <Documentation>
+              <Summary>Код</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Catalog" Relationship="CoreDM.OBJ_CATALOG_STATE_FK" FromRole="OBJ_CATALOG_STATE" ToRole="ObjCatalog" >
+            <Documentation>
+              <Summary>Журнал</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="Rules" Relationship="CoreDM.OBJ_CATALOG_RULE_FK1" FromRole="OBJ_CATALOG_STATE" ToRole="OBJ_CATALOG_RULE" >
+            <Documentation>
+              <Summary>Правила изменения состояния</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <Association Name="OBJ_CATALOG_STATE_FK">
+          <End Type="CoreDM.ObjCatalog" Role="ObjCatalog" Multiplicity="1">
+          </End>
+          <End Type="CoreDM.ObjCatalogState" Role="OBJ_CATALOG_STATE" Multiplicity="*" />
+        </Association>
+        <Association Name="OBJ_CATALOG_RULE_FK1">
+          <End Type="CoreDM.ObjCatalogState" Role="OBJ_CATALOG_STATE" Multiplicity="1" />
+          <End Type="CoreDM.ObjCatalogRule" Role="OBJ_CATALOG_RULE" Multiplicity="*" />
+        </Association>
+        <Association Name="OBJ_CATALOG_RULE_FK2">
+          <End Type="CoreDM.ObjCatalogState" Role="OBJ_CATALOG_STATE" Multiplicity="1" />
+          <End Type="CoreDM.ObjCatalogRule" Role="OBJ_CATALOG_RULE" Multiplicity="*" />
+        </Association>
+        <Association Name="SYS_USER_FK">
+          <End Type="CoreDM.ObjCatalogState" Role="OBJ_CATALOG_STATE" Multiplicity="1" />
+          <End Type="CoreDM.SysUser" Role="SysUser" Multiplicity="*" />
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище CoreDMContainer" CdmEntityContainer="CoreEntities">
+          <EntitySetMapping Name="ObjBlobs">
+            <EntityTypeMapping TypeName="CoreDM.ObjBlob">
+              <MappingFragment StoreEntitySet="OBJ$BLOB">
+                <ScalarProperty Name="ParentID" ColumnName="PARENT_ID" />
+                <ScalarProperty Name="Data" ColumnName="DATA" />
+                <ScalarProperty Name="Order" ColumnName="ORDER_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysRoles">
+            <EntityTypeMapping TypeName="IsTypeOf(CoreDM.SysRole)">
+              <MappingFragment StoreEntitySet="SYS$ROLE">
+                <ScalarProperty Name="Description" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="Code" ColumnName="CODE" />
+                <ScalarProperty Name="Name" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysUserRoles">
+            <EntityTypeMapping TypeName="IsTypeOf(CoreDM.SysUserRole)">
+              <MappingFragment StoreEntitySet="SYS$USER_ROLE" >
+                <ScalarProperty Name="StartDate" ColumnName="START_DATE" />
+                <ScalarProperty Name="RoleID" ColumnName="ROLE_ID" />
+                <ScalarProperty Name="UserID" ColumnName="USER_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysUsers">
+            <EntityTypeMapping TypeName="IsTypeOf(CoreDM.SysUser)">
+              <MappingFragment StoreEntitySet="SYS$USER">
+                <ScalarProperty Name="IsAdmin" ColumnName="IS_ADMIN" />
+                <ScalarProperty Name="eMail" ColumnName="EMAIL" />
+                <ScalarProperty Name="Password" ColumnName="PSWD" />
+                <ScalarProperty Name="IsAD" ColumnName="IS_AD" />
+                <ScalarProperty Name="Alias" ColumnName="ALIAS" />
+                <ScalarProperty Name="FullName" ColumnName="FULL_NAME" />
+                <ScalarProperty Name="LastLogon" ColumnName="LASTLOGON" />
+                <ScalarProperty Name="Name" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjGroupObjects">
+            <EntityTypeMapping TypeName="IsTypeOf(CoreDM.ObjGroupObject)">
+              <MappingFragment StoreEntitySet="OBJ$GROUP_OBJECT" >
+                <ScalarProperty Name="ObjectID" ColumnName="OBJECT_ID" />
+                <ScalarProperty Name="GroupID" ColumnName="GROUP_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysDictionaries">
+            <EntityTypeMapping TypeName="IsTypeOf(CoreDM.SysDictionary)">
+              <MappingFragment StoreEntitySet="SYS$DICTIONARY">
+                <ScalarProperty Name="Description" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="Code" ColumnName="CODE" />
+                <ScalarProperty Name="Name" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjParamItems">
+            <EntityTypeMapping TypeName="IsTypeOf(CoreDM.ObjParamItem)">
+              <MappingFragment StoreEntitySet="OBJ$PARAM_ITEM" >
+                <ScalarProperty Name="Label" ColumnName="LABEL" />
+                <ScalarProperty Name="Order" ColumnName="ORDER_ID" />
+                <ScalarProperty Name="Name" ColumnName="NAME" />
+                <ScalarProperty Name="ParamID" ColumnName="PARAM_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjParamSetItems">
+            <EntityTypeMapping TypeName="IsTypeOf(CoreDM.ObjParamSetItem)">
+              <MappingFragment StoreEntitySet="OBJ$PARAM_SET_ITEM" >
+                <ScalarProperty Name="Order" ColumnName="ORDER_ID" />
+                <ScalarProperty Name="ParamID" ColumnName="PARAM_ID" />
+                <ScalarProperty Name="ParentID" ColumnName="PARENT_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjParams">
+            <EntityTypeMapping TypeName="IsTypeOf(CoreDM.ObjParam)">
+              <MappingFragment StoreEntitySet="OBJ$PARAM">
+                <ScalarProperty Name="UI" ColumnName="UI" />
+                <ScalarProperty Name="Order" ColumnName="ORDER_ID" />
+                <ScalarProperty Name="Precision" ColumnName="PRECISION" />
+                <ScalarProperty Name="Length" ColumnName="LENGTH" />
+                <ScalarProperty Name="MaxCount" ColumnName="MAX_COUNT" />
+                <ScalarProperty Name="Code" ColumnName="CODE" />
+                <ScalarProperty Name="Type" ColumnName="TYPE" />
+                <ScalarProperty Name="Description" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="Name" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjParamValues">
+            <EntityTypeMapping TypeName="IsTypeOf(CoreDM.ObjParamValue)">
+              <MappingFragment StoreEntitySet="OBJ$PARAM_VALUE">
+                <ScalarProperty Name="ObjectValue" ColumnName="OBJECT_VALUE" />
+                <ScalarProperty Name="DateValue" ColumnName="DATE_VALUE" />
+                <ScalarProperty Name="NumberValue" ColumnName="NUMBER_VALUE" />
+                <ScalarProperty Name="VarcharValue" ColumnName="VARCHAR_VALUE" />
+                <ScalarProperty Name="Order" ColumnName="ORDER_ID" />
+                <ScalarProperty Name="ParamID" ColumnName="PARAM_ID" />
+                <ScalarProperty Name="ParentID" ColumnName="PARENT_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjGroups">
+            <EntityTypeMapping TypeName="IsTypeOf(CoreDM.ObjGroup)">
+              <MappingFragment StoreEntitySet="OBJ$GROUPS">
+                <ScalarProperty Name="Code" ColumnName="CODE" />
+                <ScalarProperty Name="Description" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="Name" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysObjectRoles">
+            <EntityTypeMapping TypeName="CoreDM.SysObjectRole">
+              <MappingFragment StoreEntitySet="SYS$OBJECT_ROLE">
+                <ScalarProperty Name="OnUpdate" ColumnName="ON_UPDATE" />
+                <ScalarProperty Name="OnRead" ColumnName="ON_READ" />
+                <ScalarProperty Name="ObjectID" ColumnName="OBJECT_ID" />
+                <ScalarProperty Name="RoleID" ColumnName="ROLE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrgDepartments">
+            <EntityTypeMapping TypeName="CoreDM.OrgDepartment">
+              <MappingFragment StoreEntitySet="ORG$DEPARTMENT">
+                <ScalarProperty Name="ShortName" ColumnName="SHORT_NAME" />
+                <ScalarProperty Name="StructName" ColumnName="STRUCT_NAME" />
+                <ScalarProperty Name="FullName" ColumnName="FULL_NAME" />
+                <ScalarProperty Name="TypeID" ColumnName="TYPE_ID" />
+                <ScalarProperty Name="Name" ColumnName="NAME" />
+                <ScalarProperty Name="ParentID" ColumnName="PARENT_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysMenus">
+            <EntityTypeMapping TypeName="CoreDM.SysMenu">
+              <MappingFragment StoreEntitySet="SYS$MENU">
+                <ScalarProperty Name="IsVisible" ColumnName="IS_VISIBLE" />
+                <ScalarProperty Name="Order" ColumnName="ORDER_ID" />
+                <ScalarProperty Name="Type" ColumnName="TYPE" />
+                <ScalarProperty Name="Params" ColumnName="PARAMS" />
+                <ScalarProperty Name="Url" ColumnName="URL" />
+                <ScalarProperty Name="ParentID" ColumnName="PARENT_ID" />
+                <ScalarProperty Name="ImageName" ColumnName="IMAGE_NAME" />
+                <ScalarProperty Name="Description" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="Name" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysReports">
+            <EntityTypeMapping TypeName="CoreDM.SysReport">
+              <MappingFragment StoreEntitySet="SYS$REPORT">
+                <ScalarProperty Name="Url" ColumnName="URL" />
+                <ScalarProperty Name="Path" ColumnName="PATH" />
+                <ScalarProperty Name="Description" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="Name" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysInheritRoles">
+            <EntityTypeMapping TypeName="CoreDM.SysInheritRole">
+              <MappingFragment StoreEntitySet="SYS$INHERIT_ROLE">
+                <ScalarProperty Name="LinkDate" ColumnName="CREATE_DATE" />
+                <ScalarProperty Name="RoleID" ColumnName="ROLE_ID" />
+                <ScalarProperty Name="HeirRoleID" ColumnName="HEIR_ROLE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysConsts">
+            <EntityTypeMapping TypeName="CoreDM.SysConst">
+              <MappingFragment StoreEntitySet="SYS$CONST">
+                <ScalarProperty Name="Value" ColumnName="VALUE" />
+                <ScalarProperty Name="Description" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="GID" ColumnName="GID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjCataloges">
+            <EntityTypeMapping TypeName="CoreDM.ObjCatalog">
+              <MappingFragment StoreEntitySet="OBJ$CATALOG">
+                <ScalarProperty Name="RootID" ColumnName="ROOT_GROUP_ID" />
+                <ScalarProperty Name="Description" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="Name" ColumnName="NAME" />
+                <ScalarProperty Name="GID" ColumnName="GID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjCatalogFields">
+            <EntityTypeMapping TypeName="CoreDM.ObjCatalogField">
+              <MappingFragment StoreEntitySet="OBJ$CATALOG_FIELD">
+                <ScalarProperty Name="Exportable" ColumnName="EXPORTABLE" />
+                <ScalarProperty Name="Detailed" ColumnName="DETAILED" />
+                <ScalarProperty Name="Template" ColumnName="TEMLATE" />
+                <ScalarProperty Name="UI" ColumnName="UI" />
+                <ScalarProperty Name="Order" ColumnName="ORDER_ID" />
+                <ScalarProperty Name="Format" ColumnName="FORMAT" />
+                <ScalarProperty Name="Sortable" ColumnName="SORTABLE" />
+                <ScalarProperty Name="Filterable" ColumnName="FILTERABLE" />
+                <ScalarProperty Name="Width" ColumnName="WIDTH" />
+                <ScalarProperty Name="Type" ColumnName="TYPE" />
+                <ScalarProperty Name="Code" ColumnName="CODE" />
+                <ScalarProperty Name="Name" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="OBJ_CATALOG_FIELD_FK" TypeName="CoreDM.OBJ_CATALOG_FIELD_FK" StoreEntitySet="OBJ$CATALOG_FIELD">
+            <EndProperty Name="OBJ_CATALOG_FIELD">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <EndProperty Name="ObjCatalog">
+              <ScalarProperty Name="ID" ColumnName="CATALOG_ID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="ObjCatalogRules">
+            <EntityTypeMapping TypeName="CoreDM.ObjCatalogRule">
+              <MappingFragment StoreEntitySet="OBJ$CATALOG_RULE">
+                <ScalarProperty Name="Code" ColumnName="CODE" />
+                <ScalarProperty Name="ConfirmText" ColumnName="CONFIRM_TEXT" />
+                <ScalarProperty Name="Order" ColumnName="ORDER_ID" />
+                <ScalarProperty Name="ImageName" ColumnName="IMAGE_NAME" />
+                <ScalarProperty Name="Description" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="Name" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjCatalogStates">
+            <EntityTypeMapping TypeName="CoreDM.ObjCatalogState">
+              <MappingFragment StoreEntitySet="OBJ$CATALOG_STATE">
+                <ScalarProperty Name="Code" ColumnName="CODE" />
+                <ScalarProperty Name="Description" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="CssStyle" ColumnName="CSS_STYLE" />
+                <ScalarProperty Name="Name" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="OBJ_CATALOG_STATE_FK" TypeName="CoreDM.OBJ_CATALOG_STATE_FK" StoreEntitySet="OBJ$CATALOG_STATE">
+            <EndProperty Name="OBJ_CATALOG_STATE">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <EndProperty Name="ObjCatalog">
+              <ScalarProperty Name="ID" ColumnName="CATALOG_ID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="OBJ_CATALOG_RULE_FK1" TypeName="CoreDM.OBJ_CATALOG_RULE_FK1" StoreEntitySet="OBJ$CATALOG_RULE">
+            <EndProperty Name="OBJ_CATALOG_RULE">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <EndProperty Name="OBJ_CATALOG_STATE">
+              <ScalarProperty Name="ID" ColumnName="STATE_ID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="OBJ_CATALOG_RULE_FK2" TypeName="CoreDM.OBJ_CATALOG_RULE_FK2" StoreEntitySet="OBJ$CATALOG_RULE">
+            <EndProperty Name="OBJ_CATALOG_RULE">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <EndProperty Name="OBJ_CATALOG_STATE">
+              <ScalarProperty Name="ID" ColumnName="FINISH_STATE_ID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="SYS_USER_FK" TypeName="CoreDM.SYS_USER_FK" StoreEntitySet="SYS$USER">
+            <EndProperty Name="SysUser">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <EndProperty Name="OBJ_CATALOG_STATE">
+              <ScalarProperty Name="ID" ColumnName="STATE_ID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

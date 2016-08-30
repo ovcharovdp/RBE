@@ -1,0 +1,36 @@
+﻿@model List<CoreWeb.Models.StartPage.MainMenuItem>
+<div class="metro panorama">
+    <div class="panorama-sections">
+        <div class="panorama-section">
+            <h2></h2>
+            @foreach (var i in Model.Where(p => !p.Type.Equals("GROUP") && p.IsVisible))
+            {<a class="tile app bg-color" title="@i.Description" href="@(string.IsNullOrEmpty(i.Url) ? "#" : Url.Content(i.Url) + (!string.IsNullOrEmpty(i.Params) ? "?" + i.Params : ""))" data-type="@i.Type.ToLower()">
+                <div class="image-wrapper">
+                    <span class="icon">
+                        @if (!string.IsNullOrEmpty(i.ImageName))
+                        {<img src="@string.Format("{0}{1}.png", Url.Content("~/Content/menu/64/"), i.ImageName)" /> }
+                    </span>
+                </div>
+                <div class="app-label">@i.Name</div>
+            </a>}
+        </div>
+        @foreach (var g in Model.Where(p => p.Type.Equals("GROUP") && p.IsVisible))
+        {<div class="panorama-section">
+            <h2>@g.Name</h2>
+            @foreach (var i in g.Children.Where(p => !p.Type.Equals("GROUP") && p.IsVisible))
+            {<a class="tile app bg-color" title="@i.Description" href="@(string.IsNullOrEmpty(i.Url) ? "#" : Url.Content(i.Url) + (!string.IsNullOrEmpty(i.Params) ? "?" + i.Params : ""))" data-type="@i.Type.ToLower()">
+                <div class="image-wrapper">
+                    <span class="icon">
+                        @if (!string.IsNullOrEmpty(i.ImageName))
+                        {<img src="@string.Format("{0}{1}.png", Url.Content("~/Content/menu/64/"), i.ImageName)" /> }
+                        else if (!string.IsNullOrEmpty(g.ImageName))
+                        {
+                            {<img src="@string.Format("{0}{1}.png", Url.Content("~/Content/menu/64/"), g.ImageName)" /> }
+                        }
+                    </span>
+                </div>
+                <div class="app-label">@i.Name</div>
+            </a>}
+        </div>}
+    </div>
+</div>

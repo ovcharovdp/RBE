@@ -1,0 +1,28 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>BaseEntities</id>
+    <version>3.2.2.0</version>
+    <title>Платформа. Базовые сущности</title>
+    <authors>ООО "ТатАСУ"</authors>
+    <owners>ООО "ТатАСУ"</owners>
+    <description>
+      Описывает базовые сущности платформы
+    </description>
+    <releaseNotes>
+    </releaseNotes>
+    <summary>
+    </summary>
+    <language>ru-RU</language>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>ООО "ТатАСУ", 2016. Все права защищены.</copyright>
+    <dependencies>
+    </dependencies>
+    <references></references>
+    <tags>core</tags>
+  </metadata>
+  <files>
+    <file src="..\BaseEntities\bin\BaseEntities.dll" target="lib\net45" />
+    <file src="..\BaseEntities\bin\BaseEntities.xml" target="lib\net45" />
+  </files>
+</package>

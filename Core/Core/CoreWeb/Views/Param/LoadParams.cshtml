@@ -1,0 +1,7 @@
+﻿@model IEnumerable<CoreWeb.Models.Params.ParamSettings>
+@{
+    ViewBag.Title = "LoadParams";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("LoadParamsPartial", Model)

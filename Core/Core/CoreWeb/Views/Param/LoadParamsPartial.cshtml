@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CoreWeb.Models.Params.ParamSettings>
+<table style="width: 100%; border-top-color: #b8bac2; border-top-style: solid; border-top-width: 1px; padding-bottom: 10px;">
+    @foreach (var r in Model)
+    {
+        <tr style="line-height: 17px">
+            @if (!"SET".Equals(r.Type))
+            {
+                <td style="vertical-align: top; width: 200px">
+                    <label>@r.Name</label>
+                </td>
+                <td>
+                    @if (r.Values.Count > 0)
+                    {
+                        foreach (var v in r.Values)
+                        {
+                            <div>
+                                <label>@CoreAPI.Components.Editor.GetValue(r, v)</label>
+                            </div>
+                        }
+                    }
+                </td>
+            }
+            else
+            {
+                <td colspan="2">
+                    @if (r.Values.Count > 0)
+                    {
+                        foreach (var v in r.Values)
+                        {
+                            <label><b>@r.Name</b></label>
+                            <div style="padding-left: 20px; padding-right: 0px;">
+                                @Html.Partial("LoadParamsPartial", (new CoreWeb.Models.Params.ParamSetModel(v)).Items)
+                            </div>
+                        }
+                    }
+                </td>
+            }
+        </tr>
+    }
+</table>

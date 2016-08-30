@@ -1,0 +1,67 @@
+﻿@model CoreWeb.Models.Params.EditControlModel
+@using CoreAPI.Components
+@{
+    string valueChanged = "setValue(this.value," + string.Format("{0},{1},{2},\"{3}\")", Model.Settings.ParentID, Model.Settings.ID, Model.Order, Model.Settings.Code);
+    string controlName = Editor.GetName(Model.Settings.ParentID, Model.Settings.ID, Model.Order);
+}
+@if (Model.Settings.Items.Count > 0)
+{
+    var index = 0;
+    if (Model.Value != null)
+    {
+        index = Model.Settings.Items.IndexOf(Model.Settings.Items.FirstOrDefault(p => p.Name == (Model.Settings.Type.Equals("OBJECT") ? Model.Value.ObjectValue.ToString() : Model.Value.VarcharValue)));
+    }
+    <input style="width:100%" id="@controlName" onchange="@valueChanged" />
+    <script type="text/javascript">
+        $("#@controlName").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [@Html.Raw(string.Join(",",Model.Settings.Items.Select(p=>"{text:\'"+p.Label+"\',value:\'"+p.Name+"\'}")))]
+        }).data("kendoDropDownList").select(@index);
+        @if (Model.Value == null && !string.IsNullOrEmpty(Model.Settings.Items[0].Label)){<text>$("#@controlName").change();</text>}
+    </script>
+}
+else
+{
+    if ("TEXT".Equals(Model.Settings.Type))
+    {
+        if (Model.Settings.Length < 200)
+        {<input style="width:100%" id="@controlName" type="text" class="k-textbox" maxlength="@(Model.Settings.Length)" value="@(Model.Value == null ? "" : Model.Value.VarcharValue)" onchange="@valueChanged" />}
+        else
+        {<textarea class="k-textbox" style="width:100%;resize:vertical" rows="3" maxlength="@(Model.Settings.Length)" id="@controlName" onchange="@valueChanged">@(Model.Value == null ? "" : Model.Value.VarcharValue)</textarea>}
+    }
+    if ("DATE".Equals(Model.Settings.Type))
+    {
+        <input id="@controlName" onchange="@valueChanged" />
+        <script>
+            $("#@controlName").kendoDatePicker({
+                animation: false, format: "dd.MM.yyyy"
+                @if (Model.Value != null)
+            {<text>, value: new Date('@Model.Value.DateValue.GetValueOrDefault().Year', '@Model.Value.DateValue.Value.Month', '@Model.Value.DateValue.Value.Day')</text>}
+            });
+        </script>
+    }
+    if ("NUMBER".Equals(Model.Settings.Type))
+    {
+        <input id="@controlName" type="number" value="@(Model.Value == null ? 0 : Convert.ToDecimal(Model.Value.NumberValue))" onchange="@valueChanged" />
+        <script type="text/javascript">
+            $("#@controlName").kendoNumericTextBox({
+                format:"@string.Format("n{0}", Model.Settings.Precision)",
+                decimals: @(Model.Settings.Precision)});
+            @if (Model.Value == null)
+        {<text>if(!($("#@controlName").val() =="")) $("#@controlName").change();</text>}
+        </script>
+    }
+    if ("LOGIC".Equals(Model.Settings.Type))
+    {
+        <input id="@controlName" style="margin:0 0 7px 0" class="k-checkbox" type="checkbox" @(Model.Value != null && Model.Value.NumberValue == 1 ? "checked=checked" : string.Empty) onchange="@("setValue(this.checked?1:0," + string.Format("{0},{1},{2},\"{3}\")", Model.Settings.ParentID, Model.Settings.ID, Model.Order, Model.Settings.Code))" />
+        <label class="k-checkbox-label" for="@controlName">&nbsp;</label>
+    }
+    if ("OBJECT".Equals(Model.Settings.Type) && !string.IsNullOrEmpty(Model.Settings.UI))
+    {
+        <input id="@controlName" type="number" value="@(Model.Value == null ? 0 : Convert.ToDecimal(Model.Value.ObjectValue))" onchange="@valueChanged" style="width:100%;" />
+        <script type="text/javascript">
+        @(Model.Settings.UI)($("#@controlName"),'@Html.Raw(Model.Value.VarcharValue)')
+        </script>
+    }
+}

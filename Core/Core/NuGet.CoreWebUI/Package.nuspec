@@ -1,0 +1,40 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>CoreWebUI</id>
+    <version>3.2.2.0</version>
+    <title>Платформа. UI</title>
+    <authors>ООО "ТатАСУ"</authors>
+    <owners>ООО "ТатАСУ"</owners>
+    <description>
+      Предоставляет реализацию пользовательского интерфейса
+    </description>
+    <releaseNotes>
+    </releaseNotes>
+    <summary>
+    </summary>
+    <language>ru-RU</language>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>ООО "ТатАСУ", 2016. Все права защищены.</copyright>
+    <dependencies>
+      <group targetFramework="net45">
+        <dependency id="CoreWeb" version="3.2.2" />
+        <dependency id="jQuery" version="2.1.3" />
+      </group>
+    </dependencies>
+    <references></references>
+    <tags>core</tags>
+  </metadata>
+  <files>
+    <file src="..\CoreWeb\Areas\Org\Views\**" target="content\Areas\Org\Views" />
+    <file src="..\CoreWeb\Content\kendo\**" target="content\Content\kendo" />
+    <file src="..\CoreWeb\Content\*.css" target="content\Content" />
+    <file src="..\CoreWeb\Content\Menu\*.css" target="content\Content\Menu" />
+    <file src="..\CoreWeb\Views\**" target="content\Views" />
+    <file src="..\CoreWeb\Scripts\param.js" target="content\Scripts" />
+    <file src="..\CoreWeb\Scripts\orgExt.js" target="content\Scripts" />
+    <file src="..\CoreWeb\Scripts\jquery.multilevelpushmenu.js" target="content\Scripts" />
+    <file src="..\CoreWeb\Scripts\common.js" target="content\Scripts" />
+    <file src="..\CoreWeb\Scripts\kendo\**" target="content\Scripts\kendo" />
+  </files>
+</package>

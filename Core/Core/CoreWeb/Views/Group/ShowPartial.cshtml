@@ -1,0 +1,20 @@
+﻿<div id="treeview" style="height: 100%; width: 100%"></div>
+<script>
+    var groupDS = new kendo.data.HierarchicalDataSource({
+        transport: {
+            read: {
+                url: "@Url.Action("GetData", "Group", new { area = "" })",
+                dataType: "json",
+                type: "POST",
+                data: { baseID: "@ViewData["groupID"]" }
+            }
+        },
+        schema: { model: { id: "ID", hasChildren: "HasCld" } },
+        error: function (r) { showError(r.xhr); }
+    });
+    $("#treeview").kendoTreeView({
+        change: function (e) { $('#grid').data('kendoGrid').dataSource.read() },
+        dataSource: groupDS,
+        dataTextField: "Name"
+    });
+</script>

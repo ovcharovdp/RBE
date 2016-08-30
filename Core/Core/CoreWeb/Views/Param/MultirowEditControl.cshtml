@@ -1,0 +1,12 @@
+﻿@model CoreWeb.Models.Params.EditControlModel
+<table class="formTable" cellpadding="0">
+    <tr class="param-row">
+        <td>
+            @Html.Partial("EditControl", Model)
+        </td>
+        <td style="width: 50px">
+            <a href="#" class="k-icon i-del" onclick="@string.Format("delParam(this,{0},{1},{2});", Model.Settings.ParentID, Model.Settings.ID, Model.Order) "></a>
+            <a href="#" class="k-icon i-add" onclick="@string.Format("addParam(this,\"{0}_{1}\");", Model.Settings.ParentID, Model.Settings.ID)"></a>
+        </td>
+    </tr>
+</table>

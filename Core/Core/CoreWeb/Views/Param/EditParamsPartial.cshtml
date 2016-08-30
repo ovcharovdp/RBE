@@ -1,0 +1,56 @@
+﻿@model IEnumerable<CoreWeb.Models.Params.ParamSettings>
+<table class="formTable" cellpadding="0">
+    @foreach (var r in Model)
+    {
+        <tr>
+            @if (!"SET".Equals(r.Type))
+            {
+                <td style="vertical-align: top; width: 200px;">
+                    <label>@r.Name</label>
+                </td>
+                <td style="padding-bottom: 2px">
+                    @if (r.MaxCount > 1)
+                    {<table class="formTable" cellpadding="0" id="@string.Format("t{0}_{1}", r.ParentID, r.ID)">
+                        @if (r.Values.Count > 0)
+                        {
+                            foreach (var v in r.Values)
+                            {
+                                <tr>
+                                    <td style="padding-bottom: 2px">
+                                        @Html.Partial("MultirowEditControl", new CoreWeb.Models.Params.EditControlModel() { Settings = r, Value = v, Order = 0 })
+                                    </td>
+                                </tr>}
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>
+                                    @Html.Partial("MultirowEditControl", new CoreWeb.Models.Params.EditControlModel() { Settings = r, Order = 0 })
+                                </td>
+                            </tr>}
+                    </table>
+                        <script type="text/javascript">
+                            initOrders("@string.Format("{0}_{1}", r.ParentID, r.ID)", "@r.NextOrder");
+                        </script>}
+                    else
+                    {
+                        if (r.Values.Count > 0)
+                        {@Html.Partial("EditControl", new CoreWeb.Models.Params.EditControlModel() { Settings = r, Value = r.Values[0], Order = 0 })}
+                        else
+                        {@Html.Partial("EditControl", new CoreWeb.Models.Params.EditControlModel() { Settings = r, Order = 0 })}
+                    }
+                </td>}
+            else
+            {
+                <td colspan="2">
+                    @if (r.Values.Count > 0)
+                    {
+                        foreach (var v in r.Values)
+                        {<label><b>@r.Name</b></label>
+                        <div style="padding-left: 20px; padding-right: 0px; border: 0px; margin: 0px; border-collapse: collapse">
+                            @Html.Partial("EditParamsPartial", (new CoreWeb.Models.Params.ParamSetModel(v)).Items)
+                        </div>}
+                    }
+                </td>}
+        </tr>}
+</table>

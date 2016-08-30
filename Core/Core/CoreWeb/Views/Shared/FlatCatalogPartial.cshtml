@@ -1,0 +1,35 @@
+﻿@model CoreWeb.Models.Catalog.CatalogModel
+<div id="grid" style="border-style: none; height: 100%"></div>
+<script type="text/x-kendo-template" id="template">
+    <ul id="menu" style="border-style:none; background-color: transparent; background-image: none;"></ul>
+</script>
+<script>
+    function newElement() {
+        saveEntity("@Url.Action("New")", function (r) { editWnd.close(); dataGrid.dataSource.pushCreate(r) });
+    }
+    function editElement(id) {
+        saveEntity("@Url.Action("Edit")", function (r) { editWnd.close(); dataGrid.dataSource.pushUpdate(r) }, { id: id });
+    }
+    var dataGrid = asu.common.flatGrid({
+        container: $("#grid"), toolbar: $("#template"), popup: editWnd,
+        fields: {@Html.KendoModelFields(Model.Columns) },
+        columns: [@Html.KendoGridColumns(Model.Columns)],
+        columnsExcel: [@Html.KendoGridColumns(Model.Columns.Where(p=>p.Exportable).ToList())],
+        expand: "@Model.ExpandEntity",
+        group: function () { return (tree.curItem() == undefined) ? { ID: 0 } : tree.curItem() },
+        controller: "@Url.Action("")", entity: "@Model.ODataEntity", entityName: "объект"
+    });
+    var ds = [{ code: "add", text: "", spriteCssClass: "i-add" },
+        { code: "edit", text: "", spriteCssClass: "i-edit" },
+        { code: "del", text: "", spriteCssClass: "i-del" },
+        { code: "reload", text: "", spriteCssClass: "i-reload" }
+        @if (Model.Columns.Any(p=>p.Exportable))
+	    {<text>, { code: "saveAsExcel", text: "", spriteCssClass: "i-excel", title: "Экспорт в Excel" }</text>}
+    ];
+    asu.common.mainMenu({ items: ds, owner: dataGrid });
+    function resizeContainers() {
+        var headerHeight = $("#menu-panel").outerHeight(true);
+        dataGrid.element.height(mainHeight() - headerHeight - 3); dataGrid.resize();
+    }
+    $(document).ready(resizeContainers);
+</script>

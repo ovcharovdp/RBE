@@ -1,0 +1,33 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>CoreAPI</id>
+    <version>3.2.2.0</version>
+    <title>Платформа. API</title>
+    <authors>ООО "ТатАСУ"</authors>
+    <owners>ООО "ТатАСУ"</owners>
+    <description>
+      Реализует логику работы с объектами платформы
+    </description>
+    <releaseNotes>
+    </releaseNotes>
+    <summary>
+    </summary>
+    <language>ru-RU</language>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>ООО "ТатАСУ", 2016. Все права защищены.</copyright>
+    <dependencies>
+      <group targetFramework="net45">
+        <dependency id="BaseEntities" version="3.2.2" />
+      </group>
+    </dependencies>
+    <references></references>
+    <tags>core</tags>
+  </metadata>
+  <files>
+    <file src="..\CoreAPI\bin\CoreAPI.dll" target="lib\net45" />
+    <file src="..\CoreAPI\bin\CoreAPI.xml" target="lib\net45" />
+    <file src="..\CoreDM\bin\CoreDM.dll" target="lib\net45" />
+    <file src="..\CoreDM\bin\CoreDM.xml" target="lib\net45" />
+  </files>
+</package>

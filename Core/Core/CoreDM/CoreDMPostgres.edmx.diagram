@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="18d6aebbd770493dac7db4e933c722a7" Name="Role">
+        <EntityTypeShape EntityType="ModelPostgres.SysUser" Width="1.5" PointX="0.5" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModelPostgres.SysRole" Width="1.5" PointX="2.875" PointY="0.5" />
+        <EntityTypeShape EntityType="ModelPostgres.SysUserRole" Width="1.5" PointX="0.5" PointY="0.5" />
+        <AssociationConnector Association="ModelPostgres.sys_user_role_fk2" />
+        <AssociationConnector Association="ModelPostgres.sys_user_role_fk1" />
+        <EntityTypeShape EntityType="ModelPostgres.SysInheritRole" Width="1.5" PointX="2.875" PointY="3.125" />
+        <AssociationConnector Association="ModelPostgres.sys_inherit_role_fk1" />
+        <AssociationConnector Association="ModelPostgres.sys_inherit_role_fk2" />
+        <EntityTypeShape EntityType="ModelPostgres.SysObjectRole" Width="1.5" PointX="5.125" PointY="0.625" />
+        <AssociationConnector Association="ModelPostgres.sys_object_role_fk" />
+      </Diagram>
+      <Diagram DiagramId="5801c9cb1e614f778167dd8e47d481fd" Name="Main" ZoomLevel="86" >
+        <EntityTypeShape EntityType="ModelPostgres.ObjGroup" Width="1.5" PointX="0.5" PointY="2.375" />
+        <EntityTypeShape EntityType="ModelPostgres.ObjGroupObject" Width="1.5" PointX="0.5" PointY="0.5" />
+        <AssociationConnector Association="ModelPostgres.obj_group_object_fk" />
+        <EntityTypeShape EntityType="ModelPostgres.SysMenu" Width="1.5" PointX="9.125" PointY="4.875" />
+        <AssociationConnector Association="ModelPostgres.sys_menu_fk" />
+        <EntityTypeShape EntityType="ModelPostgres.SysReport" Width="1.5" PointX="4.75" PointY="2.5" />
+        <EntityTypeShape EntityType="ModelPostgres.ObjBlob" Width="1.5" PointX="4.75" PointY="0.5" />
+        <EntityTypeShape EntityType="ModelPostgres.SysDictionary" Width="1.5" PointX="7" PointY="0.5" />
+        <EntityTypeShape EntityType="ModelPostgres.ObjCatalog" Width="1.5" PointX="2.625" PointY="4.875" />
+        <AssociationConnector Association="ModelPostgres.obj_catalog_fk2" />
+        <EntityTypeShape EntityType="ModelPostgres.SysConst" Width="1.5" PointX="7" PointY="2.625" />
+        <EntityTypeShape EntityType="ModelPostgres.OrgDepartment" Width="1.5" PointX="9.125" PointY="0.5" />
+        <AssociationConnector Association="ModelPostgres.org_department_fk1" />
+        <AssociationConnector Association="ModelPostgres.org_department_fk2" />
+        <EntityTypeShape EntityType="ModelPostgres.ObjCatalogField" Width="1.5" PointX="2.625" PointY="0.5" />
+        <AssociationConnector Association="ModelPostgres.obj_catalog_field_fk" />
+        <EntityTypeShape EntityType="ModelPostgres.ObjCatalogState" Width="1.5" PointX="4.75" PointY="4.875" />
+        <AssociationConnector Association="ModelPostgres.obj_catalog_state_fk" />
+        <EntityTypeShape EntityType="ModelPostgres.ObjCatalogRule" Width="1.5" PointX="7" PointY="4.875" />
+        <AssociationConnector Association="ModelPostgres.obj_catalog_rule_fk" />
+        <AssociationConnector Association="ModelPostgres.obj_catalog_rule_fk1" />
+        </Diagram>
+      <Diagram DiagramId="55080befe1364ad2945ea7d717e3deb4" Name="Param" >
+        <EntityTypeShape EntityType="ModelPostgres.ObjParam" Width="1.5" PointX="2.75" PointY="0.5" />
+        <EntityTypeShape EntityType="ModelPostgres.ObjParamItem" Width="1.5" PointX="0.5" PointY="3" />
+        <EntityTypeShape EntityType="ModelPostgres.ObjParamSetItem" Width="1.5" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="ModelPostgres.ObjParamValue" Width="1.5" PointX="4.75" PointY="0.5" />
+        <AssociationConnector Association="ModelPostgres.obj_param_item_fk" />
+        <AssociationConnector Association="ModelPostgres.obj_param_set_item_fk1" />
+        <AssociationConnector Association="ModelPostgres.obj_param_set_item_fk2" />
+        <AssociationConnector Association="ModelPostgres.obj_param_value_fk" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,21 @@
+﻿@model CoreWeb.Models.BaseEditModels.IEditObjectModel
+@Html.Action("EditCustomParamsPartial", "Param", new { param = Model.Params, area = "" })
+@{
+    string valueChanged = "setValue(this.value," + string.Format("{0},{1},{2},\"{3}\")", 0, 0, 0, "Password");
+}
+<table class="formTable" cellpadding="0">
+    <tr class="param-row">
+        <td style="vertical-align: top; width: 200px;">
+            <label>Пароль</label>
+        </td>
+        <td style="padding-bottom: 2px">
+            <input id="passUser" type="password" class="k-textbox" value="******" onchange="@valueChanged" style="width:100%" />
+        </td>
+    </tr>
+</table>
+<div style="width: 100%; border-top-color: #b8bac2; border-top-style: solid; border-top-width: 1px; margin-top: 10px; margin-bottom: 0; padding: 10px 0 10px 0">
+    <button type="button" class="k-button" id="btnCancel" style="float: right" onclick="cancelSave(editWnd)">Отмена</button>
+    <button type="button" class="k-button" id="btnOk" style="float: right; margin-right: 10px" onclick="if (paramVal.length == 0) { asu.notification.error('Данные не введены.'); return } if ($('#passUser').val()==''){ asu.notification.error('Необходимо ввести пароль'); return }@Model.SaveEvent">
+        Сохранить
+    </button>
+</div>

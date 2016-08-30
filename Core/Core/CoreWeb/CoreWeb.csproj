@@ -1,0 +1,485 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{246FD953-59E5-476C-A343-D6B14CCF44AB}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CoreWeb</RootNamespace>
+    <AssemblyName>CoreWeb</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\CoreWeb.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework6.Npgsql, Version=3.0.7.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework6.Npgsql.3.0.7\lib\net45\EntityFramework6.Npgsql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.Data.Edm.5.6.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.Data.OData.5.6.4\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Common">
+      <HintPath>..\..\packages\Ninject.Web.Common.3.2.3.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc">
+      <HintPath>..\..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.WebApi">
+      <HintPath>..\..\packages\Ninject.Web.WebApi.3.2.4.0\lib\net45-full\Ninject.Web.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql, Version=3.0.7.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Npgsql.3.0.7\lib\net45\Npgsql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Oracle.ManagedDataAccess.12.1.022\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess.EntityFramework, Version=6.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Oracle.ManagedDataAccess.EntityFramework.12.1.022\lib\net45\Oracle.ManagedDataAccess.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.OData, Version=5.5.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.OData.5.5.1\lib\net45\System.Web.Http.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx">
+      <HintPath>..\..\packages\WebActivatorEx.2.0.6\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\AppInitializer.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\NinjectWebCommon.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Org\Controllers\DepartmentController.cs" />
+    <Compile Include="Areas\Org\Models\EditDepartmentModel.cs" />
+    <Compile Include="Areas\Org\Models\NewDepartmentModel.cs" />
+    <Compile Include="Areas\Org\OrgAreaRegistration.cs" />
+    <Compile Include="Authorization\CustomPrincipal.cs" />
+    <Compile Include="Authorization\CustomRoleProvider.cs" />
+    <Compile Include="Components\kendo\KendoHelpers.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Base\BaseController.cs" />
+    <Compile Include="Controllers\Base\BaseDBController.cs" />
+    <Compile Include="Controllers\Base\BaseEntityController.cs" />
+    <Compile Include="Controllers\Base\BaseDocFlowEntityController.cs" />
+    <Compile Include="Controllers\Base\BaseFlatCatalogEntityController.cs" />
+    <Compile Include="Controllers\Base\BaseGroupEntityController.cs" />
+    <Compile Include="Controllers\CatalogController.cs" />
+    <Compile Include="Controllers\DictionaryController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\GroupController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\OData\ObjStatesController.cs" />
+    <Compile Include="Controllers\OData\SysUsersController.cs" />
+    <Compile Include="Controllers\ParamController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Attributes\OData\ExtAuthorizeAttribute.cs" />
+    <Compile Include="Attributes\MVC\ExtAuthorizeAttibute.cs" />
+    <Compile Include="Attributes\MVC\HandleAllErrorAttribute.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Account\AccountModel.cs" />
+    <Compile Include="Models\BaseEditModels\BaseEditExistsModel.cs" />
+    <Compile Include="Models\BaseEditModels\BaseEditModel.cs" />
+    <Compile Include="Models\BaseEditModels\BaseNewElementModel.cs" />
+    <Compile Include="Models\BaseEditModels\BaseNewGroupedElementModel.cs" />
+    <Compile Include="Models\BaseEditModels\IEditModel.cs" />
+    <Compile Include="Models\Catalog\BaseColumnLoader.cs" />
+    <Compile Include="Models\Catalog\DocFlowColumnLoader.cs" />
+    <Compile Include="Models\Catalog\DocFlowModel.cs" />
+    <Compile Include="Models\Catalog\CatalogModel.cs" />
+    <Compile Include="Models\Catalog\ColumnLoaderFromFields.cs" />
+    <Compile Include="Models\Catalog\ColumnLoaderFromParams.cs" />
+    <Compile Include="Models\Catalog\ColumnModel.cs" />
+    <Compile Include="Models\Catalog\GroupedListModel.cs" />
+    <Compile Include="Models\Catalog\IColumnLoader.cs" />
+    <Compile Include="Models\EditModels\CatalogEditModel.cs" />
+    <Compile Include="Models\EditModels\CatalogFieldEditModel.cs" />
+    <Compile Include="Models\EditModels\DictionaryModel.cs" />
+    <Compile Include="Models\EditModels\GroupModels.cs" />
+    <Compile Include="Models\EditModels\MenuEditModel.cs" />
+    <Compile Include="Models\EditModels\ParamModel.cs" />
+    <Compile Include="Models\EditModels\UserModel.cs" />
+    <Compile Include="Models\EditModels\RoleModel.cs" />
+    <Compile Include="Models\Params\ParamModel.cs" />
+    <Compile Include="Models\Params\ParamSetModel.cs" />
+    <Compile Include="Models\Params\ParamSettings.cs" />
+    <Compile Include="Models\Report\ReportEditModel.cs" />
+    <Compile Include="Models\Report\RunReportModel.cs" />
+    <Compile Include="Models\Roles\ObjectRolesModel.cs" />
+    <Compile Include="Models\StartPage\IMainMenuLoader.cs" />
+    <Compile Include="Models\StartPage\MainMenuItem.cs" />
+    <Compile Include="Models\StartPage\MainMenuLoader.cs" />
+    <Compile Include="Models\StartPage\StartPageModel.cs" />
+    <Compile Include="Models\Users\ADUser.cs" />
+    <Compile Include="Models\Users\ADUtils.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\DB.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\images\16\add.png" />
+    <Content Include="Content\images\16\del.png" />
+    <Content Include="Content\images\16\edit.png" />
+    <Content Include="Content\images\16\exec.png" />
+    <Content Include="Content\images\16\exec_.png" />
+    <Content Include="Content\images\16\folder.png" />
+    <Content Include="Content\images\16\home.png" />
+    <Content Include="Content\images\16\key.png" />
+    <Content Include="Content\images\16\menu.png" />
+    <Content Include="Content\images\16\menu_item.png" />
+    <Content Include="Content\images\16\reload.png" />
+    <Content Include="Content\images\16\role.png" />
+    <Content Include="Content\images\16\run_doc.png" />
+    <Content Include="Content\images\16\secure_err.png" />
+    <Content Include="Content\images\16\secure_ok.png" />
+    <Content Include="Content\images\16\table.png" />
+    <Content Include="Content\images\16\warning.png" />
+    <Content Include="Content\kendo\Default\editor.png" />
+    <Content Include="Content\kendo\Default\imagebrowser.png" />
+    <Content Include="Content\kendo\Default\indeterminate.gif" />
+    <Content Include="Content\kendo\Default\loading-image.gif" />
+    <Content Include="Content\kendo\Default\loading.gif" />
+    <Content Include="Content\kendo\Default\loading_2x.gif" />
+    <Content Include="Content\kendo\Default\markers.png" />
+    <Content Include="Content\kendo\Default\markers_2x.png" />
+    <Content Include="Content\kendo\Default\slider-h.gif" />
+    <Content Include="Content\kendo\Default\slider-v.gif" />
+    <Content Include="Content\kendo\Default\sprite.png" />
+    <Content Include="Content\kendo\Default\sprite_2x.png" />
+    <Content Include="Content\kendo\Default\sprite_kpi.png" />
+    <Content Include="Content\kendo\Default\sprite_kpi_2x.png" />
+    <Content Include="Content\kendo\Fiori\editor.png" />
+    <Content Include="Content\kendo\Fiori\imagebrowser.png" />
+    <Content Include="Content\kendo\Fiori\indeterminate.gif" />
+    <Content Include="Content\kendo\Fiori\loading-image.gif" />
+    <Content Include="Content\kendo\Fiori\loading.gif" />
+    <Content Include="Content\kendo\Fiori\loading_2x.gif" />
+    <Content Include="Content\kendo\Fiori\markers.png" />
+    <Content Include="Content\kendo\Fiori\markers_2x.png" />
+    <Content Include="Content\kendo\Fiori\slider-h.gif" />
+    <Content Include="Content\kendo\Fiori\slider-v.gif" />
+    <Content Include="Content\kendo\Fiori\sprite.png" />
+    <Content Include="Content\kendo\Fiori\sprite_2x.png" />
+    <Content Include="Content\kendo\Fiori\sprite_kpi.png" />
+    <Content Include="Content\kendo\Fiori\sprite_kpi_2x.png" />
+    <Content Include="Content\kendo\kendo.common-fiori.min.css" />
+    <Content Include="Content\kendo\kendo.common.min.css" />
+    <Content Include="Content\kendo\kendo.dataviz.default.min.css" />
+    <Content Include="Content\kendo\kendo.dataviz.fiori.min.css" />
+    <Content Include="Content\kendo\kendo.dataviz.min.css" />
+    <Content Include="Content\kendo\kendo.default.min.css" />
+    <Content Include="Content\kendo\kendo.fiori.min.css" />
+    <Content Include="Content\Login.css" />
+    <Content Include="Content\Menu\16\act.png" />
+    <Content Include="Content\Menu\16\catalog.png" />
+    <Content Include="Content\Menu\16\dictionary.png" />
+    <Content Include="Content\images\16\excel.png" />
+    <Content Include="Content\Menu\16\help.png" />
+    <Content Include="Content\Menu\16\history.png" />
+    <Content Include="Content\Menu\16\home.png" />
+    <Content Include="Content\Menu\16\ind.png" />
+    <Content Include="Content\Menu\16\report.png" />
+    <Content Include="Content\Menu\16\role.png" />
+    <Content Include="Content\Menu\16\settings.png" />
+    <Content Include="Content\Menu\16\visit.png" />
+    <Content Include="Content\Menu\64\act.png" />
+    <Content Include="Content\Menu\64\catalog.png" />
+    <Content Include="Content\Menu\64\dictionary.png" />
+    <Content Include="Content\Menu\64\help.png" />
+    <Content Include="Content\Menu\64\home.png" />
+    <Content Include="Content\Menu\64\ind.png" />
+    <Content Include="Content\Menu\64\journal.png" />
+    <Content Include="Content\Menu\64\report.png" />
+    <Content Include="Content\Menu\64\role.png" />
+    <Content Include="Content\Menu\64\settings-menu.png" />
+    <Content Include="Content\Menu\64\settings.png" />
+    <Content Include="Content\Menu\64\visit.png" />
+    <Content Include="Content\Menu\64\well-obx.png" />
+    <Content Include="Content\Menu\64\well.png" />
+    <Content Include="Content\Menu\jquery.multilevelpushmenu_white.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Models\BaseEditModels\EditModels.cd" />
+    <Content Include="Controllers\Base\ControllerDiagram.cd" />
+    <Content Include="Areas\Org\Views\Department\GroupedCatalogPartial.cshtml" />
+    <Content Include="Areas\Org\Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Properties\PublishProfiles\Core.pubxml" />
+    <None Include="Scripts\jquery-2.1.3.intellisense.js" />
+    <Content Include="Scripts\common.js" />
+    <Content Include="Scripts\jquery-2.1.3.js" />
+    <Content Include="Scripts\jquery-2.1.3.min.js" />
+    <Content Include="Scripts\jquery.multilevelpushmenu.js" />
+    <Content Include="Scripts\kendo\cultures\kendo.culture.ru-RU.min.js" />
+    <Content Include="Scripts\kendo\jszip.min.js" />
+    <Content Include="Scripts\kendo\kendo.ext.js" />
+    <Content Include="Scripts\kendo\kendo.ru-RU.js" />
+    <Content Include="Scripts\kendo\kendo.web.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\orgExt.js" />
+    <Content Include="Scripts\param.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml">
+      <SubType>
+      </SubType>
+    </Content>
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Scripts\jquery-2.1.3.min.map" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Group\ShowPartial.cshtml" />
+    <Content Include="Views\Home\MenuItems.cshtml" />
+    <Content Include="Views\Home\MetroMenu.cshtml" />
+    <Content Include="Views\Menu\GroupedCatalogPartial.cshtml" />
+    <Content Include="Views\Param\EditControl.cshtml" />
+    <Content Include="Views\Param\EditParams.cshtml" />
+    <Content Include="Views\Param\EditParamsPartial.cshtml" />
+    <Content Include="Views\Param\LoadParams.cshtml" />
+    <Content Include="Views\Param\LoadParamsPartial.cshtml" />
+    <Content Include="Views\Param\MultirowEditControl.cshtml" />
+    <Content Include="Views\Role\EditRoleObject.cshtml" />
+    <Content Include="Views\Role\GroupedCatalogPartial.cshtml" />
+    <Content Include="Views\Role\PopupAddMember.cshtml" />
+    <Content Include="Views\Shared\_Intermediary.cshtml" />
+    <Content Include="Views\Shared\AddNewObject.cshtml" />
+    <Content Include="Views\Shared\EditObjectPartial.cshtml" />
+    <Content Include="Views\Shared\FlatCatalog.cshtml" />
+    <Content Include="Views\Shared\FlatCatalogPartial.cshtml" />
+    <Content Include="Views\Shared\GroupedCatalog.cshtml" />
+    <Content Include="Views\Shared\GroupedCatalogPartial.cshtml" />
+    <Content Include="Views\Home\ChangeHistory.cshtml" />
+    <Content Include="Views\Home\EmptyChangeHistory.cshtml" />
+    <Content Include="Views\User\AddNewObject.cshtml" />
+    <Content Include="Views\User\EditObjectPartial.cshtml" />
+    <Content Include="Views\Catalog\GroupedCatalogPartial.cshtml" />
+    <Content Include="Views\Shared\DocFlowCatalog.cshtml" />
+    <Content Include="Views\Shared\DocFlowCatalogPartial.cshtml" />
+    <None Include="Web.ReleaseForms.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\Org\Views\Shared\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseEntities\BaseEntities.csproj">
+      <Project>{bab96293-4dcf-4efe-a83c-75269a178815}</Project>
+      <Name>BaseEntities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoreAPI\CoreAPI.csproj">
+      <Project>{5e584d25-0554-4d80-aabe-c82b468feb0a}</Project>
+      <Name>CoreAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoreDM\CoreDM.csproj">
+      <Project>{909acb16-a79c-4ac6-b854-903ece94a0c3}</Project>
+      <Name>CoreDM</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseForms|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>bin\CoreWeb.XML</DocumentationFile>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>49351</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:58973/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

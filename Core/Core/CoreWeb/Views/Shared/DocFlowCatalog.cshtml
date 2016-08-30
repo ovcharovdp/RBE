@@ -1,0 +1,8 @@
+﻿@model CoreWeb.Models.Catalog.CatalogModel
+@{
+    Layout = "~/Views/Shared/_Intermediary.cshtml";
+    ViewBag.Title = Model.Title;
+}
+<div id="content" class="scroller">
+    @Html.Partial("DocFlowCatalogPartial", Model)
+</div>

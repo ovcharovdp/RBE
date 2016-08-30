@@ -1,0 +1,33 @@
+﻿@model long
+<div id="accessToObjectContent">
+    <div style="display: inline-block;">
+        <span class="k-textbox" style="width: 300px; float: left;">
+            <input type="text" data-bind="value: roleName, events:{keyup: filterInput}" />
+        </span>
+        <span style="float: left;">
+            <input class="k-checkbox" id="checkedRule" type="checkbox" data-bind="checked: checked, events:{click: filterChecked}" />
+            <label class="k-checkbox-label" for="checkedRule">Установленные</label>
+        </span>
+        <span style="float: left;">
+            <input class="k-checkbox" id="uncheckedRule" type="checkbox" data-bind="checked: unchecked, events:{click: filterUnchecked}" />
+            <label class="k-checkbox-label" for="uncheckedRule">Не установленные</label>
+        </span>
+    </div>
+    <div data-role="listview" data-bind="source: roles, events:{dataBound:checkChecked}" data-template="roleListTemplate" style="height: 300px; overflow: auto;"></div>
+    <div style="width: 100%; margin-top: 10px; margin-bottom: 0; padding: 10px 0 10px 0">
+        <button data-role="button" style="float: right" data-bind="events:{click:close}">Отмена</button>
+        <button data-role="button" style="float: right; margin-right: 10px" data-bind="events:{click:setObjectRoles}">Сохранить</button>
+        <div class="k-widget k-notification k-notification-info" style="padding: 5px; width: 260px;" data-bind="visible: notifVisible">
+            <span class="k-sprite i-warning">&nbsp;</span><span> Объект доступен всем пользователям.</span>
+        </div>
+    </div>
+    <script type="text/x-kendo-tmpl" id="roleListTemplate">
+        <div class="item click">
+            <input type="checkbox" class="click" data-bind="checked: Checked , events:{change:setParamVal}" />
+            <span class="checkbox">#:Name#</span>
+        </div>
+    </script>
+</div>
+<script>
+    kendo.bind($("#accessToObjectContent"), asu.role.access.model(parseInt("@Model")));
+</script>

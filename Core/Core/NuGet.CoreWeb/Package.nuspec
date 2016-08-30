@@ -1,0 +1,38 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>CoreWeb</id>
+    <version>3.2.2.0</version>
+    <title>Платформа. Веб-логика.</title>
+    <authors>ООО "ТатАСУ"</authors>
+    <owners>ООО "ТатАСУ"</owners>
+    <description>
+      Реализует базовую логику управления Веб-запросами.
+    </description>
+    <releaseNotes>
+    </releaseNotes>
+    <summary>
+      Реализует базовую логику управления Веб-запросами.
+    </summary>
+    <language>ru-RU</language>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>ООО "ТатАСУ", 2016. Все права защищены.</copyright>
+    <dependencies>
+        <group targetFramework="net45">
+          <dependency id="CoreAPI" version="3.2.2" />
+          <dependency id="Microsoft.AspNet.Mvc" version="5.2.3" />
+          <dependency id="Microsoft.AspNet.WebApi.WebHost" version="5.2.3" />
+          <dependency id="Ninject.MVC5" version="3.2.1.0" />
+          <dependency id="Ninject.Web.WebApi" version="3.2.4.0" />
+        </group>
+    </dependencies>
+    <references></references>
+    <tags>core</tags>
+  </metadata>
+  <files>
+    <file src="..\CoreWeb\bin\CoreWeb.dll" target="lib\net45" />
+    <file src="..\CoreWeb\bin\CoreWeb.xml" target="lib\net45" />
+    <file src="tools\" target="tools" />
+    <file src="..\CoreWeb\global.asax.cs" target="content" />
+  </files>
+</package>

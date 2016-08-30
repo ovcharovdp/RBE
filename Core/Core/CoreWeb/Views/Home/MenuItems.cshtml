@@ -1,0 +1,20 @@
+﻿@model List<CoreWeb.Models.StartPage.MainMenuItem>
+
+@foreach (var i in Model)
+{
+    if (Model.First().ID == i.ID)
+    {<text>[{</text>}
+    else
+    {<text>{</text>}
+    <text>name: '@i.Name',
+    type: '@i.Type.ToLower()',
+    link: '@(string.IsNullOrEmpty(i.Url) ? "#" : Url.Content(i.Url) + (!string.IsNullOrEmpty(i.Params) ? "?" + i.Params : ""))'</text>
+    if (!string.IsNullOrEmpty(i.ImageName))
+    {<text>, img: "@string.Format("{0}{1}.png", Url.Content("~/Content/menu/16/"), i.ImageName)"</text>}
+    if (i.Type.Equals("GROUP"))
+    {<text>, items: [{items: @Html.Partial("MenuItems", i.Children)}]</text>}
+    if (Model.Last().ID == i.ID)
+    {<text>}]</text>}
+    else
+    {<text>},</text>}
+}

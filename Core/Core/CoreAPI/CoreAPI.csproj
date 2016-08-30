@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5E584D25-0554-4D80-AABE-C82B468FEB0A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CoreAPI</RootNamespace>
+    <AssemblyName>CoreAPI</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\CoreAPI.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Authorization\ICustomPrincipal.cs" />
+    <Compile Include="Components\Editor.cs" />
+    <Compile Include="Const\GroupIDLoader.cs" />
+    <Compile Include="CoreConstant.cs" />
+    <Compile Include="Const\ConstManager.cs" />
+    <Compile Include="Const\IConstLoader.cs" />
+    <Compile Include="Extensions\DbExtension.cs" />
+    <Compile Include="Helpers\Crypto.cs" />
+    <Compile Include="Operations\BaseDBOperations.cs" />
+    <Compile Include="Operations\BaseObjectOperations.cs" />
+    <Compile Include="Operations\ObjCatalogOperations.cs" />
+    <Compile Include="Operations\ObjGroupOperations.cs" />
+    <Compile Include="Operations\ObjParamOperations.cs" />
+    <Compile Include="Operations\ObjParamValueOperations.cs" />
+    <Compile Include="Operations\OrgOperations.cs" />
+    <Compile Include="Operations\SysDictionaryOperations.cs" />
+    <Compile Include="Operations\SysMenuOperations.cs" />
+    <Compile Include="Operations\SysReportOperations.cs" />
+    <Compile Include="Operations\SysRoleOperations.cs" />
+    <Compile Include="Operations\SysUserOperations.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\BaseObject.cs" />
+    <Compile Include="ChangeHistory\BaseWorkItemLoader.cs" />
+    <Compile Include="ChangeHistory\IWorkItemLoader.cs" />
+    <Compile Include="ChangeHistory\WorkItem.cs" />
+    <Compile Include="Types\CoreDBContext.cs" />
+    <Compile Include="Types\ErrorManager.cs" />
+    <Compile Include="Types\ICoreDBContext.cs" />
+    <Compile Include="Types\ObjParam\ClientValue.cs" />
+    <Compile Include="Types\ObjParam\ParamItemValue.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BaseEntities\BaseEntities.csproj">
+      <Project>{bab96293-4dcf-4efe-a83c-75269a178815}</Project>
+      <Name>BaseEntities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoreDM\CoreDM.csproj">
+      <Project>{909acb16-a79c-4ac6-b854-903ece94a0c3}</Project>
+      <Name>CoreDM</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

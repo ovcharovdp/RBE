@@ -1,0 +1,1476 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище ModelPostgres" Provider="Npgsql" ProviderManifestToken="9.4.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="obj__blob">
+          <Key>
+            <PropertyRef Name="parent_id" />
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="parent_id" Type="int8" Nullable="false" />
+          <Property Name="order_id" Type="numeric" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="data" Type="bytea" Nullable="false" />
+        </EntityType>
+        <EntityType Name="obj__catalog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="root_group_id" Type="int8" />
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="gid" Type="bpchar" MaxLength="36" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="obj__catalog_field">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="code" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="width" Type="numeric" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="filterable" Type="bool" Nullable="false" />
+          <Property Name="sortable" Type="bool" Nullable="false" />
+          <Property Name="format" Type="varchar" MaxLength="40" />
+          <Property Name="order_id" Type="numeric" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="ui" Type="varchar" MaxLength="20" />
+          <Property Name="template" Type="varchar" MaxLength="1000" />
+          <Property Name="detailed" Type="bool" Nullable="false" />
+          <Property Name="exportable" Type="bool" Nullable="false" />
+          <Property Name="catalog_id" Type="int8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="obj__catalog_rule">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="state_id" Type="int8" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="100" />
+          <Property Name="image_name" Type="varchar" MaxLength="50" />
+          <Property Name="finish_state_id" Type="int8" Nullable="false" />
+          <Property Name="order_id" Type="numeric" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="confirm_text" Type="varchar" MaxLength="100" />
+          <Property Name="code" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="obj__catalog_state">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="css_style" Type="varchar" MaxLength="100" />
+          <Property Name="description" Type="varchar" MaxLength="100" />
+          <Property Name="code" Type="varchar" MaxLength="3" />
+          <Property Name="catalog_id" Type="int8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="obj__group">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="code" Type="varchar" MaxLength="50" />
+          <Property Name="description" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="obj__group_object">
+          <Key>
+            <PropertyRef Name="group_id" />
+            <PropertyRef Name="object_id" />
+          </Key>
+          <Property Name="group_id" Type="int8" Nullable="false" />
+          <Property Name="object_id" Type="int8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="obj__param">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="200" />
+          <Property Name="type" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="max_count" Type="numeric" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="length" Type="numeric" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="precision" Type="numeric" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="order_id" Type="numeric" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="ui" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="obj__param_item">
+          <Key>
+            <PropertyRef Name="param_id" />
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="param_id" Type="int8" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="order_id" Type="numeric" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="label" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="obj__param_set_item">
+          <Key>
+            <PropertyRef Name="parent_id" />
+            <PropertyRef Name="param_id" />
+          </Key>
+          <Property Name="parent_id" Type="int8" Nullable="false" />
+          <Property Name="param_id" Type="int8" Nullable="false" />
+          <Property Name="order_id" Type="numeric" Precision="2" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="obj__param_value">
+          <Key>
+            <PropertyRef Name="parent_id" />
+            <PropertyRef Name="param_id" />
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="parent_id" Type="int8" Nullable="false" />
+          <Property Name="param_id" Type="int8" Nullable="false" />
+          <Property Name="order_id" Type="numeric" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="varchar_value" Type="varchar" MaxLength="1000" />
+          <Property Name="number_value" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="date_value" Type="date" />
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="object_value" Type="int8" />
+        </EntityType>
+        <EntityType Name="org__department">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="parent_id" Type="int8" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="type_id" Type="int8" Nullable="false" />
+          <Property Name="full_name" Type="varchar" MaxLength="255" />
+          <Property Name="struct_name" Type="varchar" MaxLength="255" />
+          <Property Name="short_name" Type="varchar" MaxLength="50" />
+          <Property Name="code" Type="varchar" MaxLength="20" />
+          <Property Name="fact_address" Type="varchar" MaxLength="200" />
+          <Property Name="legal_address" Type="varchar" MaxLength="200" />
+          <Property Name="inn" Type="varchar" MaxLength="10" />
+          <Property Name="kpp" Type="varchar" MaxLength="9" />
+        </EntityType>
+        <EntityType Name="sys__const">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="gid" Type="bpchar" MaxLength="36" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="255" />
+          <Property Name="value" Type="int8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sys__dictionary">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="sys__inherit_role">
+          <Key>
+            <PropertyRef Name="heir_role_id" />
+            <PropertyRef Name="role_id" />
+          </Key>
+          <Property Name="heir_role_id" Type="int8" Nullable="false" />
+          <Property Name="role_id" Type="int8" Nullable="false" />
+          <Property Name="create_date" Type="date" />
+        </EntityType>
+        <EntityType Name="sys__menu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="255" />
+          <Property Name="image_name" Type="varchar" MaxLength="100" />
+          <Property Name="parent_id" Type="int8" />
+          <Property Name="url" Type="varchar" MaxLength="255" />
+          <Property Name="params" Type="varchar" MaxLength="255" />
+          <Property Name="is_visible" Type="bool" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="order_id" Type="numeric" Precision="2" Scale="0" />
+        </EntityType>
+        <EntityType Name="sys__object_role">
+          <Key>
+            <PropertyRef Name="role_id" />
+            <PropertyRef Name="object_id" />
+          </Key>
+          <Property Name="role_id" Type="int8" Nullable="false" />
+          <Property Name="object_id" Type="int8" Nullable="false" />
+          <Property Name="on_read" Type="bpchar" MaxLength="1" Nullable="false" />
+          <Property Name="on_update" Type="bpchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sys__report">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="255" />
+          <Property Name="path" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="url" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sys__role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="code" Type="varchar" MaxLength="50" />
+          <Property Name="description" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="sys__user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="last_logon" Type="date" />
+          <Property Name="full_name" Type="varchar" MaxLength="255" />
+          <Property Name="alias" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="is_ad" Type="bool" Nullable="false" />
+          <Property Name="pswd" Type="bpchar" MaxLength="32" />
+          <Property Name="state_id" Type="int8" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="is_admin" Type="bool" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sys__user_role">
+          <Key>
+            <PropertyRef Name="user_id" />
+            <PropertyRef Name="role_id" />
+          </Key>
+          <Property Name="user_id" Type="int8" Nullable="false" />
+          <Property Name="role_id" Type="int8" Nullable="false" />
+          <Property Name="start_date" Type="date" Nullable="false" />
+        </EntityType>
+        <Association Name="obj_catalog_field_fk">
+          <End Role="obj__catalog" Type="Self.obj__catalog" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="obj__catalog_field" Type="Self.obj__catalog_field" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obj__catalog">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="obj__catalog_field">
+              <PropertyRef Name="catalog_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="obj_catalog_fk2">
+          <End Role="obj__group" Type="Self.obj__group" Multiplicity="0..1" />
+          <End Role="obj__catalog" Type="Self.obj__catalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obj__group">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="obj__catalog">
+              <PropertyRef Name="root_group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="obj_catalog_rule_fk">
+          <End Role="obj__catalog_state" Type="Self.obj__catalog_state" Multiplicity="1" />
+          <End Role="obj__catalog_rule" Type="Self.obj__catalog_rule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obj__catalog_state">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="obj__catalog_rule">
+              <PropertyRef Name="state_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="obj_catalog_rule_fk1">
+          <End Role="obj__catalog_state" Type="Self.obj__catalog_state" Multiplicity="1" />
+          <End Role="obj__catalog_rule" Type="Self.obj__catalog_rule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obj__catalog_state">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="obj__catalog_rule">
+              <PropertyRef Name="finish_state_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="obj_catalog_state_fk">
+          <End Role="obj__catalog" Type="Self.obj__catalog" Multiplicity="1" />
+          <End Role="obj__catalog_state" Type="Self.obj__catalog_state" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obj__catalog">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="obj__catalog_state">
+              <PropertyRef Name="catalog_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="obj_group_object_fk">
+          <End Role="obj__group" Type="Self.obj__group" Multiplicity="1" />
+          <End Role="obj__group_object" Type="Self.obj__group_object" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obj__group">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="obj__group_object">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="obj_param_item_fk">
+          <End Role="obj__param" Type="Self.obj__param" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="obj__param_item" Type="Self.obj__param_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obj__param">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="obj__param_item">
+              <PropertyRef Name="param_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="obj_param_set_item_fk1">
+          <End Role="obj__param" Type="Self.obj__param" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="obj__param_set_item" Type="Self.obj__param_set_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obj__param">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="obj__param_set_item">
+              <PropertyRef Name="parent_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="obj_param_set_item_fk2">
+          <End Role="obj__param" Type="Self.obj__param" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="obj__param_set_item" Type="Self.obj__param_set_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obj__param">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="obj__param_set_item">
+              <PropertyRef Name="param_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="obj_param_value_fk">
+          <End Role="obj__param" Type="Self.obj__param" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="obj__param_value" Type="Self.obj__param_value" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obj__param">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="obj__param_value">
+              <PropertyRef Name="param_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="org_department_fk1">
+          <End Role="org__department" Type="Self.org__department" Multiplicity="0..1" />
+          <End Role="org__department1" Type="Self.org__department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="org__department">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="org__department1">
+              <PropertyRef Name="parent_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="org_department_fk2">
+          <End Role="sys__dictionary" Type="Self.sys__dictionary" Multiplicity="1" />
+          <End Role="org__department" Type="Self.org__department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys__dictionary">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="org__department">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sys_inherit_role_fk1">
+          <End Role="sys__role" Type="Self.sys__role" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sys__inherit_role" Type="Self.sys__inherit_role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys__role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sys__inherit_role">
+              <PropertyRef Name="heir_role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sys_inherit_role_fk2">
+          <End Role="sys__role" Type="Self.sys__role" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sys__inherit_role" Type="Self.sys__inherit_role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys__role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sys__inherit_role">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sys_menu_fk">
+          <End Role="sys__menu" Type="Self.sys__menu" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sys__menu1" Type="Self.sys__menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys__menu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sys__menu1">
+              <PropertyRef Name="parent_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sys_object_role_fk">
+          <End Role="sys__role" Type="Self.sys__role" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sys__object_role" Type="Self.sys__object_role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys__role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sys__object_role">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sys_user_fk">
+          <End Role="obj__catalog_state" Type="Self.obj__catalog_state" Multiplicity="1" />
+          <End Role="sys__user" Type="Self.sys__user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obj__catalog_state">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sys__user">
+              <PropertyRef Name="state_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sys_user_role_fk1">
+          <End Role="sys__user" Type="Self.sys__user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sys__user_role" Type="Self.sys__user_role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys__user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sys__user_role">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sys_user_role_fk2">
+          <End Role="sys__role" Type="Self.sys__role" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sys__user_role" Type="Self.sys__user_role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys__role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sys__user_role">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ModelPostgresContainer">
+          <EntitySet Name="obj__blob" EntityType="Self.obj__blob" Schema="public" store:Type="Tables" />
+          <EntitySet Name="obj__catalog" EntityType="Self.obj__catalog" Schema="public" store:Type="Tables" />
+          <EntitySet Name="obj__catalog_field" EntityType="Self.obj__catalog_field" Schema="public" store:Type="Tables" />
+          <EntitySet Name="obj__catalog_rule" EntityType="Self.obj__catalog_rule" Schema="public" store:Type="Tables" />
+          <EntitySet Name="obj__catalog_state" EntityType="Self.obj__catalog_state" Schema="public" store:Type="Tables" />
+          <EntitySet Name="obj__group" EntityType="Self.obj__group" Schema="public" store:Type="Tables" />
+          <EntitySet Name="obj__group_object" EntityType="Self.obj__group_object" Schema="public" store:Type="Tables" />
+          <EntitySet Name="obj__param" EntityType="Self.obj__param" Schema="public" store:Type="Tables" />
+          <EntitySet Name="obj__param_item" EntityType="Self.obj__param_item" Schema="public" store:Type="Tables" />
+          <EntitySet Name="obj__param_set_item" EntityType="Self.obj__param_set_item" Schema="public" store:Type="Tables" />
+          <EntitySet Name="obj__param_value" EntityType="Self.obj__param_value" Schema="public" store:Type="Tables" />
+          <EntitySet Name="org__department" EntityType="Self.org__department" Schema="public" store:Type="Tables" />
+          <EntitySet Name="sys__const" EntityType="Self.sys__const" Schema="public" store:Type="Tables" />
+          <EntitySet Name="sys__dictionary" EntityType="Self.sys__dictionary" Schema="public" store:Type="Tables" />
+          <EntitySet Name="sys__inherit_role" EntityType="Self.sys__inherit_role" Schema="public" store:Type="Tables" />
+          <EntitySet Name="sys__menu" EntityType="Self.sys__menu" Schema="public" store:Type="Tables" />
+          <EntitySet Name="sys__object_role" EntityType="Self.sys__object_role" Schema="public" store:Type="Tables" />
+          <EntitySet Name="sys__report" EntityType="Self.sys__report" Schema="public" store:Type="Tables" />
+          <EntitySet Name="sys__role" EntityType="Self.sys__role" Schema="public" store:Type="Tables" />
+          <EntitySet Name="sys__user" EntityType="Self.sys__user" Schema="public" store:Type="Tables" />
+          <EntitySet Name="sys__user_role" EntityType="Self.sys__user_role" Schema="public" store:Type="Tables" />
+          <AssociationSet Name="obj_catalog_field_fk" Association="Self.obj_catalog_field_fk">
+            <End Role="obj__catalog" EntitySet="obj__catalog" />
+            <End Role="obj__catalog_field" EntitySet="obj__catalog_field" />
+          </AssociationSet>
+          <AssociationSet Name="obj_catalog_fk2" Association="Self.obj_catalog_fk2">
+            <End Role="obj__group" EntitySet="obj__group" />
+            <End Role="obj__catalog" EntitySet="obj__catalog" />
+          </AssociationSet>
+          <AssociationSet Name="obj_catalog_rule_fk" Association="Self.obj_catalog_rule_fk">
+            <End Role="obj__catalog_state" EntitySet="obj__catalog_state" />
+            <End Role="obj__catalog_rule" EntitySet="obj__catalog_rule" />
+          </AssociationSet>
+          <AssociationSet Name="obj_catalog_rule_fk1" Association="Self.obj_catalog_rule_fk1">
+            <End Role="obj__catalog_state" EntitySet="obj__catalog_state" />
+            <End Role="obj__catalog_rule" EntitySet="obj__catalog_rule" />
+          </AssociationSet>
+          <AssociationSet Name="obj_catalog_state_fk" Association="Self.obj_catalog_state_fk">
+            <End Role="obj__catalog" EntitySet="obj__catalog" />
+            <End Role="obj__catalog_state" EntitySet="obj__catalog_state" />
+          </AssociationSet>
+          <AssociationSet Name="obj_group_object_fk" Association="Self.obj_group_object_fk">
+            <End Role="obj__group" EntitySet="obj__group" />
+            <End Role="obj__group_object" EntitySet="obj__group_object" />
+          </AssociationSet>
+          <AssociationSet Name="obj_param_item_fk" Association="Self.obj_param_item_fk">
+            <End Role="obj__param" EntitySet="obj__param" />
+            <End Role="obj__param_item" EntitySet="obj__param_item" />
+          </AssociationSet>
+          <AssociationSet Name="obj_param_set_item_fk1" Association="Self.obj_param_set_item_fk1">
+            <End Role="obj__param" EntitySet="obj__param" />
+            <End Role="obj__param_set_item" EntitySet="obj__param_set_item" />
+          </AssociationSet>
+          <AssociationSet Name="obj_param_set_item_fk2" Association="Self.obj_param_set_item_fk2">
+            <End Role="obj__param" EntitySet="obj__param" />
+            <End Role="obj__param_set_item" EntitySet="obj__param_set_item" />
+          </AssociationSet>
+          <AssociationSet Name="obj_param_value_fk" Association="Self.obj_param_value_fk">
+            <End Role="obj__param" EntitySet="obj__param" />
+            <End Role="obj__param_value" EntitySet="obj__param_value" />
+          </AssociationSet>
+          <AssociationSet Name="org_department_fk1" Association="Self.org_department_fk1">
+            <End Role="org__department" EntitySet="org__department" />
+            <End Role="org__department1" EntitySet="org__department" />
+          </AssociationSet>
+          <AssociationSet Name="org_department_fk2" Association="Self.org_department_fk2">
+            <End Role="sys__dictionary" EntitySet="sys__dictionary" />
+            <End Role="org__department" EntitySet="org__department" />
+          </AssociationSet>
+          <AssociationSet Name="sys_inherit_role_fk1" Association="Self.sys_inherit_role_fk1">
+            <End Role="sys__role" EntitySet="sys__role" />
+            <End Role="sys__inherit_role" EntitySet="sys__inherit_role" />
+          </AssociationSet>
+          <AssociationSet Name="sys_inherit_role_fk2" Association="Self.sys_inherit_role_fk2">
+            <End Role="sys__role" EntitySet="sys__role" />
+            <End Role="sys__inherit_role" EntitySet="sys__inherit_role" />
+          </AssociationSet>
+          <AssociationSet Name="sys_menu_fk" Association="Self.sys_menu_fk">
+            <End Role="sys__menu" EntitySet="sys__menu" />
+            <End Role="sys__menu1" EntitySet="sys__menu" />
+          </AssociationSet>
+          <AssociationSet Name="sys_object_role_fk" Association="Self.sys_object_role_fk">
+            <End Role="sys__role" EntitySet="sys__role" />
+            <End Role="sys__object_role" EntitySet="sys__object_role" />
+          </AssociationSet>
+          <AssociationSet Name="sys_user_fk" Association="Self.sys_user_fk">
+            <End Role="obj__catalog_state" EntitySet="obj__catalog_state" />
+            <End Role="sys__user" EntitySet="sys__user" />
+          </AssociationSet>
+          <AssociationSet Name="sys_user_role_fk1" Association="Self.sys_user_role_fk1">
+            <End Role="sys__user" EntitySet="sys__user" />
+            <End Role="sys__user_role" EntitySet="sys__user_role" />
+          </AssociationSet>
+          <AssociationSet Name="sys_user_role_fk2" Association="Self.sys_user_role_fk2">
+            <End Role="sys__role" EntitySet="sys__role" />
+            <End Role="sys__user_role" EntitySet="sys__user_role" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ModelPostgres" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="SysUser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="LastLogon" Type="DateTime" Precision="0" />
+          <Property Name="FullName" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="Alias" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="IsAD" Type="Boolean" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="32" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="UserRoles" Relationship="ModelPostgres.sys_user_role_fk1" FromRole="SysUser" ToRole="sys__user_role" />
+          <Property Name="eMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="State" Relationship="ModelPostgres.sys_user_fk" FromRole="SysUser" ToRole="ObjCatalogState" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="CoreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SysUsers" EntityType="ModelPostgres.SysUser" />
+          <EntitySet Name="SysRoles" EntityType="ModelPostgres.SysRole" />
+          <EntitySet Name="SysUserRoles" EntityType="ModelPostgres.SysUserRole" />
+          <AssociationSet Name="sys_user_role_fk2" Association="ModelPostgres.sys_user_role_fk2">
+            <End Role="sys__role" EntitySet="SysRoles" />
+            <End Role="sys__user_role" EntitySet="SysUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="sys_user_role_fk1" Association="ModelPostgres.sys_user_role_fk1">
+            <End Role="SysUser" EntitySet="SysUsers" />
+            <End Role="sys__user_role" EntitySet="SysUserRoles" />
+          </AssociationSet>
+          <EntitySet Name="SysInheritRoles" EntityType="ModelPostgres.SysInheritRole" />
+          <AssociationSet Name="sys_inherit_role_fk1" Association="ModelPostgres.sys_inherit_role_fk1">
+            <End Role="SysRole" EntitySet="SysRoles" />
+            <End Role="sys__inherit_role" EntitySet="SysInheritRoles" />
+          </AssociationSet>
+          <AssociationSet Name="sys_inherit_role_fk2" Association="ModelPostgres.sys_inherit_role_fk2">
+            <End Role="SysRole" EntitySet="SysRoles" />
+            <End Role="sys__inherit_role" EntitySet="SysInheritRoles" />
+          </AssociationSet>
+          <EntitySet Name="ObjGroups" EntityType="ModelPostgres.ObjGroup" />
+          <EntitySet Name="ObjGroupObjects" EntityType="ModelPostgres.ObjGroupObject" />
+          <AssociationSet Name="obj_group_object_fk" Association="ModelPostgres.obj_group_object_fk">
+            <End Role="obj__group" EntitySet="ObjGroups" />
+            <End Role="obj__group_object" EntitySet="ObjGroupObjects" />
+          </AssociationSet>
+          <EntitySet Name="SysMenus" EntityType="ModelPostgres.SysMenu" />
+          <AssociationSet Name="sys_menu_fk" Association="ModelPostgres.sys_menu_fk">
+            <End Role="sys__menu" EntitySet="SysMenus" />
+            <End Role="sys__menu1" EntitySet="SysMenus" />
+          </AssociationSet>
+          <EntitySet Name="SysObjectRoles" EntityType="ModelPostgres.SysObjectRole" />
+          <AssociationSet Name="sys_object_role_fk" Association="ModelPostgres.sys_object_role_fk">
+            <End Role="SysRole" EntitySet="SysRoles" />
+            <End Role="sys__object_role" EntitySet="SysObjectRoles" />
+          </AssociationSet>
+          <EntitySet Name="SysReports" EntityType="ModelPostgres.SysReport" />
+          <EntitySet Name="ObjBlobs" EntityType="ModelPostgres.ObjBlob" />
+          <EntitySet Name="SysDictionaries" EntityType="ModelPostgres.SysDictionary" />
+          <EntitySet Name="ObjParams" EntityType="ModelPostgres.ObjParam" />
+          <EntitySet Name="ObjParamItems" EntityType="ModelPostgres.ObjParamItem" />
+          <EntitySet Name="ObjParamSetItems" EntityType="ModelPostgres.ObjParamSetItem" />
+          <EntitySet Name="ObjParamValues" EntityType="ModelPostgres.ObjParamValue" />
+          <AssociationSet Name="obj_param_item_fk" Association="ModelPostgres.obj_param_item_fk">
+            <End Role="obj__param" EntitySet="ObjParams" />
+            <End Role="obj__param_item" EntitySet="ObjParamItems" />
+          </AssociationSet>
+          <AssociationSet Name="obj_param_set_item_fk1" Association="ModelPostgres.obj_param_set_item_fk1">
+            <End Role="obj__param" EntitySet="ObjParams" />
+            <End Role="obj__param_set_item" EntitySet="ObjParamSetItems" />
+          </AssociationSet>
+          <AssociationSet Name="obj_param_set_item_fk2" Association="ModelPostgres.obj_param_set_item_fk2">
+            <End Role="obj__param" EntitySet="ObjParams" />
+            <End Role="obj__param_set_item" EntitySet="ObjParamSetItems" />
+          </AssociationSet>
+          <AssociationSet Name="obj_param_value_fk" Association="ModelPostgres.obj_param_value_fk">
+            <End Role="obj__param" EntitySet="ObjParams" />
+            <End Role="obj__param_value" EntitySet="ObjParamValues" />
+          </AssociationSet>
+          <EntitySet Name="ObjCataloges" EntityType="ModelPostgres.ObjCatalog" />
+          <AssociationSet Name="obj_catalog_fk2" Association="ModelPostgres.obj_catalog_fk2">
+            <End Role="ObjGroup" EntitySet="ObjGroups" />
+            <End Role="obj__catalog" EntitySet="ObjCataloges" />
+          </AssociationSet>
+          <EntitySet Name="SysConsts" EntityType="ModelPostgres.SysConst" />
+          <EntitySet Name="OrgDepartments" EntityType="ModelPostgres.OrgDepartment" />
+          <AssociationSet Name="org_department_fk1" Association="ModelPostgres.org_department_fk1">
+            <End Role="org__department" EntitySet="OrgDepartments" />
+            <End Role="org__department1" EntitySet="OrgDepartments" />
+          </AssociationSet>
+          <AssociationSet Name="org_department_fk2" Association="ModelPostgres.org_department_fk2">
+            <End Role="SysDictionary" EntitySet="SysDictionaries" />
+            <End Role="org__department" EntitySet="OrgDepartments" />
+          </AssociationSet>
+          <EntitySet Name="obj__catalog_field" EntityType="ModelPostgres.ObjCatalogField" />
+          <AssociationSet Name="obj_catalog_field_fk" Association="ModelPostgres.obj_catalog_field_fk">
+            <End Role="ObjCatalog" EntitySet="ObjCataloges" />
+            <End Role="obj__catalog_field" EntitySet="obj__catalog_field" />
+          </AssociationSet>
+          <EntitySet Name="obj__catalog_state" EntityType="ModelPostgres.ObjCatalogState" />
+          <AssociationSet Name="obj_catalog_state_fk" Association="ModelPostgres.obj_catalog_state_fk">
+            <End Role="ObjCatalog" EntitySet="ObjCataloges" />
+            <End Role="obj__catalog_state" EntitySet="obj__catalog_state" />
+          </AssociationSet>
+          <AssociationSet Name="sys_user_fk" Association="ModelPostgres.sys_user_fk">
+            <End Role="ObjCatalogState" EntitySet="obj__catalog_state" />
+            <End Role="SysUser" EntitySet="SysUsers" />
+          </AssociationSet>
+          <EntitySet Name="ObjCatalogRules" EntityType="ModelPostgres.ObjCatalogRule" />
+          <AssociationSet Name="obj_catalog_rule_fk" Association="ModelPostgres.obj_catalog_rule_fk">
+            <End Role="ObjCatalogState" EntitySet="obj__catalog_state" />
+            <End Role="obj__catalog_rule" EntitySet="ObjCatalogRules" />
+          </AssociationSet>
+          <AssociationSet Name="obj_catalog_rule_fk1" Association="ModelPostgres.obj_catalog_rule_fk1">
+            <End Role="ObjCatalogState" EntitySet="obj__catalog_state" />
+            <End Role="obj__catalog_rule" EntitySet="ObjCatalogRules" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="SysRole">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="UserRoles" Relationship="ModelPostgres.sys_user_role_fk2" FromRole="sys__role" ToRole="sys__user_role" />
+        </EntityType>
+        <EntityType Name="SysUserRole">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="RoleID" Type="Int64" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Role" Relationship="ModelPostgres.sys_user_role_fk2" FromRole="sys__user_role" ToRole="sys__role" />
+          <NavigationProperty Name="User" Relationship="ModelPostgres.sys_user_role_fk1" FromRole="sys__user_role" ToRole="SysUser" />
+        </EntityType>
+        <Association Name="sys_user_role_fk2">
+          <End Type="ModelPostgres.SysRole" Role="sys__role" Multiplicity="1">
+          </End>
+          <End Type="ModelPostgres.SysUserRole" Role="sys__user_role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys__role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="sys__user_role">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sys_user_role_fk1">
+          <End Type="ModelPostgres.SysUser" Role="SysUser" Multiplicity="1">
+          </End>
+          <End Type="ModelPostgres.SysUserRole" Role="sys__user_role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="sys__user_role">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SysInheritRole">
+          <Key>
+            <PropertyRef Name="HeirRoleID" />
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="HeirRoleID" Type="Int64" Nullable="false" />
+          <Property Name="RoleID" Type="Int64" Nullable="false" />
+          <Property Name="LinkDate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <Association Name="sys_inherit_role_fk1">
+          <End Type="ModelPostgres.SysRole" Role="SysRole" Multiplicity="1">
+          </End>
+          <End Type="ModelPostgres.SysInheritRole" Role="sys__inherit_role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysRole">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="sys__inherit_role">
+              <PropertyRef Name="HeirRoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sys_inherit_role_fk2">
+          <End Type="ModelPostgres.SysRole" Role="SysRole" Multiplicity="1">
+          </End>
+          <End Type="ModelPostgres.SysInheritRole" Role="sys__inherit_role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysRole">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="sys__inherit_role">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ObjGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          </EntityType>
+        <EntityType Name="ObjGroupObject">
+          <Key>
+            <PropertyRef Name="GroupID" />
+            <PropertyRef Name="ObjectID" />
+          </Key>
+          <Property Name="GroupID" Type="Int64" Nullable="false" />
+          <Property Name="ObjectID" Type="Int64" Nullable="false" />
+        </EntityType>
+        <Association Name="obj_group_object_fk">
+          <End Type="ModelPostgres.ObjGroup" Role="obj__group" Multiplicity="1" />
+          <End Type="ModelPostgres.ObjGroupObject" Role="obj__group_object" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obj__group">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="obj__group_object">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SysMenu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="ImageName" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="ParentID" Type="Int64" />
+          <Property Name="Url" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="Params" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="IsVisible" Type="Boolean" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Order" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Childs" Relationship="ModelPostgres.sys_menu_fk" FromRole="sys__menu" ToRole="sys__menu1" />
+          <NavigationProperty Name="Parent" Relationship="ModelPostgres.sys_menu_fk" FromRole="sys__menu1" ToRole="sys__menu" />
+        </EntityType>
+        <Association Name="sys_menu_fk">
+          <End Type="ModelPostgres.SysMenu" Role="sys__menu" Multiplicity="0..1">
+          </End>
+          <End Type="ModelPostgres.SysMenu" Role="sys__menu1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys__menu">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="sys__menu1">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SysObjectRole">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="ObjectID" />
+          </Key>
+          <Property Name="RoleID" Type="Int64" Nullable="false" />
+          <Property Name="ObjectID" Type="Int64" Nullable="false" />
+          <Property Name="OnRead" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="OnUpdate" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Role" Relationship="ModelPostgres.sys_object_role_fk" FromRole="sys__object_role" ToRole="SysRole" />
+        </EntityType>
+        <Association Name="sys_object_role_fk">
+          <End Type="ModelPostgres.SysRole" Role="SysRole" Multiplicity="1">
+          </End>
+          <End Type="ModelPostgres.SysObjectRole" Role="sys__object_role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysRole">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="sys__object_role">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SysReport">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Path" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ObjBlob">
+          <Key>
+            <PropertyRef Name="ParentID" />
+            <PropertyRef Name="Order" />
+          </Key>
+          <Property Name="ParentID" Type="Int64" Nullable="false" />
+          <Property Name="Order" Type="Byte" Nullable="false" />
+          <Property Name="Data" Type="Binary" Nullable="false" MaxLength="2147483647" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="SysDictionary">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ObjParam">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaxCount" Type="Byte" Nullable="false" />
+          <Property Name="Length" Type="Int16" Nullable="false" />
+          <Property Name="Precision" Type="Byte" Nullable="false" />
+          <Property Name="Order" Type="Byte" Nullable="false" />
+          <Property Name="UI" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Items" Relationship="ModelPostgres.obj_param_item_fk" FromRole="obj__param" ToRole="obj__param_item" />
+          <NavigationProperty Name="SetItems" Relationship="ModelPostgres.obj_param_set_item_fk1" FromRole="obj__param" ToRole="obj__param_set_item" />
+          <NavigationProperty Name="Values" Relationship="ModelPostgres.obj_param_value_fk" FromRole="obj__param" ToRole="obj__param_value" />
+        </EntityType>
+        <EntityType Name="ObjParamItem">
+          <Key>
+            <PropertyRef Name="ParamID" />
+            <PropertyRef Name="Order" />
+          </Key>
+          <Property Name="ParamID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Order" Type="Byte" Nullable="false" />
+          <Property Name="Label" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Param" Relationship="ModelPostgres.obj_param_item_fk" FromRole="obj__param_item" ToRole="obj__param" />
+        </EntityType>
+        <EntityType Name="ObjParamSetItem">
+          <Key>
+            <PropertyRef Name="ParentID" />
+            <PropertyRef Name="ParamID" />
+          </Key>
+          <Property Name="ParentID" Type="Int64" Nullable="false" />
+          <Property Name="ParamID" Type="Int64" Nullable="false" />
+          <Property Name="Order" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Param" Relationship="ModelPostgres.obj_param_set_item_fk2" FromRole="obj__param_set_item" ToRole="obj__param" />
+        </EntityType>
+        <EntityType Name="ObjParamValue">
+          <Key>
+            <PropertyRef Name="ParentID" />
+            <PropertyRef Name="ParamID" />
+            <PropertyRef Name="Order" />
+          </Key>
+          <Property Name="ParentID" Type="Int64" Nullable="false" />
+          <Property Name="ParamID" Type="Int64" Nullable="false" />
+          <Property Name="Order" Type="Byte" Nullable="false" />
+          <Property Name="VarcharValue" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="NumberValue" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DateValue" Type="DateTime" Precision="0" />
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="ObjectValue" Type="Int64" />
+          <NavigationProperty Name="Param" Relationship="ModelPostgres.obj_param_value_fk" FromRole="obj__param_value" ToRole="obj__param" />
+        </EntityType>
+        <Association Name="obj_param_item_fk">
+          <End Type="ModelPostgres.ObjParam" Role="obj__param" Multiplicity="1">
+          </End>
+          <End Type="ModelPostgres.ObjParamItem" Role="obj__param_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obj__param">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="obj__param_item">
+              <PropertyRef Name="ParamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="obj_param_set_item_fk1">
+          <End Type="ModelPostgres.ObjParam" Role="obj__param" Multiplicity="1">
+          </End>
+          <End Type="ModelPostgres.ObjParamSetItem" Role="obj__param_set_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obj__param">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="obj__param_set_item">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="obj_param_set_item_fk2">
+          <End Type="ModelPostgres.ObjParam" Role="obj__param" Multiplicity="1">
+          </End>
+          <End Type="ModelPostgres.ObjParamSetItem" Role="obj__param_set_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obj__param">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="obj__param_set_item">
+              <PropertyRef Name="ParamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="obj_param_value_fk">
+          <End Type="ModelPostgres.ObjParam" Role="obj__param" Multiplicity="1">
+          </End>
+          <End Type="ModelPostgres.ObjParamValue" Role="obj__param_value" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obj__param">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="obj__param_value">
+              <PropertyRef Name="ParamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ObjCatalog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RootID" Type="Int64" />
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="GID" Type="String" Nullable="false" MaxLength="36" FixedLength="true" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Fields" Relationship="ModelPostgres.obj_catalog_field_fk" FromRole="ObjCatalog" ToRole="obj__catalog_field" />
+          <NavigationProperty Name="States" Relationship="ModelPostgres.obj_catalog_state_fk" FromRole="ObjCatalog" ToRole="obj__catalog_state" />
+        </EntityType>
+        <Association Name="obj_catalog_fk2">
+          <End Type="ModelPostgres.ObjGroup" Role="ObjGroup" Multiplicity="0..1" />
+          <End Type="ModelPostgres.ObjCatalog" Role="obj__catalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="obj__catalog">
+              <PropertyRef Name="RootID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SysConst">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="GID" Type="String" Nullable="false" MaxLength="36" FixedLength="true" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrgDepartment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="ParentID" Type="Int64" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TypeID" Type="Int64" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="StructName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Childs" Relationship="ModelPostgres.org_department_fk1" FromRole="org__department" ToRole="org__department1" />
+          <NavigationProperty Name="Parent" Relationship="ModelPostgres.org_department_fk1" FromRole="org__department1" ToRole="org__department" />
+          <NavigationProperty Name="Type" Relationship="ModelPostgres.org_department_fk2" FromRole="org__department" ToRole="SysDictionary" />
+          <Property Name="Code" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="FactAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LegalAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="INN" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="KPP" Type="String" MaxLength="9" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="org_department_fk1">
+          <End Type="ModelPostgres.OrgDepartment" Role="org__department" Multiplicity="0..1" />
+          <End Type="ModelPostgres.OrgDepartment" Role="org__department1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="org__department">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="org__department1">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="org_department_fk2">
+          <End Type="ModelPostgres.SysDictionary" Role="SysDictionary" Multiplicity="1" />
+          <End Type="ModelPostgres.OrgDepartment" Role="org__department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysDictionary">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="org__department">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ObjCatalogField">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Width" Type="Int16" Nullable="false" DefaultValue="0" />
+          <Property Name="Filterable" Type="Boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="Sortable" Type="Boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="Format" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="Order" Type="Byte" Nullable="false" />
+          <Property Name="UI" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Template" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Detailed" Type="Boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="Exportable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Catalog" Relationship="ModelPostgres.obj_catalog_field_fk" FromRole="obj__catalog_field" ToRole="ObjCatalog" />
+        </EntityType>
+        <Association Name="obj_catalog_field_fk">
+          <End Type="ModelPostgres.ObjCatalog" Role="ObjCatalog" Multiplicity="1">
+          </End>
+          <End Type="ModelPostgres.ObjCatalogField" Role="obj__catalog_field" Multiplicity="*" />
+        </Association>
+        <EntityType Name="ObjCatalogState">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CssStyle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Catalog" Relationship="ModelPostgres.obj_catalog_state_fk" FromRole="obj__catalog_state" ToRole="ObjCatalog" />
+          <NavigationProperty Name="Rules" Relationship="ModelPostgres.obj_catalog_rule_fk" FromRole="ObjCatalogState" ToRole="obj__catalog_rule" />
+          </EntityType>
+        <Association Name="obj_catalog_state_fk">
+          <End Type="ModelPostgres.ObjCatalog" Role="ObjCatalog" Multiplicity="1" />
+          <End Type="ModelPostgres.ObjCatalogState" Role="obj__catalog_state" Multiplicity="*" />
+        </Association>
+        <Association Name="sys_user_fk">
+          <End Type="ModelPostgres.ObjCatalogState" Role="ObjCatalogState" Multiplicity="1" />
+          <End Type="ModelPostgres.SysUser" Role="SysUser" Multiplicity="*" />
+        </Association>
+        <EntityType Name="ObjCatalogRule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Order" Type="Byte" Nullable="false" />
+          <Property Name="ConfirmText" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FinishState" Relationship="ModelPostgres.obj_catalog_rule_fk1" FromRole="obj__catalog_rule" ToRole="ObjCatalogState" />
+        </EntityType>
+        <Association Name="obj_catalog_rule_fk">
+          <End Type="ModelPostgres.ObjCatalogState" Role="ObjCatalogState" Multiplicity="1" />
+          <End Type="ModelPostgres.ObjCatalogRule" Role="obj__catalog_rule" Multiplicity="*" />
+        </Association>
+        <Association Name="obj_catalog_rule_fk1">
+          <End Type="ModelPostgres.ObjCatalogState" Role="ObjCatalogState" Multiplicity="1" />
+          <End Type="ModelPostgres.ObjCatalogRule" Role="obj__catalog_rule" Multiplicity="*" />
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ModelPostgresContainer" CdmEntityContainer="CoreEntities">
+          <EntitySetMapping Name="SysUsers">
+            <EntityTypeMapping TypeName="ModelPostgres.SysUser">
+              <MappingFragment StoreEntitySet="sys__user">
+                <ScalarProperty Name="IsAdmin" ColumnName="is_admin" />
+                <ScalarProperty Name="eMail" ColumnName="email" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="LastLogon" ColumnName="last_logon" />
+                <ScalarProperty Name="FullName" ColumnName="full_name" />
+                <ScalarProperty Name="Alias" ColumnName="alias" />
+                <ScalarProperty Name="IsAD" ColumnName="is_ad" />
+                <ScalarProperty Name="Password" ColumnName="pswd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysRoles">
+            <EntityTypeMapping TypeName="ModelPostgres.SysRole">
+              <MappingFragment StoreEntitySet="sys__role">
+                <ScalarProperty Name="Description" ColumnName="description" />
+                <ScalarProperty Name="Code" ColumnName="code" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysUserRoles">
+            <EntityTypeMapping TypeName="ModelPostgres.SysUserRole">
+              <MappingFragment StoreEntitySet="sys__user_role">
+                <ScalarProperty Name="StartDate" ColumnName="start_date" />
+                <ScalarProperty Name="RoleID" ColumnName="role_id" />
+                <ScalarProperty Name="UserID" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysInheritRoles">
+            <EntityTypeMapping TypeName="ModelPostgres.SysInheritRole">
+              <MappingFragment StoreEntitySet="sys__inherit_role">
+                <ScalarProperty Name="LinkDate" ColumnName="create_date" />
+                <ScalarProperty Name="RoleID" ColumnName="role_id" />
+                <ScalarProperty Name="HeirRoleID" ColumnName="heir_role_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjGroups">
+            <EntityTypeMapping TypeName="ModelPostgres.ObjGroup">
+              <MappingFragment StoreEntitySet="obj__group">
+                <ScalarProperty Name="Description" ColumnName="description" />
+                <ScalarProperty Name="Code" ColumnName="code" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjGroupObjects">
+            <EntityTypeMapping TypeName="ModelPostgres.ObjGroupObject">
+              <MappingFragment StoreEntitySet="obj__group_object">
+                <ScalarProperty Name="ObjectID" ColumnName="object_id" />
+                <ScalarProperty Name="GroupID" ColumnName="group_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysMenus">
+            <EntityTypeMapping TypeName="ModelPostgres.SysMenu">
+              <MappingFragment StoreEntitySet="sys__menu">
+                <ScalarProperty Name="Order" ColumnName="order_id" />
+                <ScalarProperty Name="Type" ColumnName="type" />
+                <ScalarProperty Name="IsVisible" ColumnName="is_visible" />
+                <ScalarProperty Name="Params" ColumnName="params" />
+                <ScalarProperty Name="Url" ColumnName="url" />
+                <ScalarProperty Name="ParentID" ColumnName="parent_id" />
+                <ScalarProperty Name="ImageName" ColumnName="image_name" />
+                <ScalarProperty Name="Description" ColumnName="description" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysObjectRoles">
+            <EntityTypeMapping TypeName="ModelPostgres.SysObjectRole">
+              <MappingFragment StoreEntitySet="sys__object_role">
+                <ScalarProperty Name="OnUpdate" ColumnName="on_update" />
+                <ScalarProperty Name="OnRead" ColumnName="on_read" />
+                <ScalarProperty Name="ObjectID" ColumnName="object_id" />
+                <ScalarProperty Name="RoleID" ColumnName="role_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysReports">
+            <EntityTypeMapping TypeName="ModelPostgres.SysReport">
+              <MappingFragment StoreEntitySet="sys__report">
+                <ScalarProperty Name="Url" ColumnName="url" />
+                <ScalarProperty Name="Path" ColumnName="path" />
+                <ScalarProperty Name="Description" ColumnName="description" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjBlobs">
+            <EntityTypeMapping TypeName="ModelPostgres.ObjBlob">
+              <MappingFragment StoreEntitySet="obj__blob">
+                <ScalarProperty Name="Data" ColumnName="data" />
+                <ScalarProperty Name="Order" ColumnName="order_id" />
+                <ScalarProperty Name="ParentID" ColumnName="parent_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysDictionaries">
+            <EntityTypeMapping TypeName="ModelPostgres.SysDictionary">
+              <MappingFragment StoreEntitySet="sys__dictionary">
+                <ScalarProperty Name="Description" ColumnName="description" />
+                <ScalarProperty Name="Code" ColumnName="code" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjParams">
+            <EntityTypeMapping TypeName="ModelPostgres.ObjParam">
+              <MappingFragment StoreEntitySet="obj__param">
+                <ScalarProperty Name="UI" ColumnName="ui" />
+                <ScalarProperty Name="Order" ColumnName="order_id" />
+                <ScalarProperty Name="Precision" ColumnName="precision" />
+                <ScalarProperty Name="Length" ColumnName="length" />
+                <ScalarProperty Name="MaxCount" ColumnName="max_count" />
+                <ScalarProperty Name="Code" ColumnName="code" />
+                <ScalarProperty Name="Type" ColumnName="type" />
+                <ScalarProperty Name="Description" ColumnName="description" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjParamItems">
+            <EntityTypeMapping TypeName="ModelPostgres.ObjParamItem">
+              <MappingFragment StoreEntitySet="obj__param_item">
+                <ScalarProperty Name="Label" ColumnName="label" />
+                <ScalarProperty Name="Order" ColumnName="order_id" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="ParamID" ColumnName="param_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjParamSetItems">
+            <EntityTypeMapping TypeName="ModelPostgres.ObjParamSetItem">
+              <MappingFragment StoreEntitySet="obj__param_set_item">
+                <ScalarProperty Name="Order" ColumnName="order_id" />
+                <ScalarProperty Name="ParamID" ColumnName="param_id" />
+                <ScalarProperty Name="ParentID" ColumnName="parent_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjParamValues">
+            <EntityTypeMapping TypeName="ModelPostgres.ObjParamValue">
+              <MappingFragment StoreEntitySet="obj__param_value">
+                <ScalarProperty Name="ObjectValue" ColumnName="object_value" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+                <ScalarProperty Name="DateValue" ColumnName="date_value" />
+                <ScalarProperty Name="NumberValue" ColumnName="number_value" />
+                <ScalarProperty Name="VarcharValue" ColumnName="varchar_value" />
+                <ScalarProperty Name="Order" ColumnName="order_id" />
+                <ScalarProperty Name="ParamID" ColumnName="param_id" />
+                <ScalarProperty Name="ParentID" ColumnName="parent_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjCataloges">
+            <EntityTypeMapping TypeName="ModelPostgres.ObjCatalog">
+              <MappingFragment StoreEntitySet="obj__catalog">
+                <ScalarProperty Name="Description" ColumnName="description" />
+                <ScalarProperty Name="GID" ColumnName="gid" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+                <ScalarProperty Name="RootID" ColumnName="root_group_id" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysConsts">
+            <EntityTypeMapping TypeName="ModelPostgres.SysConst">
+              <MappingFragment StoreEntitySet="sys__const">
+                <ScalarProperty Name="Value" ColumnName="value" />
+                <ScalarProperty Name="Description" ColumnName="description" />
+                <ScalarProperty Name="GID" ColumnName="gid" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrgDepartments">
+            <EntityTypeMapping TypeName="ModelPostgres.OrgDepartment">
+              <MappingFragment StoreEntitySet="org__department">
+                <ScalarProperty Name="KPP" ColumnName="kpp" />
+                <ScalarProperty Name="INN" ColumnName="inn" />
+                <ScalarProperty Name="LegalAddress" ColumnName="legal_address" />
+                <ScalarProperty Name="FactAddress" ColumnName="fact_address" />
+                <ScalarProperty Name="Code" ColumnName="code" />
+                <ScalarProperty Name="ShortName" ColumnName="short_name" />
+                <ScalarProperty Name="StructName" ColumnName="struct_name" />
+                <ScalarProperty Name="FullName" ColumnName="full_name" />
+                <ScalarProperty Name="TypeID" ColumnName="type_id" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="ParentID" ColumnName="parent_id" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="obj__catalog_field">
+            <EntityTypeMapping TypeName="ModelPostgres.ObjCatalogField">
+              <MappingFragment StoreEntitySet="obj__catalog_field">
+                <ScalarProperty Name="Exportable" ColumnName="exportable" />
+                <ScalarProperty Name="Detailed" ColumnName="detailed" />
+                <ScalarProperty Name="Template" ColumnName="template" />
+                <ScalarProperty Name="UI" ColumnName="ui" />
+                <ScalarProperty Name="Order" ColumnName="order_id" />
+                <ScalarProperty Name="Format" ColumnName="format" />
+                <ScalarProperty Name="Sortable" ColumnName="sortable" />
+                <ScalarProperty Name="Filterable" ColumnName="filterable" />
+                <ScalarProperty Name="Width" ColumnName="width" />
+                <ScalarProperty Name="Type" ColumnName="type" />
+                <ScalarProperty Name="Code" ColumnName="code" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="obj_catalog_field_fk" TypeName="ModelPostgres.obj_catalog_field_fk" StoreEntitySet="obj__catalog_field">
+            <EndProperty Name="obj__catalog_field">
+              <ScalarProperty Name="ID" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="ObjCatalog">
+              <ScalarProperty Name="ID" ColumnName="catalog_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="obj__catalog_state">
+            <EntityTypeMapping TypeName="ModelPostgres.ObjCatalogState">
+              <MappingFragment StoreEntitySet="obj__catalog_state">
+                <ScalarProperty Name="Code" ColumnName="code" />
+                <ScalarProperty Name="Description" ColumnName="description" />
+                <ScalarProperty Name="CssStyle" ColumnName="css_style" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="obj_catalog_state_fk" TypeName="ModelPostgres.obj_catalog_state_fk" StoreEntitySet="obj__catalog_state">
+            <EndProperty Name="obj__catalog_state">
+              <ScalarProperty Name="ID" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="ObjCatalog">
+              <ScalarProperty Name="ID" ColumnName="catalog_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="sys_user_fk" TypeName="ModelPostgres.sys_user_fk" StoreEntitySet="sys__user">
+            <EndProperty Name="SysUser">
+              <ScalarProperty Name="ID" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="ObjCatalogState">
+              <ScalarProperty Name="ID" ColumnName="state_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="ObjCatalogRules">
+            <EntityTypeMapping TypeName="ModelPostgres.ObjCatalogRule">
+              <MappingFragment StoreEntitySet="obj__catalog_rule">
+                <ScalarProperty Name="Code" ColumnName="code" />
+                <ScalarProperty Name="ConfirmText" ColumnName="confirm_text" />
+                <ScalarProperty Name="Order" ColumnName="order_id" />
+                <ScalarProperty Name="ImageName" ColumnName="image_name" />
+                <ScalarProperty Name="Description" ColumnName="description" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="obj_catalog_rule_fk" TypeName="ModelPostgres.obj_catalog_rule_fk" StoreEntitySet="obj__catalog_rule">
+            <EndProperty Name="obj__catalog_rule">
+              <ScalarProperty Name="ID" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="ObjCatalogState">
+              <ScalarProperty Name="ID" ColumnName="state_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="obj_catalog_rule_fk1" TypeName="ModelPostgres.obj_catalog_rule_fk1" StoreEntitySet="obj__catalog_rule">
+            <EndProperty Name="obj__catalog_rule">
+              <ScalarProperty Name="ID" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="ObjCatalogState">
+              <ScalarProperty Name="ID" ColumnName="finish_state_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

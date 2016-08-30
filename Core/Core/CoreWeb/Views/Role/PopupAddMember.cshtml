@@ -1,0 +1,105 @@
+﻿<label>
+    Место поиска:
+    <input id="userType" style="width: 100%; text-transform: uppercase" /></label>
+<p />
+<div id="adData" style="display: none;">
+    <label id="lblDomen" for="domens">
+        Домены
+        <select id="domens" multiple="multiple" data-placeholder="Выберите домен..."></select></label>
+    <p />
+    <label>
+        Псевдоним пользователя:
+    <input id="adUsers" style="width: 100%; text-transform: uppercase" onkeyup="this.value=this.value.toUpperCase()" /></label>
+</div>
+<div id="sysData">
+    <label>
+        Псевдоним пользователя:
+    <input id="sysUsers" style="width: 100%; text-transform: uppercase" onkeyup="this.value=this.value.toUpperCase()" /></label>
+</div>
+<div style="width: 100%; border-top-color: #b8bac2; border-top-style: solid; border-top-width: 1px; margin-top: 10px; margin-bottom: 0px; padding: 10px 0px 10px 0px">
+    <button type="button" class="k-button" style="float: right" onclick="cancelSave(editWnd)">Отмена</button>
+    <button type="button" class="k-button" style="float: right; margin-right: 10px" onclick="addUser()">Сохранить</button>
+</div>
+<script type="text/javascript">
+    function addUser() {
+        if (userType.value() == 0) {
+            if (userField.userID == 0) { asu.notification.error("Пользователь не выбран."); return }
+            $.ajax({
+                url: "@Url.Action("AddMember")", type: "POST", dataType: "jsonp",
+                data: { roleID: dataGroup.curID(), userID: userField.userID },
+                success: function (r) { editWnd.close(); dataGrid.dataSource.add(r) },
+                error: function (r) { showError(r) }
+            });
+        } else {
+            if (adUser.userAlias == "") { asu.notification.error("Пользователь не выбран."); return }
+            $.ajax({
+                url: "@Url.Action("AddMemberFromAD")", type: "POST", dataType: "jsonp",
+                data: { roleID: dataGroup.curID(), alias: adUser.userAlias, domain: adUser.userDomain },
+                success: function (r) { editWnd.close(); dataGrid.dataSource.add(r) },
+                error: function (r) { showError(r) }
+            });
+        }
+    }
+    var userType = $("#userType").kendoDropDownList({
+        dataSource: [{ name: "Система", id: 0 }, { name: "Active Directory", id: 1 }],
+        dataTextField: "name",
+        dataValueField: "id",
+        index: 0,
+        change: function () {
+            if (userType.value() == 0) { $("#adData").hide(); $("#sysData").show() }
+            else { $("#adData").show(); $("#sysData").hide() }
+        }
+    }).data("kendoDropDownList");
+    var domains = $("#domens").kendoMultiSelect(
+        {
+            autoBind: false,
+            dataSource: {
+                type: "json",
+                transport: { read: { url: asu.Url("Role/GetDomens"), dataType: "json", type: "POST" } },
+                error: function (r) { showError(r.xhr); }
+            }
+        }).data("kendoMultiSelect");
+    var adUser = $("#adUsers").kendoAutoComplete({
+        dataTextField: "Alias",
+        minLength: 3,
+        select: function (e) { this.userAlias = this.dataItem(e.item.index()).Alias; this.userDomain = this.dataItem(e.item.index()).Domain },
+        dataBound: function (e) { this.userAlias = "" },
+        dataSource: {
+            serverFiltering: true,
+            type: "json",
+            transport: {
+                read: {
+                    url: asu.Url("Role/GetADUsers"), dataType: "json", data: {
+                        domains: function () { return domains.value() },
+                        userName: function () { return adUser.value() }
+                    }, type: "POST"
+                }
+            },
+            error: function (r) { showError(r.xhr); }
+        },
+        template: '<span class="k-state-default">#= data.FullName # (#= data.Name #)</span>',
+    }).data("kendoAutoComplete");
+    adUser.userAlias = "";
+    var userField = $("#sysUsers").kendoAutoComplete({
+        dataTextField: "Alias",
+        minLength: 3,
+        ignoreCase: false,
+        select: function (e) { this.userID = this.dataItem(e.item.index()).ID },
+        dataSource: {
+            type: "odata",
+            serverFiltering: true,
+            serverPaging: true,
+            transport: { read: { url: asu.Url("odata/SysUsers"), dataType: "json" } },
+            schema: {
+                data: function (r) {
+                    if (r.value !== undefined) return r.value;
+                    else { delete r["odata.metadata"]; return r; }
+                },
+                total: function (r) { return r["odata.count"] }
+            },
+            error: function (r) { showError(r.xhr); }
+        }
+        , template: '<span class="k-state-default">#= data.FullName # (#= data.Name #)</span>',
+        filter: "startswith"
+    }).data("kendoAutoComplete");
+</script>

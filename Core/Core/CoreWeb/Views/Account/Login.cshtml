@@ -1,0 +1,36 @@
+﻿@model CoreWeb.Models.Account.LoginModel
+@{
+    ViewBag.Title = "Выполнить вход";
+    Layout = "";
+}
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Login.css")" />
+<div id="container">
+    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
+        <table cellspacing="0">
+            <tr>
+                <td>@Html.LabelFor(m => m.UserName)   </td>
+                <td>@Html.ValidationMessageFor(m => m.UserName, "*", new { @title = "Необходимо ввести имя пользователя" })</td>
+            </tr>
+        </table>       
+        
+        @Html.TextBoxFor(m => m.UserName, new { @type = "name" })
+        
+        <table cellspacing="0">
+            <tr>
+                <td>@Html.LabelFor(m => m.Password)</td>
+                <td>@Html.ValidationMessageFor(m => m.Password, "*", new { @title = "Необходимо ввести пароль" })</td>
+            </tr>
+        </table>        
+        
+        @Html.PasswordFor(m => m.Password, new { @type = "password" })
+        
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div id="lower">
+            @Html.CheckBoxFor(m => m.RememberMe)
+            @Html.LabelFor(m => m.RememberMe, new { @class = "check" })
+            <input type="submit" value="Вход" />
+        </div>
+    }
+</div>

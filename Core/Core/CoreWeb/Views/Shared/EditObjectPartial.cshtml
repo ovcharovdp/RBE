@@ -1,0 +1,7 @@
+﻿@model CoreWeb.Models.BaseEditModels.IEditObjectModel
+@Html.Action("EditCustomParamsPartial", "Param", new { param = Model.Params, area = "" })
+<div style="width: 100%; border-top-color: #b8bac2; border-top-style: solid; border-top-width: 1px; margin-top: 10px; margin-bottom: 0; padding: 10px 0 10px 0">
+    <span>ID: @Model.ID</span>
+    <button type="button" class="k-button" id="btnCancel" style="float: right" onclick="cancelSave(editWnd)">Отмена</button>
+    <button type="button" class="k-button" id="btnOk" style="float: right; margin-right: 10px" onclick="if (paramVal.length == 0) { asu.notification.error('Данные не введены.'); return }@Model.SaveEvent">Сохранить</button>
+</div>
