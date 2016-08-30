@@ -16,7 +16,7 @@ namespace CoreDM
     	/// </summary>
         public SysUser()
         {
-            this.IsAD = true;
+            this.IsAD = false;
             this.IsAdmin = false;
             this.UserRoles = new HashSet<SysUserRole>();
         }
@@ -59,9 +59,9 @@ namespace CoreDM
     	/// </summary>
     	[JsonIgnore]
         public virtual ICollection<SysUserRole> UserRoles { get; set; }
-        /// <summary>
-        /// Состояние
-        /// </summary>
+    	/// <summary>
+    	/// Состояние
+    	/// </summary>
         public virtual ObjCatalogState State { get; set; }
     }
 }

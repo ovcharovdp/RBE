@@ -20,7 +20,7 @@ namespace CoreDM
     	/// <summary>
     	/// Дата назначения
     	/// </summary>
-        public Nullable<System.DateTime> StartDate { get; set; }
+        public System.DateTime StartDate { get; set; }
     
     	/// <summary>
     	/// Роль

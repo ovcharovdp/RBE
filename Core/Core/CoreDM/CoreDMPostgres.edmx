@@ -600,20 +600,63 @@
     <edmx:ConceptualModels>
       <Schema Namespace="ModelPostgres" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="SysUser">
+          <Documentation>
+            <Summary>Пользователь системы</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="LastLogon" Type="DateTime" Precision="0" />
-          <Property Name="FullName" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
-          <Property Name="Alias" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="IsAD" Type="Boolean" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="32" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="UserRoles" Relationship="ModelPostgres.sys_user_role_fk1" FromRole="SysUser" ToRole="sys__user_role" />
-          <Property Name="eMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="State" Relationship="ModelPostgres.sys_user_fk" FromRole="SysUser" ToRole="ObjCatalogState" />
-          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" >
+            <Documentation>
+              <Summary>Наименование</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="LastLogon" Type="DateTime" Precision="0" >
+            <Documentation>
+              <Summary>Дата последнего входа</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="FullName" Type="String" MaxLength="255" FixedLength="true" Unicode="true" >
+            <Documentation>
+              <Summary>Полное имя</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Alias" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" >
+            <Documentation>
+              <Summary>Псевдоним</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="IsAD" Type="Boolean" Nullable="false" DefaultValue="false" >
+            <Documentation>
+              <Summary>Признак учетной записи Active Directory</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Password" Type="String" MaxLength="32" FixedLength="true" Unicode="true" >
+            <Documentation>
+              <Summary>Пароль</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="UserRoles" Relationship="ModelPostgres.sys_user_role_fk1" FromRole="SysUser" ToRole="sys__user_role" >
+            <Documentation>
+              <Summary>Список связок пользователя с ролью</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <Property Name="eMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Электронная почта пользователя</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="State" Relationship="ModelPostgres.sys_user_fk" FromRole="SysUser" ToRole="ObjCatalogState" >
+            <Documentation>
+              <Summary>Состояние</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" DefaultValue="false" >
+            <Documentation>
+              <Summary>Признак того, что пользователь является администратором системы</Summary>
+            </Documentation>
+          </Property>
         </EntityType>
         <EntityContainer Name="CoreEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="SysUsers" EntityType="ModelPostgres.SysUser" />
@@ -690,50 +733,92 @@
             <End Role="SysDictionary" EntitySet="SysDictionaries" />
             <End Role="org__department" EntitySet="OrgDepartments" />
           </AssociationSet>
-          <EntitySet Name="obj__catalog_field" EntityType="ModelPostgres.ObjCatalogField" />
+          <EntitySet Name="ObjCatalogFields" EntityType="ModelPostgres.ObjCatalogField" />
           <AssociationSet Name="obj_catalog_field_fk" Association="ModelPostgres.obj_catalog_field_fk">
             <End Role="ObjCatalog" EntitySet="ObjCataloges" />
-            <End Role="obj__catalog_field" EntitySet="obj__catalog_field" />
+            <End Role="obj__catalog_field" EntitySet="ObjCatalogFields" />
           </AssociationSet>
-          <EntitySet Name="obj__catalog_state" EntityType="ModelPostgres.ObjCatalogState" />
+          <EntitySet Name="ObjCatalogStates" EntityType="ModelPostgres.ObjCatalogState" />
           <AssociationSet Name="obj_catalog_state_fk" Association="ModelPostgres.obj_catalog_state_fk">
             <End Role="ObjCatalog" EntitySet="ObjCataloges" />
-            <End Role="obj__catalog_state" EntitySet="obj__catalog_state" />
+            <End Role="obj__catalog_state" EntitySet="ObjCatalogStates" />
           </AssociationSet>
           <AssociationSet Name="sys_user_fk" Association="ModelPostgres.sys_user_fk">
-            <End Role="ObjCatalogState" EntitySet="obj__catalog_state" />
+            <End Role="ObjCatalogState" EntitySet="ObjCatalogStates" />
             <End Role="SysUser" EntitySet="SysUsers" />
           </AssociationSet>
           <EntitySet Name="ObjCatalogRules" EntityType="ModelPostgres.ObjCatalogRule" />
           <AssociationSet Name="obj_catalog_rule_fk" Association="ModelPostgres.obj_catalog_rule_fk">
-            <End Role="ObjCatalogState" EntitySet="obj__catalog_state" />
+            <End Role="ObjCatalogState" EntitySet="ObjCatalogStates" />
             <End Role="obj__catalog_rule" EntitySet="ObjCatalogRules" />
           </AssociationSet>
           <AssociationSet Name="obj_catalog_rule_fk1" Association="ModelPostgres.obj_catalog_rule_fk1">
-            <End Role="ObjCatalogState" EntitySet="obj__catalog_state" />
+            <End Role="ObjCatalogState" EntitySet="ObjCatalogStates" />
             <End Role="obj__catalog_rule" EntitySet="ObjCatalogRules" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="SysRole">
+          <Documentation>
+            <Summary>Роли доступа</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
-          <Property Name="Code" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="UserRoles" Relationship="ModelPostgres.sys_user_role_fk2" FromRole="sys__role" ToRole="sys__user_role" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" >
+            <Documentation>
+              <Summary>Наименование</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="true" Unicode="true" >
+            <Documentation>
+              <Summary>Код</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="true" Unicode="true" >
+            <Documentation>
+              <Summary>Описание</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="UserRoles" Relationship="ModelPostgres.sys_user_role_fk2" FromRole="sys__role" ToRole="sys__user_role" >
+            <Documentation>
+              <Summary>Список связок пользователя с ролью</Summary>
+            </Documentation>
+          </NavigationProperty>
         </EntityType>
         <EntityType Name="SysUserRole">
+          <Documentation>
+            <Summary>Связка пользователя с ролью</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="UserID" />
             <PropertyRef Name="RoleID" />
           </Key>
-          <Property Name="UserID" Type="Int64" Nullable="false" />
-          <Property Name="RoleID" Type="Int64" Nullable="false" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Role" Relationship="ModelPostgres.sys_user_role_fk2" FromRole="sys__user_role" ToRole="sys__role" />
-          <NavigationProperty Name="User" Relationship="ModelPostgres.sys_user_role_fk1" FromRole="sys__user_role" ToRole="SysUser" />
+          <Property Name="UserID" Type="Int64" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор пользователя</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="RoleID" Type="Int64" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор роли</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="StartDate" Type="DateTime" Precision="0" Nullable="false" >
+            <Documentation>
+              <Summary>Дата назначения</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Role" Relationship="ModelPostgres.sys_user_role_fk2" FromRole="sys__user_role" ToRole="sys__role" >
+            <Documentation>
+              <Summary>Роль</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="User" Relationship="ModelPostgres.sys_user_role_fk1" FromRole="sys__user_role" ToRole="SysUser" >
+            <Documentation>
+              <Summary>Пользователь</Summary>
+            </Documentation>
+          </NavigationProperty>
         </EntityType>
         <Association Name="sys_user_role_fk2">
           <End Type="ModelPostgres.SysRole" Role="sys__role" Multiplicity="1">
@@ -762,13 +847,28 @@
           </ReferentialConstraint>
         </Association>
         <EntityType Name="SysInheritRole">
+          <Documentation>
+            <Summary>Унаследованные роли</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="HeirRoleID" />
             <PropertyRef Name="RoleID" />
           </Key>
-          <Property Name="HeirRoleID" Type="Int64" Nullable="false" />
-          <Property Name="RoleID" Type="Int64" Nullable="false" />
-          <Property Name="LinkDate" Type="DateTime" Precision="0" />
+          <Property Name="HeirRoleID" Type="Int64" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор роли-наследника</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="RoleID" Type="Int64" Nullable="false" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" >
+            <Documentation>
+              <Summary>Идентификатор наследуемой роли</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="LinkDate" Type="DateTime" Precision="0" >
+            <Documentation>
+              <Summary>Дата связки</Summary>
+            </Documentation>
+          </Property>
         </EntityType>
         <Association Name="sys_inherit_role_fk1">
           <End Type="ModelPostgres.SysRole" Role="SysRole" Multiplicity="1">
@@ -797,6 +897,9 @@
           </ReferentialConstraint>
         </Association>
         <EntityType Name="ObjGroup">
+          <Documentation>
+            <Summary>Группы</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -806,12 +909,23 @@
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
           </EntityType>
         <EntityType Name="ObjGroupObject">
+          <Documentation>
+            <Summary>Связка объекта с группой</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="GroupID" />
             <PropertyRef Name="ObjectID" />
           </Key>
-          <Property Name="GroupID" Type="Int64" Nullable="false" />
-          <Property Name="ObjectID" Type="Int64" Nullable="false" />
+          <Property Name="GroupID" Type="Int64" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор группы</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="ObjectID" Type="Int64" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор объекта</Summary>
+            </Documentation>
+          </Property>
         </EntityType>
         <Association Name="obj_group_object_fk">
           <End Type="ModelPostgres.ObjGroup" Role="obj__group" Multiplicity="1" />
@@ -826,21 +940,68 @@
           </ReferentialConstraint>
         </Association>
         <EntityType Name="SysMenu">
+          <Documentation>
+            <Summary>Пункт меню</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="true" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
-          <Property Name="ImageName" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Name="ParentID" Type="Int64" />
-          <Property Name="Url" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
-          <Property Name="Params" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
-          <Property Name="IsVisible" Type="Boolean" Nullable="false" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Order" Type="Byte" Nullable="false" />
-          <NavigationProperty Name="Childs" Relationship="ModelPostgres.sys_menu_fk" FromRole="sys__menu" ToRole="sys__menu1" />
-          <NavigationProperty Name="Parent" Relationship="ModelPostgres.sys_menu_fk" FromRole="sys__menu1" ToRole="sys__menu" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="true" Unicode="true" >
+            <Documentation>
+              <Summary>Наименование</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="true" Unicode="true" >
+            <Documentation>
+              <Summary>Описание</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="ImageName" Type="String" MaxLength="100" FixedLength="true" Unicode="true" >
+            <Documentation>
+              <Summary>Имя файла пиктограммы, используемой при отображении</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="ParentID" Type="Int64" >
+            <Documentation>
+              <Summary>Родительский пункт меню</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Url" Type="String" MaxLength="255" FixedLength="true" Unicode="true" >
+            <Documentation>
+              <Summary>Команда</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Params" Type="String" MaxLength="255" FixedLength="true" Unicode="true" >
+            <Documentation>
+              <Summary>Параметры команды</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" >
+            <Documentation>
+              <Summary>Тип меню</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Order" Type="Byte" Nullable="false" >
+            <Documentation>
+              <Summary>Порядок (для сортировки)</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="IsVisible" Type="Boolean" Nullable="false" >
+            <Documentation>
+              <Summary>Признак отображения в виде плитки</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Childs" Relationship="ModelPostgres.sys_menu_fk" FromRole="sys__menu" ToRole="sys__menu1" >
+            <Documentation>
+              <Summary>Дочерние пункты меню</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="Parent" Relationship="ModelPostgres.sys_menu_fk" FromRole="sys__menu1" ToRole="sys__menu" >
+            <Documentation>
+              <Summary>Родительский пункт меню</Summary>
+            </Documentation>
+          </NavigationProperty>
         </EntityType>
         <Association Name="sys_menu_fk">
           <End Type="ModelPostgres.SysMenu" Role="sys__menu" Multiplicity="0..1">
@@ -856,6 +1017,9 @@
           </ReferentialConstraint>
         </Association>
         <EntityType Name="SysObjectRole">
+          <Documentation>
+            <Summary>Связь объекта с ролью</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="RoleID" />
             <PropertyRef Name="ObjectID" />
@@ -880,25 +1044,62 @@
           </ReferentialConstraint>
         </Association>
         <EntityType Name="SysReport">
+          <Documentation>
+            <Summary>Отчеты</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Path" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Url" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Наименование</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Описание</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Path" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Путь к отчету на сервере</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Ссылка на сервер отчетов</Summary>
+            </Documentation>
+          </Property>
         </EntityType>
         <EntityType Name="ObjBlob">
+          <Documentation>
+            <Summary>Данные объекта (файлы картинок и т.п.)</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="ParentID" />
             <PropertyRef Name="Order" />
           </Key>
-          <Property Name="ParentID" Type="Int64" Nullable="false" />
-          <Property Name="Order" Type="Byte" Nullable="false" />
-          <Property Name="Data" Type="Binary" Nullable="false" MaxLength="2147483647" FixedLength="false" />
+          <Property Name="ParentID" Type="Int64" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор объекта</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Data" Type="Binary" Nullable="false" MaxLength="2147483647" FixedLength="false" >
+            <Documentation>
+              <Summary>Данные</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Order" Type="Byte" Nullable="false">
+            <Documentation>
+              <Summary>Порядок</Summary>
+            </Documentation>
+          </Property>
         </EntityType>
         <EntityType Name="SysDictionary">
+          <Documentation>
+            <Summary>Словарь значений</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -908,59 +1109,187 @@
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ObjParam">
+          <Documentation>
+            <Summary>Параметр объекта</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MaxCount" Type="Byte" Nullable="false" />
-          <Property Name="Length" Type="Int16" Nullable="false" />
-          <Property Name="Precision" Type="Byte" Nullable="false" />
-          <Property Name="Order" Type="Byte" Nullable="false" />
-          <Property Name="UI" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Items" Relationship="ModelPostgres.obj_param_item_fk" FromRole="obj__param" ToRole="obj__param_item" />
-          <NavigationProperty Name="SetItems" Relationship="ModelPostgres.obj_param_set_item_fk1" FromRole="obj__param" ToRole="obj__param_set_item" />
-          <NavigationProperty Name="Values" Relationship="ModelPostgres.obj_param_value_fk" FromRole="obj__param" ToRole="obj__param_value" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Наименование</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Описание</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Тип</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Код</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="MaxCount" Type="Byte" Nullable="false" >
+            <Documentation>
+              <Summary>Максимальное количество значений</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Length" Type="Int16" Nullable="false" >
+            <Documentation>
+              <Summary>Максимальная длина значения</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Precision" Type="Byte" Nullable="false" >
+            <Documentation>
+              <Summary>Точность</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Order" Type="Byte" Nullable="false" >
+            <Documentation>
+              <Summary>Порядок (учитывается при отображении полей ввода)</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="UI" Type="String" MaxLength="20" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Способ выбора значения</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Items" Relationship="ModelPostgres.obj_param_item_fk" FromRole="obj__param" ToRole="obj__param_item" >
+            <Documentation>
+              <Summary>Допустимые значения параметра</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="SetItems" Relationship="ModelPostgres.obj_param_set_item_fk1" FromRole="obj__param" ToRole="obj__param_set_item" >
+            <Documentation>
+              <Summary>Вложенные параметры</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="Values" Relationship="ModelPostgres.obj_param_value_fk" FromRole="obj__param" ToRole="obj__param_value" >
+            <Documentation>
+              <Summary>Значения параметра</Summary>
+            </Documentation>
+          </NavigationProperty>
         </EntityType>
         <EntityType Name="ObjParamItem">
+          <Documentation>
+            <Summary>Допустимые значения параметра</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="ParamID" />
             <PropertyRef Name="Order" />
           </Key>
-          <Property Name="ParamID" Type="Int64" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Order" Type="Byte" Nullable="false" />
-          <Property Name="Label" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Param" Relationship="ModelPostgres.obj_param_item_fk" FromRole="obj__param_item" ToRole="obj__param" />
+          <Property Name="ParamID" Type="Int64" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор параметра</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Значение</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Order" Type="Byte" Nullable="false" >
+            <Documentation>
+              <Summary>Порядок</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Label" Type="String" MaxLength="50" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Надпись значения (используется для отображения)</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Param" Relationship="ModelPostgres.obj_param_item_fk" FromRole="obj__param_item" ToRole="obj__param" >
+            <Documentation>
+              <Summary>Параметр, к которому относится значение</Summary>
+            </Documentation>
+          </NavigationProperty>
         </EntityType>
         <EntityType Name="ObjParamSetItem">
+          <Documentation>
+            <Summary>Подчиненные параметры</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="ParentID" />
             <PropertyRef Name="ParamID" />
           </Key>
-          <Property Name="ParentID" Type="Int64" Nullable="false" />
-          <Property Name="ParamID" Type="Int64" Nullable="false" />
-          <Property Name="Order" Type="Byte" Nullable="false" />
-          <NavigationProperty Name="Param" Relationship="ModelPostgres.obj_param_set_item_fk2" FromRole="obj__param_set_item" ToRole="obj__param" />
+          <Property Name="ParentID" Type="Int64" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор родительского параметра</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="ParamID" Type="Int64" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор подчиненного параметра</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Order" Type="Byte" Nullable="false" >
+            <Documentation>
+              <Summary>Порядок</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Param" Relationship="ModelPostgres.obj_param_set_item_fk2" FromRole="obj__param_set_item" ToRole="obj__param" >
+            <Documentation>
+              <Summary>Параметр набора</Summary>
+            </Documentation>
+          </NavigationProperty>
         </EntityType>
         <EntityType Name="ObjParamValue">
+          <Documentation>
+            <Summary>Значения параметра объекта</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="ParentID" />
             <PropertyRef Name="ParamID" />
             <PropertyRef Name="Order" />
           </Key>
-          <Property Name="ParentID" Type="Int64" Nullable="false" />
-          <Property Name="ParamID" Type="Int64" Nullable="false" />
-          <Property Name="Order" Type="Byte" Nullable="false" />
-          <Property Name="VarcharValue" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="NumberValue" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="DateValue" Type="DateTime" Precision="0" />
+          <Property Name="ParentID" Type="Int64" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор объекта</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="ParamID" Type="Int64" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор параметра</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Order" Type="Byte" Nullable="false" >
+            <Documentation>
+              <Summary>Порядок</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="VarcharValue" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Строковое значение</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="NumberValue" Type="Decimal" Precision="19" Scale="4" >
+            <Documentation>
+              <Summary>Числовое значение</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="DateValue" Type="DateTime" Precision="0" >
+            <Documentation>
+              <Summary>Значение типа дата</Summary>
+            </Documentation>
+          </Property>
           <Property Name="ID" Type="Int64" Nullable="false" />
-          <Property Name="ObjectValue" Type="Int64" />
-          <NavigationProperty Name="Param" Relationship="ModelPostgres.obj_param_value_fk" FromRole="obj__param_value" ToRole="obj__param" />
+          <Property Name="ObjectValue" Type="Int64" >
+            <Documentation>
+              <Summary>Значение-объект</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Param" Relationship="ModelPostgres.obj_param_value_fk" FromRole="obj__param_value" ToRole="obj__param" >
+            <Documentation>
+              <Summary>Параметр</Summary>
+            </Documentation>
+          </NavigationProperty>
         </EntityType>
         <Association Name="obj_param_item_fk">
           <End Type="ModelPostgres.ObjParam" Role="obj__param" Multiplicity="1">
@@ -1015,6 +1344,9 @@
           </ReferentialConstraint>
         </Association>
         <EntityType Name="ObjCatalog">
+          <Documentation>
+            <Summary>Журнал системы</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -1039,6 +1371,9 @@
           </ReferentialConstraint>
         </Association>
         <EntityType Name="SysConst">
+          <Documentation>
+            <Summary>Константы системы</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -1048,24 +1383,83 @@
           <Property Name="Value" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="OrgDepartment">
+          <Documentation>
+            <Summary>Организационная единица</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" />
-          <Property Name="ParentID" Type="Int64" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TypeID" Type="Int64" Nullable="false" />
-          <Property Name="FullName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="StructName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Childs" Relationship="ModelPostgres.org_department_fk1" FromRole="org__department" ToRole="org__department1" />
-          <NavigationProperty Name="Parent" Relationship="ModelPostgres.org_department_fk1" FromRole="org__department1" ToRole="org__department" />
-          <NavigationProperty Name="Type" Relationship="ModelPostgres.org_department_fk2" FromRole="org__department" ToRole="SysDictionary" />
-          <Property Name="Code" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="FactAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="LegalAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="INN" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="KPP" Type="String" MaxLength="9" FixedLength="false" Unicode="true" />
+          <Property Name="ParentID" Type="Int64" >
+            <Documentation>
+              <Summary>Идентификатор вышестоящей организации</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Наименование</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="TypeID" Type="Int64" Nullable="false" >
+            <Documentation>
+              <Summary>Идентификатор типа</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="FullName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Полное имя</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="StructName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Структурное имя</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Короткое имя (обозначение)</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Childs" Relationship="ModelPostgres.org_department_fk1" FromRole="org__department" ToRole="org__department1" >
+            <Documentation>
+              <Summary>Подчиненные организации</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="Parent" Relationship="ModelPostgres.org_department_fk1" FromRole="org__department1" ToRole="org__department" >
+            <Documentation>
+              <Summary>Вышестоящая организация</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="Type" Relationship="ModelPostgres.org_department_fk2" FromRole="org__department" ToRole="SysDictionary" >
+            <Documentation>
+              <Summary>Тип</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <Property Name="Code" Type="String" MaxLength="20" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Код</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="FactAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Фактический адрес</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="LegalAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Юридический адрес</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="INN" Type="String" MaxLength="10" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>ИНН</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="KPP" Type="String" MaxLength="9" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>КПП</Summary>
+            </Documentation>
+          </Property>
         </EntityType>
         <Association Name="org_department_fk1">
           <End Type="ModelPostgres.OrgDepartment" Role="org__department" Multiplicity="0..1" />
@@ -1092,6 +1486,9 @@
           </ReferentialConstraint>
         </Association>
         <EntityType Name="ObjCatalogField">
+          <Documentation>
+            <Summary>Поля журналов</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -1116,6 +1513,9 @@
           <End Type="ModelPostgres.ObjCatalogField" Role="obj__catalog_field" Multiplicity="*" />
         </Association>
         <EntityType Name="ObjCatalogState">
+          <Documentation>
+            <Summary>Состояние объекта</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -1136,14 +1536,29 @@
           <End Type="ModelPostgres.SysUser" Role="SysUser" Multiplicity="*" />
         </Association>
         <EntityType Name="ObjCatalogRule">
+          <Documentation>
+            <Summary>Правило изменения состояния объекта</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Order" Type="Byte" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Описание</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Имя файла пиктограммы, используемой при отображении</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="Order" Type="Byte" Nullable="false" >
+            <Documentation>
+              <Summary>Порядок</Summary>
+            </Documentation>
+          </Property>
           <Property Name="ConfirmText" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Code" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="FinishState" Relationship="ModelPostgres.obj_catalog_rule_fk1" FromRole="obj__catalog_rule" ToRole="ObjCatalogState" />
@@ -1367,7 +1782,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="obj__catalog_field">
+          <EntitySetMapping Name="ObjCatalogFields">
             <EntityTypeMapping TypeName="ModelPostgres.ObjCatalogField">
               <MappingFragment StoreEntitySet="obj__catalog_field">
                 <ScalarProperty Name="Exportable" ColumnName="exportable" />
@@ -1394,7 +1809,7 @@
               <ScalarProperty Name="ID" ColumnName="catalog_id" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="obj__catalog_state">
+          <EntitySetMapping Name="ObjCatalogStates">
             <EntityTypeMapping TypeName="ModelPostgres.ObjCatalogState">
               <MappingFragment StoreEntitySet="obj__catalog_state">
                 <ScalarProperty Name="Code" ColumnName="code" />

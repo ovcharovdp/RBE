@@ -78,11 +78,6 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoreDM.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CoreDM.Context.tt</DependentUpon>
-    </Compile>
     <Compile Include="CoreDM.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -93,51 +88,61 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CoreDM.edmx</DependentUpon>
     </Compile>
+    <Compile Include="CoreDMPostgres.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CoreDMPostgres.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CoreDMPostgres.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
+    </Compile>
     <Compile Include="CoreDMPostgres.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CoreDMPostgres.edmx</DependentUpon>
     </Compile>
     <Compile Include="ObjBlob.cs">
-      <DependentUpon>CoreDM.tt</DependentUpon>
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>
     <Compile Include="ObjGroupObject.cs">
-      <DependentUpon>CoreDM.tt</DependentUpon>
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>
     <Compile Include="ObjParam.cs">
-      <DependentUpon>CoreDM.tt</DependentUpon>
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>
     <Compile Include="ObjParamItem.cs">
-      <DependentUpon>CoreDM.tt</DependentUpon>
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>
     <Compile Include="ObjParamSetItem.cs">
-      <DependentUpon>CoreDM.tt</DependentUpon>
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>
     <Compile Include="ObjParamValue.cs">
-      <DependentUpon>CoreDM.tt</DependentUpon>
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>
     <Compile Include="OrgDepartment.cs">
-      <DependentUpon>CoreDM.tt</DependentUpon>
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SysInheritRole.cs">
-      <DependentUpon>CoreDM.tt</DependentUpon>
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>
     <Compile Include="SysMenu.cs">
-      <DependentUpon>CoreDM.tt</DependentUpon>
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>
     <Compile Include="SysObjectRole.cs" />
     <Compile Include="SysReport.cs">
-      <DependentUpon>CoreDM.tt</DependentUpon>
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>
     <Compile Include="SysRole.cs">
-      <DependentUpon>CoreDM.tt</DependentUpon>
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>
     <Compile Include="SysUser.cs">
-      <DependentUpon>CoreDM.tt</DependentUpon>
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>
     <Compile Include="SysUserRole.cs">
-      <DependentUpon>CoreDM.tt</DependentUpon>
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +187,18 @@
       <Project>{bab96293-4dcf-4efe-a83c-75269a178815}</Project>
       <Name>BaseEntities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CoreDMPostgres.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CoreDMPostgres.Context.cs</LastGenOutput>
+      <DependentUpon>CoreDMPostgres.edmx</DependentUpon>
+    </Content>
+    <Content Include="CoreDMPostgres.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CoreDMPostgres.cs</LastGenOutput>
+      <DependentUpon>CoreDMPostgres.edmx</DependentUpon>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
