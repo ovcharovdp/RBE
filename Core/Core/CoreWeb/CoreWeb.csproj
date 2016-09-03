@@ -196,6 +196,11 @@
     <Compile Include="Areas\Org\Models\EditDepartmentModel.cs" />
     <Compile Include="Areas\Org\Models\NewDepartmentModel.cs" />
     <Compile Include="Areas\Org\OrgAreaRegistration.cs" />
+    <Compile Include="Areas\Transport\Controllers\AutoController.cs" />
+    <Compile Include="Areas\Transport\Controllers\DriverController.cs" />
+    <Compile Include="Areas\Transport\Controllers\OData\TRNDriversController.cs" />
+    <Compile Include="Areas\Transport\Models\DriverCatalogColumnLoader.cs" />
+    <Compile Include="Areas\Transport\TransportAreaRegistration.cs" />
     <Compile Include="Authorization\CustomPrincipal.cs" />
     <Compile Include="Authorization\CustomRoleProvider.cs" />
     <Compile Include="Components\kendo\KendoHelpers.cs" />
@@ -352,6 +357,7 @@
     <Content Include="Areas\Org\Views\Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Areas\Transport\Views\web.config" />
     <None Include="Properties\PublishProfiles\Core.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\common.js" />
@@ -424,6 +430,9 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Org\Views\Shared\" />
+    <Folder Include="Areas\Transport\Views\Auto\" />
+    <Folder Include="Areas\Transport\Views\Driver\" />
+    <Folder Include="Areas\Transport\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

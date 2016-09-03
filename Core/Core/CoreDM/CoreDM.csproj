@@ -144,6 +144,15 @@
     <Compile Include="SysUserRole.cs">
       <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>
+    <Compile Include="TRNAuto.cs">
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRNAutoSection.cs">
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRNDriver.cs">
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="CoreDM.edmx">

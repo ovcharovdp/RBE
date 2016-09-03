@@ -107,5 +107,8 @@
         /// Правило изменения состояния объекта
         /// </summary>
         public DbSet<ObjCatalogRule> ObjCatalogRules { get; set; }
+        public DbSet<TRNAutoSection> TRNAutoSections { get; set; }
+        public DbSet<TRNAuto> TRNAutos { get; set; }
+        public DbSet<TRNDriver> TRNDrivers { get; set; }
     }
 }

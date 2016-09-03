@@ -32,6 +32,11 @@ namespace CoreWeb
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
             RegisterUserEntity(builder);
             RegisterStateEntity(builder);
+            // для оперативного учета
+            builder.EntitySet<SysDictionary>("SysDictionaries");
+            builder.EntitySet<OrgDepartment>("OrgDepartments");
+            builder.EntitySet<TRNDriver>("TRNDrivers");
+
             return builder.GetEdmModel();
         }
         /// <summary>

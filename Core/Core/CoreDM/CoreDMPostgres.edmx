@@ -246,6 +246,39 @@
           <Property Name="role_id" Type="int8" Nullable="false" />
           <Property Name="start_date" Type="date" Nullable="false" />
         </EntityType>
+        <EntityType Name="tnr__auto_section">
+          <Key>
+            <PropertyRef Name="auto_id" />
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="auto_id" Type="int8" Nullable="false" />
+          <Property Name="order_id" Type="numeric" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="volume" Type="numeric" Precision="5" Scale="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="trn__auto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="reg_num" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="org_id" Type="int8" Nullable="false" />
+          <Property Name="model_id" Type="int8" Nullable="false" />
+          <Property Name="reg_num_ext" Type="varchar" MaxLength="10" />
+          <Property Name="next_cert_date" Type="date" Nullable="false" />
+          <Property Name="volume" Type="int4" />
+        </EntityType>
+        <EntityType Name="trn__driver">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="org_id" Type="int8" Nullable="false" />
+          <Property Name="doc_num" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="doc_place" Type="varchar" MaxLength="100" />
+          <Property Name="doc_date" Type="date" />
+          <Property Name="reg_address" Type="varchar" MaxLength="100" />
+        </EntityType>
         <Association Name="obj_catalog_field_fk">
           <End Role="obj__catalog" Type="Self.obj__catalog" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -496,6 +529,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="tnr_auto_section_fk">
+          <End Role="trn__auto" Type="Self.trn__auto" Multiplicity="1" />
+          <End Role="tnr__auto_section" Type="Self.tnr__auto_section" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="trn__auto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tnr__auto_section">
+              <PropertyRef Name="auto_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="trn_auto_fk1">
+          <End Role="org__department" Type="Self.org__department" Multiplicity="1" />
+          <End Role="trn__auto" Type="Self.trn__auto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="org__department">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="trn__auto">
+              <PropertyRef Name="org_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="trn_auto_fk2">
+          <End Role="sys__dictionary" Type="Self.sys__dictionary" Multiplicity="1" />
+          <End Role="trn__auto" Type="Self.trn__auto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys__dictionary">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="trn__auto">
+              <PropertyRef Name="model_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="trn_driver_fk1">
+          <End Role="org__department" Type="Self.org__department" Multiplicity="1" />
+          <End Role="trn__driver" Type="Self.trn__driver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="org__department">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="trn__driver">
+              <PropertyRef Name="org_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище ModelPostgresContainer">
           <EntitySet Name="obj__blob" EntityType="Self.obj__blob" Schema="public" store:Type="Tables" />
           <EntitySet Name="obj__catalog" EntityType="Self.obj__catalog" Schema="public" store:Type="Tables" />
@@ -518,6 +599,9 @@
           <EntitySet Name="sys__role" EntityType="Self.sys__role" Schema="public" store:Type="Tables" />
           <EntitySet Name="sys__user" EntityType="Self.sys__user" Schema="public" store:Type="Tables" />
           <EntitySet Name="sys__user_role" EntityType="Self.sys__user_role" Schema="public" store:Type="Tables" />
+          <EntitySet Name="tnr__auto_section" EntityType="Self.tnr__auto_section" Schema="public" store:Type="Tables" />
+          <EntitySet Name="trn__auto" EntityType="Self.trn__auto" Schema="public" store:Type="Tables" />
+          <EntitySet Name="trn__driver" EntityType="Self.trn__driver" Schema="public" store:Type="Tables" />
           <AssociationSet Name="obj_catalog_field_fk" Association="Self.obj_catalog_field_fk">
             <End Role="obj__catalog" EntitySet="obj__catalog" />
             <End Role="obj__catalog_field" EntitySet="obj__catalog_field" />
@@ -593,6 +677,22 @@
           <AssociationSet Name="sys_user_role_fk2" Association="Self.sys_user_role_fk2">
             <End Role="sys__role" EntitySet="sys__role" />
             <End Role="sys__user_role" EntitySet="sys__user_role" />
+          </AssociationSet>
+          <AssociationSet Name="tnr_auto_section_fk" Association="Self.tnr_auto_section_fk">
+            <End Role="trn__auto" EntitySet="trn__auto" />
+            <End Role="tnr__auto_section" EntitySet="tnr__auto_section" />
+          </AssociationSet>
+          <AssociationSet Name="trn_auto_fk1" Association="Self.trn_auto_fk1">
+            <End Role="org__department" EntitySet="org__department" />
+            <End Role="trn__auto" EntitySet="trn__auto" />
+          </AssociationSet>
+          <AssociationSet Name="trn_auto_fk2" Association="Self.trn_auto_fk2">
+            <End Role="sys__dictionary" EntitySet="sys__dictionary" />
+            <End Role="trn__auto" EntitySet="trn__auto" />
+          </AssociationSet>
+          <AssociationSet Name="trn_driver_fk1" Association="Self.trn_driver_fk1">
+            <End Role="org__department" EntitySet="org__department" />
+            <End Role="trn__driver" EntitySet="trn__driver" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -755,6 +855,25 @@
           <AssociationSet Name="obj_catalog_rule_fk1" Association="ModelPostgres.obj_catalog_rule_fk1">
             <End Role="ObjCatalogState" EntitySet="ObjCatalogStates" />
             <End Role="obj__catalog_rule" EntitySet="ObjCatalogRules" />
+          </AssociationSet>
+          <EntitySet Name="TRNAutoSections" EntityType="ModelPostgres.TRNAutoSection" />
+          <EntitySet Name="TRNAutos" EntityType="ModelPostgres.TRNAuto" />
+          <AssociationSet Name="trn_auto_fk1" Association="ModelPostgres.trn_auto_fk1">
+            <End Role="OrgDepartment" EntitySet="OrgDepartments" />
+            <End Role="trn__auto" EntitySet="TRNAutos" />
+          </AssociationSet>
+          <AssociationSet Name="trn_auto_fk2" Association="ModelPostgres.trn_auto_fk2">
+            <End Role="SysDictionary" EntitySet="SysDictionaries" />
+            <End Role="trn__auto" EntitySet="TRNAutos" />
+          </AssociationSet>
+          <AssociationSet Name="tnr_auto_section_fk" Association="ModelPostgres.tnr_auto_section_fk">
+            <End Role="trn__auto" EntitySet="TRNAutos" />
+            <End Role="tnr__auto_section" EntitySet="TRNAutoSections" />
+          </AssociationSet>
+          <EntitySet Name="TRNDrivers" EntityType="ModelPostgres.TRNDriver" />
+          <AssociationSet Name="trn_driver_fk1" Association="ModelPostgres.trn_driver_fk1">
+            <End Role="OrgDepartment" EntitySet="OrgDepartments" />
+            <End Role="trn__driver" EntitySet="TRNDrivers" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="SysRole">
@@ -1571,6 +1690,65 @@
           <End Type="ModelPostgres.ObjCatalogState" Role="ObjCatalogState" Multiplicity="1" />
           <End Type="ModelPostgres.ObjCatalogRule" Role="obj__catalog_rule" Multiplicity="*" />
         </Association>
+        <EntityType Name="TRNAutoSection">
+          <Key>
+            <PropertyRef Name="AutoID" />
+            <PropertyRef Name="Order" />
+          </Key>
+          <Property Name="AutoID" Type="Int64" Nullable="false" />
+          <Property Name="Order" Type="Byte" Nullable="false" />
+          <Property Name="Volume" Type="Decimal" Nullable="false" Precision="5" Scale="1" />
+          <NavigationProperty Name="Auto" Relationship="ModelPostgres.tnr_auto_section_fk" FromRole="tnr__auto_section" ToRole="trn__auto" />
+        </EntityType>
+        <EntityType Name="TRNAuto">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="RegNum" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="RegNumExt" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="NextCertDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Volume" Type="Int32" />
+          <NavigationProperty Name="Organization" Relationship="ModelPostgres.trn_auto_fk1" FromRole="trn__auto" ToRole="OrgDepartment" />
+          <NavigationProperty Name="Model" Relationship="ModelPostgres.trn_auto_fk2" FromRole="trn__auto" ToRole="SysDictionary" />
+          <NavigationProperty Name="Sections" Relationship="ModelPostgres.tnr_auto_section_fk" FromRole="trn__auto" ToRole="tnr__auto_section" />
+        </EntityType>
+        <Association Name="trn_auto_fk1">
+          <End Type="ModelPostgres.OrgDepartment" Role="OrgDepartment" Multiplicity="1" />
+          <End Type="ModelPostgres.TRNAuto" Role="trn__auto" Multiplicity="*" />
+        </Association>
+        <Association Name="trn_auto_fk2">
+          <End Type="ModelPostgres.SysDictionary" Role="SysDictionary" Multiplicity="1" />
+          <End Type="ModelPostgres.TRNAuto" Role="trn__auto" Multiplicity="*" />
+        </Association>
+        <Association Name="tnr_auto_section_fk">
+          <End Type="ModelPostgres.TRNAuto" Role="trn__auto" Multiplicity="1" />
+          <End Type="ModelPostgres.TRNAutoSection" Role="tnr__auto_section" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="trn__auto">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tnr__auto_section">
+              <PropertyRef Name="AutoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TRNDriver">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DocNum" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="DocPlace" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DocDate" Type="DateTime" Precision="0" />
+          <Property Name="RegAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Organization" Relationship="ModelPostgres.trn_driver_fk1" FromRole="trn__driver" ToRole="OrgDepartment" />
+        </EntityType>
+        <Association Name="trn_driver_fk1">
+          <End Type="ModelPostgres.OrgDepartment" Role="OrgDepartment" Multiplicity="1" />
+          <End Type="ModelPostgres.TRNDriver" Role="trn__driver" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1863,6 +2041,62 @@
             </EndProperty>
             <EndProperty Name="ObjCatalogState">
               <ScalarProperty Name="ID" ColumnName="finish_state_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="TRNAutoSections">
+            <EntityTypeMapping TypeName="ModelPostgres.TRNAutoSection">
+              <MappingFragment StoreEntitySet="tnr__auto_section">
+                <ScalarProperty Name="Volume" ColumnName="volume" />
+                <ScalarProperty Name="Order" ColumnName="order_id" />
+                <ScalarProperty Name="AutoID" ColumnName="auto_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TRNAutos">
+            <EntityTypeMapping TypeName="ModelPostgres.TRNAuto">
+              <MappingFragment StoreEntitySet="trn__auto">
+                <ScalarProperty Name="Volume" ColumnName="volume" />
+                <ScalarProperty Name="NextCertDate" ColumnName="next_cert_date" />
+                <ScalarProperty Name="RegNumExt" ColumnName="reg_num_ext" />
+                <ScalarProperty Name="RegNum" ColumnName="reg_num" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="trn_auto_fk1" TypeName="ModelPostgres.trn_auto_fk1" StoreEntitySet="trn__auto">
+            <EndProperty Name="trn__auto">
+              <ScalarProperty Name="ID" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="OrgDepartment">
+              <ScalarProperty Name="ID" ColumnName="org_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="trn_auto_fk2" TypeName="ModelPostgres.trn_auto_fk2" StoreEntitySet="trn__auto">
+            <EndProperty Name="trn__auto">
+              <ScalarProperty Name="ID" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="SysDictionary">
+              <ScalarProperty Name="ID" ColumnName="model_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="TRNDrivers">
+            <EntityTypeMapping TypeName="ModelPostgres.TRNDriver">
+              <MappingFragment StoreEntitySet="trn__driver">
+                <ScalarProperty Name="RegAddress" ColumnName="reg_address" />
+                <ScalarProperty Name="DocDate" ColumnName="doc_date" />
+                <ScalarProperty Name="DocPlace" ColumnName="doc_place" />
+                <ScalarProperty Name="DocNum" ColumnName="doc_num" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="trn_driver_fk1" TypeName="ModelPostgres.trn_driver_fk1" StoreEntitySet="trn__driver">
+            <EndProperty Name="trn__driver">
+              <ScalarProperty Name="ID" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="OrgDepartment">
+              <ScalarProperty Name="ID" ColumnName="org_id" />
             </EndProperty>
           </AssociationSetMapping>
           </EntityContainerMapping>
