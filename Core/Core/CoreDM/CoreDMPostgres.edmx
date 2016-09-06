@@ -5,6 +5,18 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Хранилище ModelPostgres" Provider="Npgsql" ProviderManifestToken="9.4.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="fl__station">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="org_id" Type="int8" Nullable="false" />
+          <Property Name="address" Type="varchar" MaxLength="100" />
+          <Property Name="name" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="type_id" Type="int8" Nullable="false" />
+          <Property Name="number" Type="int2" Nullable="false" />
+          <Property Name="code" Type="int4" />
+        </EntityType>
         <EntityType Name="obj__blob">
           <Key>
             <PropertyRef Name="parent_id" />
@@ -279,6 +291,30 @@
           <Property Name="doc_date" Type="date" />
           <Property Name="reg_address" Type="varchar" MaxLength="100" />
         </EntityType>
+        <Association Name="fl_station_fk1">
+          <End Role="org__department" Type="Self.org__department" Multiplicity="1" />
+          <End Role="fl__station" Type="Self.fl__station" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="org__department">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fl__station">
+              <PropertyRef Name="org_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fl_station_fk2">
+          <End Role="sys__dictionary" Type="Self.sys__dictionary" Multiplicity="1" />
+          <End Role="fl__station" Type="Self.fl__station" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys__dictionary">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fl__station">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="obj_catalog_field_fk">
           <End Role="obj__catalog" Type="Self.obj__catalog" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -578,6 +614,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище ModelPostgresContainer">
+          <EntitySet Name="fl__station" EntityType="Self.fl__station" Schema="public" store:Type="Tables" />
           <EntitySet Name="obj__blob" EntityType="Self.obj__blob" Schema="public" store:Type="Tables" />
           <EntitySet Name="obj__catalog" EntityType="Self.obj__catalog" Schema="public" store:Type="Tables" />
           <EntitySet Name="obj__catalog_field" EntityType="Self.obj__catalog_field" Schema="public" store:Type="Tables" />
@@ -602,6 +639,14 @@
           <EntitySet Name="tnr__auto_section" EntityType="Self.tnr__auto_section" Schema="public" store:Type="Tables" />
           <EntitySet Name="trn__auto" EntityType="Self.trn__auto" Schema="public" store:Type="Tables" />
           <EntitySet Name="trn__driver" EntityType="Self.trn__driver" Schema="public" store:Type="Tables" />
+          <AssociationSet Name="fl_station_fk1" Association="Self.fl_station_fk1">
+            <End Role="org__department" EntitySet="org__department" />
+            <End Role="fl__station" EntitySet="fl__station" />
+          </AssociationSet>
+          <AssociationSet Name="fl_station_fk2" Association="Self.fl_station_fk2">
+            <End Role="sys__dictionary" EntitySet="sys__dictionary" />
+            <End Role="fl__station" EntitySet="fl__station" />
+          </AssociationSet>
           <AssociationSet Name="obj_catalog_field_fk" Association="Self.obj_catalog_field_fk">
             <End Role="obj__catalog" EntitySet="obj__catalog" />
             <End Role="obj__catalog_field" EntitySet="obj__catalog_field" />
@@ -874,6 +919,15 @@
           <AssociationSet Name="trn_driver_fk1" Association="ModelPostgres.trn_driver_fk1">
             <End Role="OrgDepartment" EntitySet="OrgDepartments" />
             <End Role="trn__driver" EntitySet="TRNDrivers" />
+          </AssociationSet>
+          <EntitySet Name="FlStations" EntityType="ModelPostgres.FlStation" />
+          <AssociationSet Name="fl_station_fk1" Association="ModelPostgres.fl_station_fk1">
+            <End Role="OrgDepartment" EntitySet="OrgDepartments" />
+            <End Role="fl__station" EntitySet="FlStations" />
+          </AssociationSet>
+          <AssociationSet Name="fl_station_fk2" Association="ModelPostgres.fl_station_fk2">
+            <End Role="SysDictionary" EntitySet="SysDictionaries" />
+            <End Role="fl__station" EntitySet="FlStations" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="SysRole">
@@ -1749,6 +1803,30 @@
           <End Type="ModelPostgres.OrgDepartment" Role="OrgDepartment" Multiplicity="1" />
           <End Type="ModelPostgres.TRNDriver" Role="trn__driver" Multiplicity="*" />
         </Association>
+        <EntityType Name="FlStation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Number" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Organization" Relationship="ModelPostgres.fl_station_fk1" FromRole="fl__station" ToRole="OrgDepartment" />
+          <NavigationProperty Name="Type" Relationship="ModelPostgres.fl_station_fk2" FromRole="fl__station" ToRole="SysDictionary" />
+          <Property Name="Code" Type="Int32" >
+            <Documentation>
+              <Summary>Код АСУТП</Summary>
+            </Documentation>
+          </Property>
+        </EntityType>
+        <Association Name="fl_station_fk1">
+          <End Type="ModelPostgres.OrgDepartment" Role="OrgDepartment" Multiplicity="1" />
+          <End Type="ModelPostgres.FlStation" Role="fl__station" Multiplicity="*" />
+        </Association>
+        <Association Name="fl_station_fk2">
+          <End Type="ModelPostgres.SysDictionary" Role="SysDictionary" Multiplicity="1" />
+          <End Type="ModelPostgres.FlStation" Role="fl__station" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2097,6 +2175,33 @@
             </EndProperty>
             <EndProperty Name="OrgDepartment">
               <ScalarProperty Name="ID" ColumnName="org_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="FlStations">
+            <EntityTypeMapping TypeName="ModelPostgres.FlStation">
+              <MappingFragment StoreEntitySet="fl__station">
+                <ScalarProperty Name="Code" ColumnName="code" />
+                <ScalarProperty Name="Number" ColumnName="number" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="Address" ColumnName="address" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="fl_station_fk1" TypeName="ModelPostgres.fl_station_fk1" StoreEntitySet="fl__station">
+            <EndProperty Name="fl__station">
+              <ScalarProperty Name="ID" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="OrgDepartment">
+              <ScalarProperty Name="ID" ColumnName="org_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="fl_station_fk2" TypeName="ModelPostgres.fl_station_fk2" StoreEntitySet="fl__station">
+            <EndProperty Name="fl__station">
+              <ScalarProperty Name="ID" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="SysDictionary">
+              <ScalarProperty Name="ID" ColumnName="type_id" />
             </EndProperty>
           </AssociationSetMapping>
           </EntityContainerMapping>

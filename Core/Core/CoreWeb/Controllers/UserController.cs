@@ -56,7 +56,7 @@ namespace CoreWeb.Controllers
         {
             SysUser user = CoreDB.SysUsers.Find(id);
             if (user == null)
-                throw new Exception(string.Format("Не найден редактируемый поьзователь (ID={0}).", id));
+                throw new Exception(string.Format("Не найден редактируемый пользователь (ID={0}).", id));
 
             string pass = user.Password;
             string alias = user.Alias;

@@ -110,5 +110,6 @@
         public DbSet<TRNAutoSection> TRNAutoSections { get; set; }
         public DbSet<TRNAuto> TRNAutos { get; set; }
         public DbSet<TRNDriver> TRNDrivers { get; set; }
+        public DbSet<FlStation> FlStations { get; set; }
     }
 }

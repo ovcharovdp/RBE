@@ -49,11 +49,12 @@
         <AssociationConnector Association="ModelPostgres.obj_param_set_item_fk2" />
         <AssociationConnector Association="ModelPostgres.obj_param_value_fk" />
       </Diagram>
-      <Diagram DiagramId="e5ad981a70b542be9fecd21e26a08ed1" Name="Transport" >
+      <Diagram DiagramId="e5ad981a70b542be9fecd21e26a08ed1" Name="Fuel" >
         <EntityTypeShape EntityType="ModelPostgres.TRNAutoSection" Width="1.5" PointX="3" PointY="1.375" />
         <EntityTypeShape EntityType="ModelPostgres.TRNAuto" Width="1.5" PointX="0.75" PointY="1" />
         <AssociationConnector Association="ModelPostgres.tnr_auto_section_fk" />
         <EntityTypeShape EntityType="ModelPostgres.TRNDriver" Width="1.5" PointX="5.125" PointY="1" />
+        <EntityTypeShape EntityType="ModelPostgres.FlStation" Width="1.5" PointX="0.75" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

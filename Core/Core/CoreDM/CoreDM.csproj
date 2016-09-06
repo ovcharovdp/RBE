@@ -103,6 +103,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CoreDMPostgres.edmx</DependentUpon>
     </Compile>
+    <Compile Include="FlStation.cs">
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
+    </Compile>
     <Compile Include="ObjBlob.cs">
       <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>

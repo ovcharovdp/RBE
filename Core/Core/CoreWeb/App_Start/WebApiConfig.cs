@@ -36,6 +36,7 @@ namespace CoreWeb
             builder.EntitySet<SysDictionary>("SysDictionaries");
             builder.EntitySet<OrgDepartment>("OrgDepartments");
             builder.EntitySet<TRNDriver>("TRNDrivers");
+            builder.EntitySet<FlStation>("FlStations");
 
             return builder.GetEdmModel();
         }
