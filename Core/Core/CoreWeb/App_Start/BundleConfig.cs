@@ -22,6 +22,7 @@ namespace CoreWeb
             bundles.Add(new ScriptBundle("~/bundles/main").Include(
                         "~/Scripts/common.js",
                         "~/Scripts/param.js",
+                        "~/Scripts/fuel.js",
                         "~/Scripts/orgExt.js",
                         "~/Scripts/jquery.multilevelpushmenu.js",
                         "~/Scripts/kendo/jszip.min.js",

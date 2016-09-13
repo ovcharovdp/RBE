@@ -31,7 +31,7 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
 	fileManager.StartNewFile(entity.Name + ".cs");
     BeginNamespace(code);
 #>
-<#=codeStringGenerator.UsingDirectives(inHeader: false, includeJsonIgnore:typeMapper.GetCollectionNavigationProperties(entity).Any(), isBaseEntity: typeMapper.GetSimpleProperties(entity).Any(p=>p.Name.Equals("ID"))||entity.Name.Equals("OrgOilObjectLink"))#>
+<#=codeStringGenerator.UsingDirectives(inHeader: false, includeJsonIgnore:typeMapper.GetCollectionNavigationProperties(entity).Any(), isBaseEntity: typeMapper.GetSimpleProperties(entity).Any(p=>p.Name.Equals("ID"))||entity.Name.Equals("OrgOilObjectLink")||entity.Name.Equals("FlOrderItem"))#>
 <#if	(entity.Documentation != null)
 {#>
 /// <summary>

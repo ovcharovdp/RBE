@@ -54,7 +54,12 @@
         <EntityTypeShape EntityType="ModelPostgres.TRNAuto" Width="1.5" PointX="0.75" PointY="1" />
         <AssociationConnector Association="ModelPostgres.tnr_auto_section_fk" />
         <EntityTypeShape EntityType="ModelPostgres.TRNDriver" Width="1.5" PointX="5.125" PointY="1" />
-        <EntityTypeShape EntityType="ModelPostgres.FlStation" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ModelPostgres.FlStation" Width="1.5" PointX="5.125" PointY="4.25" />
+        <EntityTypeShape EntityType="ModelPostgres.FlOrder" Width="1.5" PointX="0.5" PointY="4.25" />
+        <EntityTypeShape EntityType="ModelPostgres.FlOrderItem" Width="1.5" PointX="3" PointY="4.25" />
+        <AssociationConnector Association="ModelPostgres.fl_order_auto" />
+        <AssociationConnector Association="ModelPostgres.fl_order_item_order" />
+        <AssociationConnector Association="ModelPostgres.fl_order_item_station" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

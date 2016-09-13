@@ -192,7 +192,10 @@
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Fuel\Controllers\OData\FlOrderItemsController.cs" />
+    <Compile Include="Areas\Fuel\Controllers\OData\FlOrdersController.cs" />
     <Compile Include="Areas\Fuel\Controllers\OData\FlStationsController.cs" />
+    <Compile Include="Areas\Fuel\Controllers\OrderController.cs" />
     <Compile Include="Areas\Fuel\Controllers\StationController.cs" />
     <Compile Include="Areas\Fuel\FuelAreaRegistration.cs" />
     <Compile Include="Areas\Fuel\Models\StationCatalogColumnLoader.cs" />
@@ -364,9 +367,11 @@
     </Content>
     <Content Include="Areas\Transport\Views\web.config" />
     <Content Include="Areas\Fuel\Views\web.config" />
+    <Content Include="Areas\Fuel\Views\Order\FlatCatalogPartial.cshtml" />
     <None Include="Properties\PublishProfiles\Core.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\common.js" />
+    <Content Include="Scripts\fuel.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
     <Content Include="Scripts\jquery.multilevelpushmenu.js" />

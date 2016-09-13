@@ -5,6 +5,30 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Хранилище ModelPostgres" Provider="Npgsql" ProviderManifestToken="9.4.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="fl__order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="auto_id" Type="int8" Nullable="false" />
+          <Property Name="doc_date" Type="date" Nullable="false" />
+          <Property Name="tank_farm_id" Type="int8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="fl__order_item">
+          <Key>
+            <PropertyRef Name="order_id" />
+            <PropertyRef Name="section_num" />
+          </Key>
+          <Property Name="order_id" Type="int8" Nullable="false" />
+          <Property Name="product_id" Type="int8" Nullable="false" />
+          <Property Name="station_id" Type="int8" Nullable="false" />
+          <Property Name="section_num" Type="numeric" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="tank_num" Type="numeric" Precision="2" Scale="0" />
+          <Property Name="volume_plan" Type="int4" Nullable="false" />
+          <Property Name="volume_fact" Type="int4" />
+          <Property Name="waybill_num" Type="int4" />
+          <Property Name="waybill_date" Type="date" />
+        </EntityType>
         <EntityType Name="fl__station">
           <Key>
             <PropertyRef Name="id" />
@@ -291,6 +315,66 @@
           <Property Name="doc_date" Type="date" />
           <Property Name="reg_address" Type="varchar" MaxLength="100" />
         </EntityType>
+        <Association Name="fl_order_auto">
+          <End Role="trn__auto" Type="Self.trn__auto" Multiplicity="1" />
+          <End Role="fl__order" Type="Self.fl__order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="trn__auto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fl__order">
+              <PropertyRef Name="auto_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fl_order_item_order">
+          <End Role="fl__order" Type="Self.fl__order" Multiplicity="1" />
+          <End Role="fl__order_item" Type="Self.fl__order_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fl__order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fl__order_item">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fl_order_item_product">
+          <End Role="sys__dictionary" Type="Self.sys__dictionary" Multiplicity="1" />
+          <End Role="fl__order_item" Type="Self.fl__order_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys__dictionary">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fl__order_item">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fl_order_item_station">
+          <End Role="fl__station" Type="Self.fl__station" Multiplicity="1" />
+          <End Role="fl__order_item" Type="Self.fl__order_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fl__station">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fl__order_item">
+              <PropertyRef Name="station_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fl_order_tank_farm">
+          <End Role="org__department" Type="Self.org__department" Multiplicity="1" />
+          <End Role="fl__order" Type="Self.fl__order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="org__department">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fl__order">
+              <PropertyRef Name="tank_farm_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fl_station_fk1">
           <End Role="org__department" Type="Self.org__department" Multiplicity="1" />
           <End Role="fl__station" Type="Self.fl__station" Multiplicity="*" />
@@ -614,6 +698,8 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище ModelPostgresContainer">
+          <EntitySet Name="fl__order" EntityType="Self.fl__order" Schema="public" store:Type="Tables" />
+          <EntitySet Name="fl__order_item" EntityType="Self.fl__order_item" Schema="public" store:Type="Tables" />
           <EntitySet Name="fl__station" EntityType="Self.fl__station" Schema="public" store:Type="Tables" />
           <EntitySet Name="obj__blob" EntityType="Self.obj__blob" Schema="public" store:Type="Tables" />
           <EntitySet Name="obj__catalog" EntityType="Self.obj__catalog" Schema="public" store:Type="Tables" />
@@ -639,6 +725,26 @@
           <EntitySet Name="tnr__auto_section" EntityType="Self.tnr__auto_section" Schema="public" store:Type="Tables" />
           <EntitySet Name="trn__auto" EntityType="Self.trn__auto" Schema="public" store:Type="Tables" />
           <EntitySet Name="trn__driver" EntityType="Self.trn__driver" Schema="public" store:Type="Tables" />
+          <AssociationSet Name="fl_order_auto" Association="Self.fl_order_auto">
+            <End Role="trn__auto" EntitySet="trn__auto" />
+            <End Role="fl__order" EntitySet="fl__order" />
+          </AssociationSet>
+          <AssociationSet Name="fl_order_item_order" Association="Self.fl_order_item_order">
+            <End Role="fl__order" EntitySet="fl__order" />
+            <End Role="fl__order_item" EntitySet="fl__order_item" />
+          </AssociationSet>
+          <AssociationSet Name="fl_order_item_product" Association="Self.fl_order_item_product">
+            <End Role="sys__dictionary" EntitySet="sys__dictionary" />
+            <End Role="fl__order_item" EntitySet="fl__order_item" />
+          </AssociationSet>
+          <AssociationSet Name="fl_order_item_station" Association="Self.fl_order_item_station">
+            <End Role="fl__station" EntitySet="fl__station" />
+            <End Role="fl__order_item" EntitySet="fl__order_item" />
+          </AssociationSet>
+          <AssociationSet Name="fl_order_tank_farm" Association="Self.fl_order_tank_farm">
+            <End Role="org__department" EntitySet="org__department" />
+            <End Role="fl__order" EntitySet="fl__order" />
+          </AssociationSet>
           <AssociationSet Name="fl_station_fk1" Association="Self.fl_station_fk1">
             <End Role="org__department" EntitySet="org__department" />
             <End Role="fl__station" EntitySet="fl__station" />
@@ -928,6 +1034,28 @@
           <AssociationSet Name="fl_station_fk2" Association="ModelPostgres.fl_station_fk2">
             <End Role="SysDictionary" EntitySet="SysDictionaries" />
             <End Role="fl__station" EntitySet="FlStations" />
+          </AssociationSet>
+          <EntitySet Name="FlOrders" EntityType="ModelPostgres.FlOrder" />
+          <EntitySet Name="FlOrderItems" EntityType="ModelPostgres.FlOrderItem" />
+          <AssociationSet Name="fl_order_auto" Association="ModelPostgres.fl_order_auto">
+            <End Role="TRNAuto" EntitySet="TRNAutos" />
+            <End Role="fl__order" EntitySet="FlOrders" />
+          </AssociationSet>
+          <AssociationSet Name="fl_order_item_order" Association="ModelPostgres.fl_order_item_order">
+            <End Role="fl__order" EntitySet="FlOrders" />
+            <End Role="fl__order_item" EntitySet="FlOrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="fl_order_tank_farm" Association="ModelPostgres.fl_order_tank_farm">
+            <End Role="OrgDepartment" EntitySet="OrgDepartments" />
+            <End Role="fl__order" EntitySet="FlOrders" />
+          </AssociationSet>
+          <AssociationSet Name="fl_order_item_product" Association="ModelPostgres.fl_order_item_product">
+            <End Role="SysDictionary" EntitySet="SysDictionaries" />
+            <End Role="fl__order_item" EntitySet="FlOrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="fl_order_item_station" Association="ModelPostgres.fl_order_item_station">
+            <End Role="FlStation" EntitySet="FlStations" />
+            <End Role="fl__order_item" EntitySet="FlOrderItems" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="SysRole">
@@ -1827,6 +1955,59 @@
           <End Type="ModelPostgres.SysDictionary" Role="SysDictionary" Multiplicity="1" />
           <End Type="ModelPostgres.FlStation" Role="fl__station" Multiplicity="*" />
         </Association>
+        <EntityType Name="FlOrder">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="DocDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Auto" Relationship="ModelPostgres.fl_order_auto" FromRole="fl__order" ToRole="TRNAuto" />
+          <NavigationProperty Name="Items" Relationship="ModelPostgres.fl_order_item_order" FromRole="fl__order" ToRole="fl__order_item" />
+          <NavigationProperty Name="TankFarm" Relationship="ModelPostgres.fl_order_tank_farm" FromRole="fl__order" ToRole="OrgDepartment" />
+        </EntityType>
+        <EntityType Name="FlOrderItem">
+          <Key>
+            <PropertyRef Name="OrderID" />
+            <PropertyRef Name="SectionNum" />
+          </Key>
+          <Property Name="OrderID" Type="Int64" Nullable="false" />
+          <Property Name="SectionNum" Type="Byte" Nullable="false" />
+          <Property Name="TankNum" Type="Byte" />
+          <Property Name="Volume" Type="Int32" Nullable="false" />
+          <Property Name="WaybillNum" Type="Int32" />
+          <Property Name="WaybillDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Order" Relationship="ModelPostgres.fl_order_item_order" FromRole="fl__order_item" ToRole="fl__order" />
+          <NavigationProperty Name="Product" Relationship="ModelPostgres.fl_order_item_product" FromRole="fl__order_item" ToRole="SysDictionary" />
+          <NavigationProperty Name="Station" Relationship="ModelPostgres.fl_order_item_station" FromRole="fl__order_item" ToRole="FlStation" />
+        </EntityType>
+        <Association Name="fl_order_auto">
+          <End Type="ModelPostgres.TRNAuto" Role="TRNAuto" Multiplicity="1" />
+          <End Type="ModelPostgres.FlOrder" Role="fl__order" Multiplicity="*" />
+        </Association>
+        <Association Name="fl_order_item_order">
+          <End Type="ModelPostgres.FlOrder" Role="fl__order" Multiplicity="1" />
+          <End Type="ModelPostgres.FlOrderItem" Role="fl__order_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fl__order">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="fl__order_item">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fl_order_tank_farm">
+          <End Type="ModelPostgres.OrgDepartment" Role="OrgDepartment" Multiplicity="1" />
+          <End Type="ModelPostgres.FlOrder" Role="fl__order" Multiplicity="*" />
+        </Association>
+        <Association Name="fl_order_item_product">
+          <End Type="ModelPostgres.SysDictionary" Role="SysDictionary" Multiplicity="1" />
+          <End Type="ModelPostgres.FlOrderItem" Role="fl__order_item" Multiplicity="*" />
+        </Association>
+        <Association Name="fl_order_item_station">
+          <End Type="ModelPostgres.FlStation" Role="FlStation" Multiplicity="1" />
+          <End Type="ModelPostgres.FlOrderItem" Role="fl__order_item" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2202,6 +2383,60 @@
             </EndProperty>
             <EndProperty Name="SysDictionary">
               <ScalarProperty Name="ID" ColumnName="type_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="FlOrders">
+            <EntityTypeMapping TypeName="ModelPostgres.FlOrder">
+              <MappingFragment StoreEntitySet="fl__order">
+                <ScalarProperty Name="DocDate" ColumnName="doc_date" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FlOrderItems">
+            <EntityTypeMapping TypeName="ModelPostgres.FlOrderItem">
+              <MappingFragment StoreEntitySet="fl__order_item">
+                <ScalarProperty Name="WaybillDate" ColumnName="waybill_date" />
+                <ScalarProperty Name="WaybillNum" ColumnName="waybill_num" />
+                <ScalarProperty Name="Volume" ColumnName="volume_plan" />
+                <ScalarProperty Name="TankNum" ColumnName="tank_num" />
+                <ScalarProperty Name="SectionNum" ColumnName="section_num" />
+                <ScalarProperty Name="OrderID" ColumnName="order_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="fl_order_auto" TypeName="ModelPostgres.fl_order_auto" StoreEntitySet="fl__order">
+            <EndProperty Name="fl__order">
+              <ScalarProperty Name="ID" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="TRNAuto">
+              <ScalarProperty Name="ID" ColumnName="auto_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="fl_order_tank_farm" TypeName="ModelPostgres.fl_order_tank_farm" StoreEntitySet="fl__order">
+            <EndProperty Name="fl__order">
+              <ScalarProperty Name="ID" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="OrgDepartment">
+              <ScalarProperty Name="ID" ColumnName="tank_farm_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="fl_order_item_product" TypeName="ModelPostgres.fl_order_item_product" StoreEntitySet="fl__order_item">
+            <EndProperty Name="fl__order_item">
+              <ScalarProperty Name="SectionNum" ColumnName="section_num" />
+              <ScalarProperty Name="OrderID" ColumnName="order_id" />
+            </EndProperty>
+            <EndProperty Name="SysDictionary">
+              <ScalarProperty Name="ID" ColumnName="product_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="fl_order_item_station" TypeName="ModelPostgres.fl_order_item_station" StoreEntitySet="fl__order_item">
+            <EndProperty Name="fl__order_item">
+              <ScalarProperty Name="SectionNum" ColumnName="section_num" />
+              <ScalarProperty Name="OrderID" ColumnName="order_id" />
+            </EndProperty>
+            <EndProperty Name="FlStation">
+              <ScalarProperty Name="ID" ColumnName="station_id" />
             </EndProperty>
           </AssociationSetMapping>
           </EntityContainerMapping>
