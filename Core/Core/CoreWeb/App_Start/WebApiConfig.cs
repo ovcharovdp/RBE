@@ -38,7 +38,7 @@ namespace CoreWeb
             builder.EntitySet<TRNDriver>("TRNDrivers");
             builder.EntitySet<FlStation>("FlStations");
             builder.EntitySet<FlOrder>("FlOrders");
-            builder.EntitySet<TRNAuto>("TRNAutos");
+            builder.EntitySet<TRNAuto>("TRNAutoes");
             builder.EntitySet<TRNAutoSection>("TRNAutoSections");
             builder.EntitySet<FlOrderItem>("FlOrderItems");
 

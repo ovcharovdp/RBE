@@ -5,20 +5,13 @@
         ",{ 'id': 'edit', 'spriteCssClass': 'i-edit' },{ 'id': 'del', 'spriteCssClass': 'i-del'},{ 'id': 'reload', 'spriteCssClass': 'i-reload'}]}",
         Model.Columns.Any(p => p.Exportable) ? ",{ 'type': 'button', 'id': 'saveAsExcel', 'spriteCssClass': 'i-excel', text: ' Экспорт в Excel' }" : ""))"></div>
 <div id="grid" style="border-style: none; height: 100%;" data-role="grid" data-selectable="true" data-sortable="true" data-filterable="{extra:false}"
-     data-scrollable="true" data-detail-template="detailTemplate" data-pageable="true" data-bind="source: elements, events: { detailInit: detailInit }" data-columns='[@Html.KendoGridColumns(Model.Columns)]' @*data-detail-init="detailInit"*@></div>
-
-@*<div id="grid" style="border-style: none; height: 100%"></div>
-<script type="text/x-kendo-template" id="template">
-    <ul id="menu" style="border-style:none; background-color: transparent; background-image: none;"></ul>
-</script>*@
+     data-scrollable="true" data-detail-template="detailTemplate" data-pageable="true" data-bind="source: elements, events: { detailInit: detailInit }" data-columns='[@Html.KendoGridColumns(Model.Columns)]'></div>
 <script id="detailTemplate" type="text/x-kendo-template">
     <div data-role="grid"
          data-scrollable="false"
-         data-selectable="true" 
          data-bind="source: Items"
          data-columns='[{field:"Station.Name",title:"АЗС"},{field:"TankNum",title:"Резервуар"},{field:"Product.Name",title:"Продукт"},{field:"SectionNum",title:"Секция"},{field:"Volume",title:"Объем"},{field:"WaybillNum",title:"Номер ТТН"},{field:"WaybillDate",title:"Дата ТТН"}]'>
     </div>
-    @*<div>jdfhdskj</div>*@
 </script>
 <script>
     var m = asu.fuel.orderModel({
@@ -29,33 +22,6 @@
     expand: "@Model.ExpandEntity",
     columnsExcel: [@Html.KendoGridColumns(Model.Columns.Where(p=>p.Exportable).ToList())]});
     kendo.bind($("#content"), m);
-    @*function newElement() {
-        saveEntity("@Url.Action("New")", function (r) { editWnd.close(); dataGrid.dataSource.pushCreate(r) });
-    }
-    function editElement(id) {
-        saveEntity("@Url.Action("Edit")", function (r) { editWnd.close(); dataGrid.dataSource.pushUpdate(r) }, { id: id });
-    }
-    var dataGrid = asu.common.flatGrid({
-        container: $("#grid"), toolbar: $("#template"), popup: editWnd,
-        fields: {@Html.KendoModelFields(Model.Columns) },
-        columns: [@Html.KendoGridColumns(Model.Columns)],
-        columnsExcel: [@Html.KendoGridColumns(Model.Columns.Where(p=>p.Exportable).ToList())],
-        expand: "@Model.ExpandEntity",
-        group: function () { return (tree.curItem() == undefined) ? { ID: 0 } : tree.curItem() },
-        controller: "@Url.Action("")", entity: "@Model.ODataEntity", entityName: "объект"
-    });
-    var ds = [{ code: "add", text: "", spriteCssClass: "i-add" },
-        //{ code: "edit", text: "", spriteCssClass: "i-edit" },
-        { code: "del", text: "", spriteCssClass: "i-del" },
-        { code: "reload", text: "", spriteCssClass: "i-reload" }
-        @if (Model.Columns.Any(p=>p.Exportable))
-	    {<text>, { code: "saveAsExcel", text: "", spriteCssClass: "i-excel", title: "Экспорт в Excel" }</text>}
-    ];
-    asu.common.mainMenu({ items: ds, owner: dataGrid });
-    function resizeContainers() {
-        var headerHeight = $("#menu-panel").outerHeight(true);
-        dataGrid.element.height(mainHeight() - headerHeight - 3); dataGrid.resize();
-    }*@
     function resizeContainers() {
         var headerHeight = $("#toolbar").outerHeight(true), dataGrid = $("#grid").data("kendoGrid");
         dataGrid.element.height(mainHeight() - headerHeight); dataGrid.resize();

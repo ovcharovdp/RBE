@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreWeb", "Core\CoreWeb\Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreTest", "Core\CoreTest\CoreTest.csproj", "{D21A2BC1-49F5-4AAE-A1E6-1D393A1243E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuelAPI", "FuelAPI\FuelAPI.csproj", "{A3412DC2-AA7C-4776-8718-65DEFCC51CBB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,14 @@ Global
 		{D21A2BC1-49F5-4AAE-A1E6-1D393A1243E7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D21A2BC1-49F5-4AAE-A1E6-1D393A1243E7}.ReleaseForms|Any CPU.ActiveCfg = Release|Any CPU
 		{D21A2BC1-49F5-4AAE-A1E6-1D393A1243E7}.ReleaseForms|Any CPU.Build.0 = Release|Any CPU
+		{A3412DC2-AA7C-4776-8718-65DEFCC51CBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3412DC2-AA7C-4776-8718-65DEFCC51CBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3412DC2-AA7C-4776-8718-65DEFCC51CBB}.Pkg|Any CPU.ActiveCfg = Release|Any CPU
+		{A3412DC2-AA7C-4776-8718-65DEFCC51CBB}.Pkg|Any CPU.Build.0 = Release|Any CPU
+		{A3412DC2-AA7C-4776-8718-65DEFCC51CBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3412DC2-AA7C-4776-8718-65DEFCC51CBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3412DC2-AA7C-4776-8718-65DEFCC51CBB}.ReleaseForms|Any CPU.ActiveCfg = Release|Any CPU
+		{A3412DC2-AA7C-4776-8718-65DEFCC51CBB}.ReleaseForms|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

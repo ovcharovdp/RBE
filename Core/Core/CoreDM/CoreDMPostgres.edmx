@@ -13,6 +13,9 @@
           <Property Name="auto_id" Type="int8" Nullable="false" />
           <Property Name="doc_date" Type="date" Nullable="false" />
           <Property Name="tank_farm_id" Type="int8" Nullable="false" />
+          <Property Name="state_id" Type="int8" Nullable="false" />
+          <Property Name="order_id" Type="numeric" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="log_id" Type="int4" />
         </EntityType>
         <EntityType Name="fl__order_item">
           <Key>
@@ -219,7 +222,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int8" Nullable="false" />
-          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="description" Type="varchar" MaxLength="255" />
           <Property Name="image_name" Type="varchar" MaxLength="100" />
           <Property Name="parent_id" Type="int8" />
@@ -299,7 +302,7 @@
           <Property Name="reg_num" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="org_id" Type="int8" Nullable="false" />
           <Property Name="model_id" Type="int8" Nullable="false" />
-          <Property Name="reg_num_ext" Type="varchar" MaxLength="10" />
+          <Property Name="reg_num_ext" Type="varchar" MaxLength="11" />
           <Property Name="next_cert_date" Type="date" Nullable="false" />
           <Property Name="volume" Type="int4" />
         </EntityType>
@@ -328,7 +331,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fl_order_item_order">
-          <End Role="fl__order" Type="Self.fl__order" Multiplicity="1" />
+          <End Role="fl__order" Type="Self.fl__order" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="fl__order_item" Type="Self.fl__order_item" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="fl__order">
@@ -360,6 +365,18 @@
             </Principal>
             <Dependent Role="fl__order_item">
               <PropertyRef Name="station_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fl_order_state">
+          <End Role="sys__dictionary" Type="Self.sys__dictionary" Multiplicity="1" />
+          <End Role="fl__order" Type="Self.fl__order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys__dictionary">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fl__order">
+              <PropertyRef Name="state_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -741,6 +758,10 @@
             <End Role="fl__station" EntitySet="fl__station" />
             <End Role="fl__order_item" EntitySet="fl__order_item" />
           </AssociationSet>
+          <AssociationSet Name="fl_order_state" Association="Self.fl_order_state">
+            <End Role="sys__dictionary" EntitySet="sys__dictionary" />
+            <End Role="fl__order" EntitySet="fl__order" />
+          </AssociationSet>
           <AssociationSet Name="fl_order_tank_farm" Association="Self.fl_order_tank_farm">
             <End Role="org__department" EntitySet="org__department" />
             <End Role="fl__order" EntitySet="fl__order" />
@@ -1056,6 +1077,10 @@
           <AssociationSet Name="fl_order_item_station" Association="ModelPostgres.fl_order_item_station">
             <End Role="FlStation" EntitySet="FlStations" />
             <End Role="fl__order_item" EntitySet="FlOrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="fl_order_state" Association="ModelPostgres.fl_order_state">
+            <End Role="SysDictionary" EntitySet="SysDictionaries" />
+            <End Role="FlOrder" EntitySet="FlOrders" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="SysRole">
@@ -1888,7 +1913,7 @@
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" />
           <Property Name="RegNum" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="RegNumExt" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="RegNumExt" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
           <Property Name="NextCertDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Volume" Type="Int32" />
           <NavigationProperty Name="Organization" Relationship="ModelPostgres.trn_auto_fk1" FromRole="trn__auto" ToRole="OrgDepartment" />
@@ -1964,6 +1989,9 @@
           <NavigationProperty Name="Auto" Relationship="ModelPostgres.fl_order_auto" FromRole="fl__order" ToRole="TRNAuto" />
           <NavigationProperty Name="Items" Relationship="ModelPostgres.fl_order_item_order" FromRole="fl__order" ToRole="fl__order_item" />
           <NavigationProperty Name="TankFarm" Relationship="ModelPostgres.fl_order_tank_farm" FromRole="fl__order" ToRole="OrgDepartment" />
+          <NavigationProperty Name="State" Relationship="ModelPostgres.fl_order_state" FromRole="FlOrder" ToRole="SysDictionary" />
+          <Property Name="Order" Type="Byte" Nullable="false" />
+          <Property Name="LogID" Type="Int32" />
         </EntityType>
         <EntityType Name="FlOrderItem">
           <Key>
@@ -2007,6 +2035,10 @@
         <Association Name="fl_order_item_station">
           <End Type="ModelPostgres.FlStation" Role="FlStation" Multiplicity="1" />
           <End Type="ModelPostgres.FlOrderItem" Role="fl__order_item" Multiplicity="*" />
+        </Association>
+        <Association Name="fl_order_state">
+          <End Type="ModelPostgres.SysDictionary" Role="SysDictionary" Multiplicity="1" />
+          <End Type="ModelPostgres.FlOrder" Role="FlOrder" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -2388,6 +2420,8 @@
           <EntitySetMapping Name="FlOrders">
             <EntityTypeMapping TypeName="ModelPostgres.FlOrder">
               <MappingFragment StoreEntitySet="fl__order">
+                <ScalarProperty Name="LogID" ColumnName="log_id" />
+                <ScalarProperty Name="Order" ColumnName="order_id" />
                 <ScalarProperty Name="DocDate" ColumnName="doc_date" />
                 <ScalarProperty Name="ID" ColumnName="id" />
               </MappingFragment>
@@ -2437,6 +2471,14 @@
             </EndProperty>
             <EndProperty Name="FlStation">
               <ScalarProperty Name="ID" ColumnName="station_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="fl_order_state" TypeName="ModelPostgres.fl_order_state" StoreEntitySet="fl__order">
+            <EndProperty Name="FlOrder">
+              <ScalarProperty Name="ID" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="SysDictionary">
+              <ScalarProperty Name="ID" ColumnName="state_id" />
             </EndProperty>
           </AssociationSetMapping>
           </EntityContainerMapping>

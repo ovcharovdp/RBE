@@ -198,6 +198,7 @@
     <Compile Include="Areas\Fuel\Controllers\OrderController.cs" />
     <Compile Include="Areas\Fuel\Controllers\StationController.cs" />
     <Compile Include="Areas\Fuel\FuelAreaRegistration.cs" />
+    <Compile Include="Areas\Fuel\Models\OrderCatalogColumnLoader.cs" />
     <Compile Include="Areas\Fuel\Models\StationCatalogColumnLoader.cs" />
     <Compile Include="Areas\Fuel\Models\StationEditModel.cs" />
     <Compile Include="Areas\Org\Controllers\DepartmentController.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="Areas\Org\OrgAreaRegistration.cs" />
     <Compile Include="Areas\Transport\Controllers\AutoController.cs" />
     <Compile Include="Areas\Transport\Controllers\DriverController.cs" />
+    <Compile Include="Areas\Transport\Controllers\OData\TRNAutoesController.cs" />
     <Compile Include="Areas\Transport\Controllers\OData\TRNDriversController.cs" />
     <Compile Include="Areas\Transport\Models\DriverCatalogColumnLoader.cs" />
     <Compile Include="Areas\Transport\TransportAreaRegistration.cs" />

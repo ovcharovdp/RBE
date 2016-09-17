@@ -23,13 +23,7 @@ namespace CoreWeb.Areas.Transport.Controllers
             throw new NotImplementedException();
         }
 
-        protected override string ODataEntity
-        {
-            get
-            {
-                return base.ODataEntity;
-            }
-        }
+        protected override string ODataEntity { get { return "TRNAutoes"; } }
         protected override void IntDel(long id)
         {
             throw new NotImplementedException();
