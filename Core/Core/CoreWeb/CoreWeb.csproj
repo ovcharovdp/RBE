@@ -278,6 +278,7 @@
     <Compile Include="Providers\DB.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\fuel.css" />
     <Content Include="Content\images\16\add.png" />
     <Content Include="Content\images\16\del.png" />
     <Content Include="Content\images\16\edit.png" />
@@ -455,6 +456,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\FuelAPI\FuelAPI.csproj">
+      <Project>{a3412dc2-aa7c-4776-8718-65defcc51cbb}</Project>
+      <Name>FuelAPI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BaseEntities\BaseEntities.csproj">
       <Project>{bab96293-4dcf-4efe-a83c-75269a178815}</Project>
       <Name>BaseEntities</Name>

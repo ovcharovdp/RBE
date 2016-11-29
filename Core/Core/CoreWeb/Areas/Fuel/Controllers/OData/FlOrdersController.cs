@@ -32,7 +32,7 @@ namespace CoreWeb.Areas.Fuel.Controllers.OData
         private CoreEntities db = new CoreEntities();
 
         // GET: odata/FlOrders
-        [EnableQuery]
+        [EnableQuery(MaxExpansionDepth =3)]
         public IQueryable<FlOrder> GetFlOrders()
         {
             return db.FlOrders;

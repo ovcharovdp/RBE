@@ -33,7 +33,7 @@ namespace CoreWeb.Areas.Fuel.Controllers.OData
         private CoreEntities db = new CoreEntities();
 
         // GET: odata/FlOrderItems
-        [EnableQuery]
+        [EnableQuery(MaxExpansionDepth = 3)]
         public IQueryable<FlOrderItem> GetFlOrderItems()
         {
             return db.FlOrderItems;
@@ -43,7 +43,7 @@ namespace CoreWeb.Areas.Fuel.Controllers.OData
         [EnableQuery]
         public SingleResult<FlOrderItem> GetFlOrderItem([FromODataUri] long key)
         {
-            return SingleResult.Create(db.FlOrderItems.Where(flOrderItem => flOrderItem.OrderID == key));
+            return SingleResult.Create(db.FlOrderItems.Where(flOrderItem => flOrderItem.Order.ID == key));
         }
 
         // PUT: odata/FlOrderItems(5)
@@ -176,14 +176,14 @@ namespace CoreWeb.Areas.Fuel.Controllers.OData
         [EnableQuery]
         public SingleResult<SysDictionary> GetProduct([FromODataUri] long key)
         {
-            return SingleResult.Create(db.FlOrderItems.Where(m => m.OrderID == key).Select(m => m.Product));
+            return SingleResult.Create(db.FlOrderItems.Where(m => m.Order.ID == key).Select(m => m.Product));
         }
 
         // GET: odata/FlOrderItems(5)/Station
         [EnableQuery]
         public SingleResult<FlStation> GetStation([FromODataUri] long key)
         {
-            return SingleResult.Create(db.FlOrderItems.Where(m => m.OrderID == key).Select(m => m.Station));
+            return SingleResult.Create(db.FlOrderItems.Where(m => m.Order.ID == key).Select(m => m.Station));
         }
 
         protected override void Dispose(bool disposing)
@@ -197,7 +197,7 @@ namespace CoreWeb.Areas.Fuel.Controllers.OData
 
         private bool FlOrderItemExists(long key)
         {
-            return db.FlOrderItems.Count(e => e.OrderID == key) > 0;
+            return db.FlOrderItems.Count(e => e.Order.ID == key) > 0;
         }
     }
 }

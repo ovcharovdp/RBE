@@ -10,6 +10,7 @@ using CoreAPI.Types;
 using CoreWeb.Models.Catalog;
 using CoreWeb.Areas.Fuel.Models;
 using CoreDM;
+using FuelAPI.Operations;
 
 namespace CoreWeb.Areas.Fuel.Controllers
 {
@@ -29,7 +30,7 @@ namespace CoreWeb.Areas.Fuel.Controllers
 
         protected override void IntDel(long id)
         {
-            throw new NotImplementedException();
+            StationOperations.Del(_db, id);
         }
 
         protected override object IntEdit(IEnumerable<ClientValue> data, long id)

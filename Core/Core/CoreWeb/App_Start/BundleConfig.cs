@@ -30,7 +30,7 @@ namespace CoreWeb
                         "~/Scripts/kendo/kendo.ext.js",
                         "~/Scripts/kendo/kendo.ru-RU.js"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/site.css",
+                "~/Content/site.css", "~/Content/fuel.css",
                 "~/Content/Menu/jquery.multilevelpushmenu_white.css"));
         }
     }

@@ -1,0 +1,9 @@
+﻿.f-loaded {
+    font-weight: bold;
+    color: blue;
+}
+
+.f-canceled {
+    font-weight: bold;
+    color: red;
+}

@@ -16,7 +16,7 @@ namespace CoreWeb.Areas.Fuel.Controllers
     {
         public OrderController(ICoreDBContext db) : base(db) { }
         protected override string CatalogGID { get { return "AE6C7990-A560-4C68-85D1-C8D95BDA9077"; } }
-        protected override string ODataEntity { get { return "FlOrders"; } }
+        protected override string ODataEntity { get { return "FlOrderItems"; } }
         protected override IColumnLoader GetColumnLoader()
         {
             return new OrderCatalogColumnLoader(CoreDB, this.CatalogParams.Fields) as IColumnLoader;
