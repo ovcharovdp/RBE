@@ -65,7 +65,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\EmailConfig.cs" />
+    <Compile Include="Config\FolderCollection.cs" />
     <Compile Include="Config\FtpBUKConfig.cs" />
+    <Compile Include="Config\FtpSourceConfig.cs" />
     <Compile Include="Config\FuelConfig.cs" />
     <Compile Include="Config\PathConfig.cs" />
     <Compile Include="Logistica.cs" />

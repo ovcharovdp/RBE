@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Configuration;
 
 namespace FuelAPI.Config
 {
@@ -12,26 +7,22 @@ namespace FuelAPI.Config
         [ConfigurationProperty("paths")]
         public PathConfig Paths
         {
-            get
-            {
-                return (PathConfig)this["paths"];
-            }
+            get { return (PathConfig)this["paths"]; }
         }
         [ConfigurationProperty("eMail")]
         public EmailConfig Email
         {
-            get
-            {
-                return (EmailConfig)this["eMail"];
-            }
+            get { return (EmailConfig)this["eMail"]; }
         }
         [ConfigurationProperty("ftpBUK")]
         public FtpBUKConfig FtpBUK
         {
-            get
-            {
-                return (FtpBUKConfig)this["ftpBUK"];
-            }
+            get { return (FtpBUKConfig)this["ftpBUK"]; }
+        }
+        [ConfigurationProperty("ftpSource")]
+        public FtpSourceConfig FtpSource
+        {
+            get { return (FtpSourceConfig)base["ftpSource"]; }
         }
     }
 }

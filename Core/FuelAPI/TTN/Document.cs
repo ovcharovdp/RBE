@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Linq;
 
 namespace FuelAPI.TTN
 {
@@ -12,7 +13,9 @@ namespace FuelAPI.TTN
         public SectionData()
         {
             ProductClass = 5;
+            AllowExport = false;
         }
+        public bool AllowExport { get; set; }
         public SectionData(XmlNode s) : this()
         {
             XmlNode n = s["КодТоплива"];
@@ -96,7 +99,7 @@ namespace FuelAPI.TTN
                 Sections.Add(new SectionData(s));
             }
         }
-       // public FlStation Station { get; set; }
+        // public FlStation Station { get; set; }
         public string StationID { get; set; }
         public string ErrorMessage { get; set; }
         public bool HasError { get { return !string.IsNullOrEmpty(ErrorMessage); } }
@@ -144,6 +147,9 @@ namespace FuelAPI.TTN
         }
         public void CreateDocument(string fileName)
         {
+            if (!this._sections.Any(p => p.AllowExport))
+                return;
+
             XmlWriter w = XmlWriter.Create(fileName);
             w.WriteStartDocument();
             w.WriteStartElement("TTN");
@@ -166,7 +172,7 @@ namespace FuelAPI.TTN
 
             //    AddValue(w, "ДопИнф", "Не проводить!");
 
-            foreach (var s in this._sections)
+            foreach (var s in this._sections.Where(p => p.AllowExport))
             {
                 w.WriteStartElement("Секция");
                 w.WriteStartElement("КодТоплива");

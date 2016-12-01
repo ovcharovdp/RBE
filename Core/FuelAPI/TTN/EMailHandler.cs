@@ -8,8 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace FuelAPI.TTN
@@ -25,7 +23,7 @@ namespace FuelAPI.TTN
         public void DownloadFiles()
         {
             Pop3Client objClient = new Pop3Client();
-            objClient.Connect(_config.Email.Host, 110, false);
+            objClient.Connect(_config.Email.Host, _config.Email.Port, false);
             objClient.Authenticate(_config.Email.User, _config.Email.Password);
             int comCount = objClient.GetMessageCount();
             if (comCount == 0)
@@ -85,14 +83,13 @@ namespace FuelAPI.TTN
                                         }
                                         _db.SaveChanges();
                                         if (!item.Station.Code.HasValue)
-                                            throw new Exception("Для АЗС не задан идентификатор АСУТП");
+                                            throw new Exception("Для АЗС " + item.Station.Name + " не задан идентификатор АСУТП");
 
                                         ttn.StationID = item.Station.Code.GetValueOrDefault().ToString();
                                         ttn.CustomerName = item.Station.Organization.FullName;
                                         ttn.CustomerCode = item.Station.Organization.ID.ToString();
                                     }
                                     ttn.CreateDocument(_config.Paths.OutPath + a.FileName);
-                                    // отправить ТТН!!!
                                 }
                                 catch (Exception e)
                                 {

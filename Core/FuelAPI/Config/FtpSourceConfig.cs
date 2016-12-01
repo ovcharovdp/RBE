@@ -2,18 +2,8 @@
 
 namespace FuelAPI.Config
 {
-    public class EmailConfig : ConfigurationElement
+    public class FtpSourceConfig : ConfigurationElement
     {
-        [ConfigurationProperty("host", IsRequired = true)]
-        public string Host
-        {
-            get { return (string)this["host"]; }
-        }
-        [ConfigurationProperty("port", IsRequired = true)]
-        public int Port
-        {
-            get { return (int)this["port"]; }
-        }
         [ConfigurationProperty("userid", IsRequired = true)]
         public string User
         {
@@ -23,6 +13,12 @@ namespace FuelAPI.Config
         public string Password
         {
             get { return (string)this["pass"]; }
+        }
+
+        [ConfigurationProperty("", IsRequired = true, IsKey = false, IsDefaultCollection = true)]
+        public FolderCollection Folders
+        {
+            get { return (FolderCollection)base[""]; }
         }
     }
 }

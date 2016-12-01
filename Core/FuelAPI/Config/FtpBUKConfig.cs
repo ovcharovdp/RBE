@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Configuration;
 
 namespace FuelAPI.Config
 {
@@ -12,26 +7,17 @@ namespace FuelAPI.Config
         [ConfigurationProperty("host", IsRequired = true)]
         public string Host
         {
-            get
-            {
-                return (string)this["host"];
-            }
+            get { return (string)this["host"]; }
         }
         [ConfigurationProperty("userid", IsRequired = true)]
         public string User
         {
-            get
-            {
-                return (string)this["userid"];
-            }
+            get { return (string)this["userid"]; }
         }
         [ConfigurationProperty("pass", IsRequired = true)]
         public string Password
         {
-            get
-            {
-                return (string)this["pass"];
-            }
+            get { return (string)this["pass"]; }
         }
     }
 }

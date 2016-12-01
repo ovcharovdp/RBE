@@ -14,6 +14,7 @@ namespace FuelAPI.TTN
     public class Handler
     {
         FuelConfig _config;
+        string _currentPath;
         public Handler(FuelConfig config)
         {
             _config = config;
@@ -21,14 +22,18 @@ namespace FuelAPI.TTN
 
         List<string> _files = new List<string>();
         CoreDM.CoreEntities _db = new CoreDM.CoreEntities();
-        public void GetFileList()
+        private FtpWebResponse FtpAction(string method, string fileName)
         {
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://10.1.101.41/TTN/");
-            request.Method = WebRequestMethods.Ftp.ListDirectory;
-            request.Credentials = new NetworkCredential("NBTTN", "vB3T7j");
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(_currentPath + fileName);
+            request.Method = method;
+            request.Credentials = new NetworkCredential(_config.FtpSource.User, _config.FtpSource.Password);
 
-            FtpWebResponse response = (FtpWebResponse)request.GetResponse();
-
+            return (FtpWebResponse)request.GetResponse();
+        }
+        private void GetFileList()
+        {
+            _files.Clear();
+            FtpWebResponse response = FtpAction(WebRequestMethods.Ftp.ListDirectory, string.Empty);
             Stream responseStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(responseStream);
             string line = reader.ReadLine();
@@ -42,13 +47,10 @@ namespace FuelAPI.TTN
         }
         private void DeleteFile(string fileName)
         {
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://10.1.101.41/TTN/" + fileName);
-            request.Method = WebRequestMethods.Ftp.DeleteFile;
-            request.Credentials = new NetworkCredential("NBTTN", "vB3T7j");
-            FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+            FtpWebResponse response = FtpAction(WebRequestMethods.Ftp.DeleteFile, fileName);
             response.Close();
         }
-        public void DownloadFiles()
+        private void DownloadFiles()
         {
             if (_files.Count == 0) return;
 
@@ -62,11 +64,7 @@ namespace FuelAPI.TTN
                     DeleteFile(fileName);
                     continue;
                 }
-                FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://10.1.101.41/TTN/" + fileName);
-                request.Method = WebRequestMethods.Ftp.DownloadFile;
-                request.Credentials = new NetworkCredential("NBTTN", "vB3T7j");
-                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
-
+                FtpWebResponse response = FtpAction(WebRequestMethods.Ftp.DownloadFile, fileName);
                 using (Stream responseStream = response.GetResponseStream())
                 {
                     ttnFile.Load(responseStream);
@@ -88,22 +86,46 @@ namespace FuelAPI.TTN
                         else
                         {
                             FlOrder order = _order.Order;
-                            foreach (SectionData section in ttn.Sections)
+                            var q = from o in order.Items.Where(p => p.State.ID != stateCanceledID)
+                                    group o by o.Station into stationGroup
+                                    select stationGroup;
+                            foreach (var station in q)
                             {
-                                FlOrderItem item = order.Items.FirstOrDefault(p => p.Volume == section.Volume && p.State.ID != stateCanceledID);
-                                item.WaybillDate = ttn.DocDate;
-                                item.WaybillNum = ttn.DocNumber;
-                                item.VolumeFact = section.Volume;
-                                item.Density = section.Density;
-                                item.Temperature = section.Temperature;
-                                item.ReceiveDate = DateTime.Now;
-                                item.QPassportNum = section.PassNumber;
-                                item.QPassportDate = section.PassDate;
-                                item.State = _states["3"];
+                                foreach (FlOrderItem item in station)
+                                {
+                                    SectionData section = ttn.Sections.FirstOrDefault(p => p.Volume == item.Volume);
+                                    if (section != null)
+                                    {
+                                        item.WaybillDate = ttn.DocDate;
+                                        item.WaybillNum = ttn.DocNumber;
+                                        item.VolumeFact = section.Volume;
+                                        item.Density = section.Density;
+                                        item.Temperature = section.Temperature;
+                                        item.ReceiveDate = DateTime.Now;
+                                        item.QPassportNum = section.PassNumber;
+                                        item.QPassportDate = section.PassDate;
+                                        item.State = _states["3"];
+                                        section.AllowExport = true;
+                                    }
+                                }
+                                if (!ttn.Sections.Any(p => p.AllowExport))
+                                    continue;
+
+                                _db.SaveChanges();
+                                if (!station.Key.Code.HasValue)
+                                    throw new Exception("Для АЗС " + station.Key.Name + " не задан идентификатор АСУТП");
+
+                                ttn.StationID = station.Key.Code.GetValueOrDefault().ToString();
+                                ttn.CustomerName = station.Key.Organization.FullName;
+                                ttn.CustomerCode = station.Key.Organization.ID.ToString();
+                                ttn.CreateDocument(_config.Paths.OutPath + fileName.Replace(".xml", ttn.Sections.Count.ToString() + ".xml"));
+                                ttn.Sections.RemoveAll(p => p.AllowExport);
                             }
-                            _db.SaveChanges();
+                            if (ttn.Sections.Count > 0)
+                            {
+                                throw new Exception("Не все секции распределены по плану.");
+                            }
                         }
-                        // ttn.CreateDocument(_config.Paths.OutPath + fileName);
                     }
                     catch (Exception e)
                     {
@@ -115,6 +137,15 @@ namespace FuelAPI.TTN
                     }
                 }
                 DeleteFile(fileName);
+            }
+        }
+        public void Handle()
+        {
+            for (int i = 0; i < _config.FtpSource.Folders.Count; i++)
+            {
+                _currentPath = _config.FtpSource.Folders[i].Path;
+                GetFileList();
+                DownloadFiles();
             }
         }
     }
