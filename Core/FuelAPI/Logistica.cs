@@ -277,8 +277,8 @@ namespace FuelAPI
             {
                 //string oString = "Select * from Employees where FirstName=@fName";
                 string orderSQL =
-                    @"SELECT replace(replace(replace(replace(a.Nomer,'RUS',''),' ','-'),'RUC',''),'US','') as RegNum,n.idNPU,n.NPU,mk.idMK, mkd.idMKDet, mk.Data, " +
-                    "  case when m.idMarka = 64 then 52 " +
+                    @"SELECT replace(replace(replace(replace(a.Nomer,'RUS',''),' ','-'),'RUC',''),'US','') as RegNum,case when n.idNPU=319 then 318 else n.idNPU end as idNPU,n.NPU,mk.idMK, mkd.idMKDet, mk.Data, " +
+                    "  case when m.idMarka=64 then 52 " +
                     "  when m.idMarka = 66 then 57 when m.idMarka = 68 then 67 else m.idMarka end as idMarka, " +
                     "  DENSE_RANK() over (partition by mk.idMK, a.Nomer order by mkd.Nachalo) as order_id," +
                     "  m.Marka, u.idUTT,replace(u.UTT,'Гараж ','') as UTT, replace(replace(replace(replace(a.PPricepNumber, '-', ''), ' 16RUS', '-16'), ' 116RUS', '-116'), ' ', '') as ExtRegNum" +
