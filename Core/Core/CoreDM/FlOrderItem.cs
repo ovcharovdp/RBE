@@ -4,10 +4,10 @@ namespace CoreDM
     using System;
     using System.Collections.Generic;
     using BaseEntities;
-    
+
     public partial class FlOrderItem: BaseEntity
     {
-        public decimal SectionNum { get; set; }
+        public byte SectionNum { get; set; }
         public Nullable<decimal> TankNum { get; set; }
         public int Volume { get; set; }
         public Nullable<int> VolumeFact { get; set; }

@@ -94,6 +94,10 @@ namespace FuelAPI.TTN
                                 foreach (FlOrderItem item in station)
                                 {
                                     SectionData section = ttn.Sections.FirstOrDefault(p => p.Volume == item.Volume);
+                                    if (section == null)
+                                    {
+                                         section = ttn.Sections.FirstOrDefault(p => p.SectionNum == item.SectionNum);
+                                    }
                                     if (section != null)
                                     {
                                         item.WaybillDate = ttn.DocDate;

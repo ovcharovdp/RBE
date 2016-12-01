@@ -2041,7 +2041,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" />
-          <Property Name="SectionNum" Type="Decimal" Nullable="false" Precision="1" Scale="0" />
+          <Property Name="SectionNum" Type="Byte" Nullable="false" />
           <Property Name="TankNum" Type="Decimal" Precision="2" Scale="0" />
           <Property Name="Volume" Type="Int32" Nullable="false" />
           <Property Name="VolumeFact" Type="Int32" />

@@ -14,6 +14,7 @@ namespace FuelAPI.TTN
         {
             ProductClass = 5;
             AllowExport = false;
+            SectionNum = 0;
         }
         public bool AllowExport { get; set; }
         public SectionData(XmlNode s) : this()
