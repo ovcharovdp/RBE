@@ -80,6 +80,7 @@ namespace FuelAPI.TTN
                                             item.QPassportNum = section.PassNumber;
                                             item.QPassportDate = section.PassDate;
                                             item.State = _states["3"];
+                                            section.AllowExport = true;
                                         }
                                         _db.SaveChanges();
                                         if (!item.Station.Code.HasValue)
