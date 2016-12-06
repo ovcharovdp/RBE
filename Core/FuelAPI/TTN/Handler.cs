@@ -67,9 +67,28 @@ namespace FuelAPI.TTN
                 FtpWebResponse response = FtpAction(WebRequestMethods.Ftp.DownloadFile, fileName);
                 using (Stream responseStream = response.GetResponseStream())
                 {
-                    ttnFile.Load(responseStream);
+                    try
+                    {
+                        ttnFile.Load(responseStream);
+                    }
+                    catch
+                    {
+                        XmlDeclaration xmlDeclaration = ttnFile.CreateXmlDeclaration("1.0", "UTF-8", null);
+                        XmlElement root = ttnFile.DocumentElement;
+                        ttnFile.InsertBefore(xmlDeclaration, root);
+                        XmlElement node = ttnFile.CreateElement("ErrorMessage");
+                        node.InnerText = "Ошибка обработки файла";
+                        ttnFile.AppendChild(node);
+                        ttnFile.Save(_config.Paths.ErrorPath + fileName);
+                        DeleteFile(fileName);
+                        continue;
+                    }
+                    finally
+                    {
+                        response.Close();
+                    }
                 }
-                response.Close();
+
                 foreach (XmlNode doc in ttnFile.DocumentElement.SelectNodes("Документы/Документ"))
                 {
                     try
@@ -96,7 +115,7 @@ namespace FuelAPI.TTN
                                     SectionData section = ttn.Sections.FirstOrDefault(p => p.Volume == item.Volume);
                                     if (section == null)
                                     {
-                                         section = ttn.Sections.FirstOrDefault(p => p.SectionNum == item.SectionNum);
+                                        section = ttn.Sections.FirstOrDefault(p => p.SectionNum == item.SectionNum);
                                     }
                                     if (section != null)
                                     {
