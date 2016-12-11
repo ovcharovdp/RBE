@@ -17,15 +17,15 @@
             elements: new kendo.data.DataSource({
                 type: "odata",
                 transport: {
-                    //                read: { url: asu.Url("odata/") + a.entity + ((a.expand) ? "?$expand=Items,Items/Station,Items/Station/Organization,Items/Product," + a.expand : "") + "&$select=*,TankFarm/ID,Auto/RegNum,Auto/Organization/ID,State/ID,Items/*,Items/Product/Name,Items/Station/Name,Items/Station/Organization/ShortName", dataType: "json" }
-                    read: { url: asu.Url("odata/") + a.entity + ((a.expand) ? "?$expand=" + a.expand : ""), data: { $orderby: "Order/ID,SectionNum" }, dataType: "json" }
+                    read: { url: asu.Url("odata/") + a.entity + ((a.expand) ? "?$expand=Items,Items/Station,Items/Station/Organization,Items/State,Items/Product,Auto/Model," + a.expand : "") + "&$select=*,TankFarm/ID,Auto/RegNum,Auto/Model/Name,Auto/Organization/ID,Items/*,Items/State/Name,Items/Product/Name,Items/Station/Name,Items/Station/Organization/ShortName", dataType: "json" }
+                    //read: { url: asu.Url("odata/") + a.entity + ((a.expand) ? "?$expand=" + a.expand : ""), data: { $orderby: "Order/ID,SectionNum" }, dataType: "json" }
                 },
                 schema: {
                     model: { id: "ID", fields: a.fields },
                     data: function (r) { if (r.value !== undefined) return r.value; else { delete r["odata.metadata"]; return r; } },
                     total: function (r) { return r["odata.count"] }
                 },
-                filter: { field: "Order.DocDate", operator: "eq", value: today },
+                filter: { field: "DocDate", operator: "eq", value: today },
                 push: function (e) {
                     if (e.type == "update") {
                         var f = this.options.schema.model.fields;
@@ -40,7 +40,12 @@
                 serverFiltering: true,
                 serverSorting: true,
                 error: function (r) { showError(r.xhr); }
-            })
+            }),
+            detailInit: function (e) {
+                console.log(e.data);
+                var dataItem = e.sender.dataItem(e.masterRow);
+                kendo.bind(e.detailCell, dataItem);
+            }
         })
         var _m = this._model;
         return _m;

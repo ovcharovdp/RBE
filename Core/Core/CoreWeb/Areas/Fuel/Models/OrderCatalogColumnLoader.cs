@@ -17,7 +17,7 @@ namespace CoreWeb.Areas.Fuel.Models
         {
             base.LoadColumns();
             IConstLoader gl = new GroupIDLoader(_db);
-            var c = Columns.FirstOrDefault(p => p.Name.Equals("Order.TankFarm.ID"));
+            var c = Columns.FirstOrDefault(p => p.Name.Equals("TankFarm.ID"));
             if (c != null)
             {
                 var gID = ConstManager.Get("8E6BB8D5-52E3-48E3-AD7E-61071CCAF7FC", gl);
@@ -26,7 +26,7 @@ namespace CoreWeb.Areas.Fuel.Models
                         select new BaseObject() { ID = d.ID, Name = d.Name };
                 c.Values = q.Select(p => new BaseObject() { ID = p.ID, Name = p.Name }).ToList();
             }
-            c = Columns.FirstOrDefault(p => p.Name.Equals("Order.Auto.Organization.ID"));
+            c = Columns.FirstOrDefault(p => p.Name.Equals("Auto.Organization.ID"));
             if (c != null)
             {
                 // var gID = ConstManager.Get("A160B3B8-52D3-43F4-8DB0-ACF01A2F6344", gl);
