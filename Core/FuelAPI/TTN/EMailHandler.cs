@@ -56,6 +56,7 @@ namespace FuelAPI.TTN
                             {
                                 try
                                 {
+                                    string error = string.Empty;
                                     TTN.Document ttn = new TTN.Document(doc);
                                     byte sectionNum = ttn.Sections[0].SectionNum;
                                     FlOrderItem item = _db.FlOrderItems.Include("Order").Where(p => p.Order.Auto.RegNum.StartsWith(ttn.RegNum)
@@ -67,33 +68,35 @@ namespace FuelAPI.TTN
                                     {
                                         throw new Exception("План не найден");
                                     }
+                                    foreach (SectionData section in ttn.Sections)
+                                    {
+                                        item.WaybillDate = ttn.DocDate;
+                                        item.WaybillNum = ttn.DocNumber;
+                                        item.VolumeFact = section.Volume;
+                                        item.Density = section.Density;
+                                        item.Temperature = section.Temperature;
+                                        item.ReceiveDate = DateTime.Now;
+                                        item.QPassportNum = section.PassNumber;
+                                        item.QPassportDate = section.PassDate;
+                                        item.State = _states["3"];
+                                        item.Weight = section.Weight;
+                                        if (section.PassDensity > 0)
+                                        {
+                                            item.QDensity = section.PassDensity;
+                                        }
+                                        section.AllowExport = true;
+                                    }
+                                    _db.SaveChanges();
+                                    if (!item.Station.Code.HasValue)
+                                    {
+                                        error = "Для АЗС " + item.Station.Name + " не задан идентификатор АСУТП";
+                                    }
                                     else
                                     {
-                                        foreach (SectionData section in ttn.Sections)
-                                        {
-                                            item.WaybillDate = ttn.DocDate;
-                                            item.WaybillNum = ttn.DocNumber;
-                                            item.VolumeFact = section.Volume;
-                                            item.Density = section.Density;
-                                            item.Temperature = section.Temperature;
-                                            item.ReceiveDate = DateTime.Now;
-                                            item.QPassportNum = section.PassNumber;
-                                            item.QPassportDate = section.PassDate;
-                                            item.State = _states["3"];
-                                            item.Weight = section.Weight;
-                                            if (section.PassDensity > 0)
-                                            {
-                                                item.QDensity = section.PassDensity;
-                                            }
-                                            section.AllowExport = true;
-                                        }
-                                        _db.SaveChanges();
-                                        if (!item.Station.Code.HasValue)
-                                            throw new Exception("Для АЗС " + item.Station.Name + " не задан идентификатор АСУТП");
-
                                         ttn.StationID = item.Station.Code.GetValueOrDefault().ToString();
                                         ttn.CustomerName = item.Station.Organization.FullName;
                                         ttn.CustomerCode = item.Station.Organization.ID.ToString();
+                                        ttn.CreateDocument(_config.Paths.OutPath + a.FileName);
                                     }
                                     FlOrder order = item.Order;
                                     // если не осталось незапланированных секций, то переводим заказ в состояние "Погружен"
@@ -103,7 +106,10 @@ namespace FuelAPI.TTN
                                         order.FillDateFact = DateTime.Now;
                                         _db.SaveChanges();
                                     }
-                                    ttn.CreateDocument(_config.Paths.OutPath + a.FileName);
+                                    if (!string.IsNullOrEmpty(error))
+                                    {
+                                        throw new Exception(error);
+                                    }
                                 }
                                 catch (Exception e)
                                 {

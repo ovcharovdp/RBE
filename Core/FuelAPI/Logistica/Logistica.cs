@@ -32,10 +32,12 @@ namespace FuelAPI.Logistica
         SqlConnection c;
         SqlConnection c1;
         SqlCommand itemCmd;
-        System.IO.StreamWriter file;
+        System.IO.StreamWriter _file;
         Dictionary<string, SysDictionary> _states;
 
-
+        public Logistica(System.IO.StreamWriter file) {
+            _file = file;
+        }
         /// <summary>
         /// Возвращает Нефтебазу
         /// </summary>
@@ -198,7 +200,7 @@ namespace FuelAPI.Logistica
                     }
                     catch (Exception e)
                     {
-                        file.WriteLine(e.Message);
+                        _file.WriteLine(e.Message);
                     }
                 }
                 rr.Close();
@@ -265,7 +267,6 @@ namespace FuelAPI.Logistica
         }
         public int UploadWaybills()
         {
-            file = new System.IO.StreamWriter("c:\\Denis\\errors.txt");
             _db = new CoreEntities();
             Init();
             var con = ConfigurationManager.ConnectionStrings["LogisticDS"].ToString();
@@ -323,15 +324,13 @@ namespace FuelAPI.Logistica
                             }
                             catch (Exception e)
                             {
-                                file.WriteLine(e.Message);
+                                _file.WriteLine(e.Message);
                             }
                         }
                     }
                     c.Close();
                 }
             }
-            file.Close();
-            // _db.SaveChanges();
             return 0;
         }
     }
