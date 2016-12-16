@@ -15,6 +15,9 @@
           <Property Name="tank_farm_id" Type="int8" Nullable="false" />
           <Property Name="order_id" Type="numeric" Precision="1" Scale="0" Nullable="false" />
           <Property Name="log_id" Type="int4" />
+          <Property Name="state_id" Type="int8" Nullable="false" />
+          <Property Name="fill_date_plan" Type="timestamp" />
+          <Property Name="fill_date_fact" Type="timestamp" />
         </EntityType>
         <EntityType Name="fl__order_item">
           <Key>
@@ -37,6 +40,8 @@
           <Property Name="state_id" Type="int8" Nullable="false" />
           <Property Name="customer_id" Type="int8" Nullable="false" />
           <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="weight" Type="int4" />
+          <Property Name="q_density" Type="numeric" Precision="4" Scale="4" />
         </EntityType>
         <EntityType Name="fl__station">
           <Key>
@@ -396,6 +401,18 @@
             </Principal>
             <Dependent Role="fl__order_item">
               <PropertyRef Name="station_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fl_order_state">
+          <End Role="sys__dictionary" Type="Self.sys__dictionary" Multiplicity="1" />
+          <End Role="fl__order" Type="Self.fl__order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys__dictionary">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fl__order">
+              <PropertyRef Name="state_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -785,6 +802,10 @@
             <End Role="fl__station" EntitySet="fl__station" />
             <End Role="fl__order_item" EntitySet="fl__order_item" />
           </AssociationSet>
+          <AssociationSet Name="fl_order_state" Association="Self.fl_order_state">
+            <End Role="sys__dictionary" EntitySet="sys__dictionary" />
+            <End Role="fl__order" EntitySet="fl__order" />
+          </AssociationSet>
           <AssociationSet Name="fl_order_tank_farm" Association="Self.fl_order_tank_farm">
             <End Role="org__department" EntitySet="org__department" />
             <End Role="fl__order" EntitySet="fl__order" />
@@ -1108,6 +1129,10 @@
           <AssociationSet Name="fl_order_item_station" Association="ModelPostgres.fl_order_item_station">
             <End Role="FlStation" EntitySet="FlStations" />
             <End Role="fl__order_item" EntitySet="FlOrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="fl_order_state" Association="ModelPostgres.fl_order_state">
+            <End Role="SysDictionary" EntitySet="SysDictionaries" />
+            <End Role="FlOrder" EntitySet="FlOrders" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="SysRole">
@@ -2027,6 +2052,9 @@
           </Property>
           <Property Name="LogID" Type="Int32" />
           <NavigationProperty Name="Items" Relationship="ModelPostgres.fl_order_item_order" FromRole="FlOrder" ToRole="fl__order_item" />
+          <NavigationProperty Name="State" Relationship="ModelPostgres.fl_order_state" FromRole="FlOrder" ToRole="SysDictionary" />
+          <Property Name="FillDatePlan" Type="DateTime" Precision="6" />
+          <Property Name="FillDateFact" Type="DateTime" Precision="6" />
         </EntityType>
         <Association Name="fl_order_auto">
           <End Type="ModelPostgres.TRNAuto" Role="TRNAuto" Multiplicity="1" />
@@ -2057,6 +2085,12 @@
           <NavigationProperty Name="Product" Relationship="ModelPostgres.fl_order_item_product" FromRole="fl__order_item" ToRole="SysDictionary" />
           <NavigationProperty Name="State" Relationship="ModelPostgres.fl_order_item_state" FromRole="fl__order_item" ToRole="SysDictionary" />
           <NavigationProperty Name="Station" Relationship="ModelPostgres.fl_order_item_station" FromRole="fl__order_item" ToRole="FlStation" />
+          <Property Name="Weight" Type="Int32" />
+          <Property Name="QDensity" Type="Decimal" Precision="4" Scale="4" >
+            <Documentation>
+              <Summary>Плотность продукта при температуре приведения</Summary>
+            </Documentation>
+          </Property>
         </EntityType>
         <Association Name="fl_order_item_order">
           <End Type="ModelPostgres.FlOrder" Role="FlOrder" Multiplicity="1">
@@ -2079,6 +2113,10 @@
         <Association Name="fl_order_item_station">
           <End Type="ModelPostgres.FlStation" Role="FlStation" Multiplicity="1" />
           <End Type="ModelPostgres.FlOrderItem" Role="fl__order_item" Multiplicity="*" />
+        </Association>
+        <Association Name="fl_order_state">
+          <End Type="ModelPostgres.SysDictionary" Role="SysDictionary" Multiplicity="1" />
+          <End Type="ModelPostgres.FlOrder" Role="FlOrder" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -2461,6 +2499,8 @@
           <EntitySetMapping Name="FlOrders">
             <EntityTypeMapping TypeName="ModelPostgres.FlOrder">
               <MappingFragment StoreEntitySet="fl__order">
+                <ScalarProperty Name="FillDateFact" ColumnName="fill_date_fact" />
+                <ScalarProperty Name="FillDatePlan" ColumnName="fill_date_plan" />
                 <ScalarProperty Name="LogID" ColumnName="log_id" />
                 <ScalarProperty Name="Order" ColumnName="order_id" />
                 <ScalarProperty Name="DocDate" ColumnName="doc_date" />
@@ -2487,6 +2527,8 @@
           <EntitySetMapping Name="FlOrderItems">
             <EntityTypeMapping TypeName="ModelPostgres.FlOrderItem">
               <MappingFragment StoreEntitySet="fl__order_item">
+                <ScalarProperty Name="QDensity" ColumnName="q_density" />
+                <ScalarProperty Name="Weight" ColumnName="weight" />
                 <ScalarProperty Name="ID" ColumnName="id" />
                 <ScalarProperty Name="QPassportDate" ColumnName="q_passport_date" />
                 <ScalarProperty Name="ReceiveDate" ColumnName="receive_date" />
@@ -2540,6 +2582,14 @@
             </EndProperty>
             <EndProperty Name="FlStation">
               <ScalarProperty Name="ID" ColumnName="station_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="fl_order_state" TypeName="ModelPostgres.fl_order_state" StoreEntitySet="fl__order">
+            <EndProperty Name="FlOrder">
+              <ScalarProperty Name="ID" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="SysDictionary">
+              <ScalarProperty Name="ID" ColumnName="state_id" />
             </EndProperty>
           </AssociationSetMapping>
           </EntityContainerMapping>

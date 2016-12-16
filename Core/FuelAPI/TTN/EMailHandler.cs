@@ -58,7 +58,7 @@ namespace FuelAPI.TTN
                                 {
                                     TTN.Document ttn = new TTN.Document(doc);
                                     byte sectionNum = ttn.Sections[0].SectionNum;
-                                    FlOrderItem item = _db.FlOrderItems.Where(p => p.Order.Auto.RegNum.StartsWith(ttn.RegNum)
+                                    FlOrderItem item = _db.FlOrderItems.Include("Order").Where(p => p.Order.Auto.RegNum.StartsWith(ttn.RegNum)
                                         && p.Order.DocDate.Equals(ttn.DocDate) && p.Order.TankFarm.ShortName.Equals(ttn.PlaceName)
                                         && p.SectionNum == sectionNum
                                         && (p.WaybillNum == ttn.DocNumber || !p.WaybillNum.HasValue)
@@ -80,6 +80,11 @@ namespace FuelAPI.TTN
                                             item.QPassportNum = section.PassNumber;
                                             item.QPassportDate = section.PassDate;
                                             item.State = _states["3"];
+                                            item.Weight = section.Weight;
+                                            if (section.PassDensity > 0)
+                                            {
+                                                item.QDensity = section.PassDensity;
+                                            }
                                             section.AllowExport = true;
                                         }
                                         _db.SaveChanges();
@@ -89,6 +94,14 @@ namespace FuelAPI.TTN
                                         ttn.StationID = item.Station.Code.GetValueOrDefault().ToString();
                                         ttn.CustomerName = item.Station.Organization.FullName;
                                         ttn.CustomerCode = item.Station.Organization.ID.ToString();
+                                    }
+                                    FlOrder order = item.Order;
+                                    // если не осталось незапланированных секций, то переводим заказ в состояние "Погружен"
+                                    if (order.State.ID == _states["1"].ID && !order.Items.Any(p => p.State.Equals(_states["1"])))
+                                    {
+                                        order.State = _states["3"];
+                                        order.FillDateFact = DateTime.Now;
+                                        _db.SaveChanges();
                                     }
                                     ttn.CreateDocument(_config.Paths.OutPath + a.FileName);
                                 }

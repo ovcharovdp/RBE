@@ -108,8 +108,11 @@ namespace FuelAPI.TTN
                             var q = from o in order.Items.Where(p => p.State.ID != stateCanceledID)
                                     group o by o.Station into stationGroup
                                     select stationGroup;
+                            string error = string.Empty;
+
                             foreach (var station in q)
                             {
+                                error = string.Empty;
                                 foreach (FlOrderItem item in station)
                                 {
                                     SectionData section = ttn.Sections.FirstOrDefault(p => p.Volume == item.Volume);
@@ -128,6 +131,11 @@ namespace FuelAPI.TTN
                                         item.QPassportNum = section.PassNumber;
                                         item.QPassportDate = section.PassDate;
                                         item.State = _states["3"];
+                                        item.Weight = section.Weight;
+                                        if (section.PassDensity > 0)
+                                        {
+                                            item.QDensity = section.PassDensity;
+                                        }
                                         section.AllowExport = true;
                                     }
                                 }
@@ -136,17 +144,32 @@ namespace FuelAPI.TTN
 
                                 _db.SaveChanges();
                                 if (!station.Key.Code.HasValue)
-                                    throw new Exception("Для АЗС " + station.Key.Name + " не задан идентификатор АСУТП");
-
-                                ttn.StationID = station.Key.Code.GetValueOrDefault().ToString();
-                                ttn.CustomerName = station.Key.Organization.FullName;
-                                ttn.CustomerCode = station.Key.Organization.ID.ToString();
-                                ttn.CreateDocument(_config.Paths.OutPath + fileName.Replace(".xml", ttn.Sections.Count.ToString() + ".xml"));
+                                {
+                                    error = "Для АЗС " + station.Key.Name + " не задан идентификатор АСУТП";
+                                }
+                                else
+                                {
+                                    ttn.StationID = station.Key.Code.GetValueOrDefault().ToString();
+                                    ttn.CustomerName = station.Key.Organization.FullName;
+                                    ttn.CustomerCode = station.Key.Organization.ID.ToString();
+                                    ttn.CreateDocument(_config.Paths.OutPath + fileName.Replace(".xml", ttn.Sections.Count.ToString() + ".xml"));
+                                }
                                 ttn.Sections.RemoveAll(p => p.AllowExport);
                             }
                             if (ttn.Sections.Count > 0)
                             {
                                 throw new Exception("Не все секции распределены по плану.");
+                            }
+                            // если не осталось незапланированных секций, то переводим заказ в состояние "Погружен"
+                            if (order.State.ID == _states["1"].ID && !order.Items.Any(p => p.State.Equals(_states["1"])))
+                            {
+                                order.State = _states["3"];
+                                order.FillDateFact = DateTime.Now;
+                                _db.SaveChanges();
+                            }
+                            if (!string.IsNullOrEmpty(error))
+                            {
+                                throw new Exception(error);
                             }
                         }
                     }

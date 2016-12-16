@@ -36,13 +36,20 @@ public partial class FlOrder: BaseEntity
 
     public Nullable<int> LogID { get; set; }
 
+    public Nullable<System.DateTime> FillDatePlan { get; set; }
+
+    public Nullable<System.DateTime> FillDateFact { get; set; }
+
 
 
     public virtual TRNAuto Auto { get; set; }
+
     public virtual OrgDepartment TankFarm { get; set; }
 	[JsonIgnore]
 
     public virtual ICollection<FlOrderItem> Items { get; set; }
+
+    public virtual SysDictionary State { get; set; }
 
 }
 

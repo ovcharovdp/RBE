@@ -1,5 +1,6 @@
 ﻿using FuelAPI.Config;
 using FuelAPI.TTN;
+using System;
 
 namespace FuelAPI
 {
@@ -8,8 +9,10 @@ namespace FuelAPI
         static void Main(string[] args)
         {
             FuelConfig fuelConfig = (FuelConfig)System.Configuration.ConfigurationManager.GetSection("fuelConfigGroup/fuelConfig");
+
+            //  new Logistica.LogisticaChuv().UploadWaybills();
             // загрузка плана
-            new Logistica().UploadWaybills();
+            new Logistica.Logistica().UploadWaybills();
             // загрузка факта с FTP
             var h = new TTN.Handler(fuelConfig); h.Handle();
             // загрузка факта с почты

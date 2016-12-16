@@ -33,7 +33,7 @@ namespace FuelAPI.TTN
 
             n = s["Масса"];
             if (!n.HasChildNodes) { throw new Exception("Нет массы"); }
-            this.Weight = Convert.ToDouble(n.InnerText, CultureInfo.InvariantCulture);
+            this.Weight = (int)Convert.ToDouble(n.InnerText, CultureInfo.InvariantCulture);
 
             n = s["Температура"];
             if (!n.HasChildNodes) { throw new Exception("Нет температуры"); }
@@ -49,16 +49,20 @@ namespace FuelAPI.TTN
 
             n = s["НомерСекции"];
             if (n != null) this.SectionNum = Convert.ToByte(n.InnerText);
+
+            n = s["ПлотностьПаспорта"];
+            if (n != null) this.PassDensity = Convert.ToDecimal(n.InnerText, CultureInfo.InvariantCulture);
         }
         public byte SectionNum { get; set; }
         public Int16 ProductCode { get; set; }
         public byte ProductClass { get; set; }
         public Int32 Volume { get; set; }
         public Decimal Density { get; set; }
-        public double Weight { get; set; }
+        public int Weight { get; set; }
         public Decimal Temperature { get; set; }
         public string PassNumber { get; set; }
         public DateTime PassDate { get; set; }
+        public Decimal PassDensity { get; set; }
     }
     public class Document
     {
@@ -206,6 +210,18 @@ namespace FuelAPI.TTN
                 w.WriteStartElement("ПаспортКачестваДата");
                 w.WriteValue(s.PassDate.ToString("yyyy-MM-dd"));
                 w.WriteEndElement();
+
+                if (s.PassDensity > 0)
+                {
+                    w.WriteStartElement("ТемператураПриведения");
+                    w.WriteValue(15);
+                    w.WriteEndElement();
+
+                    w.WriteStartElement("ПлотностьПаспорта");
+                    w.WriteValue(s.PassDensity);
+                    w.WriteEndElement();
+                }
+
                 w.WriteEndElement();
             }
 

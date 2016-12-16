@@ -1,4 +1,8 @@
-﻿.f-loaded {
+﻿tr.f-loaded:not(.k-state-selected) {
+    background-color: khaki;
+}
+
+span.f-loaded {
     font-weight: bold;
     color: blue;
 }

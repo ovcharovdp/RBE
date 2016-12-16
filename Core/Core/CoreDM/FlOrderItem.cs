@@ -20,6 +20,14 @@ namespace CoreDM
         public Nullable<System.DateTime> ReceiveDate { get; set; }
         public Nullable<System.DateTime> QPassportDate { get; set; }
 
+        public Nullable<int> Weight { get; set; }
+
+	    /// <summary>
+	    /// Плотность продукта при температуре приведения
+	    /// </summary>
+
+        public Nullable<decimal> QDensity { get; set; }
+
         public virtual FlOrder Order { get; set; }
         public virtual OrgDepartment Customer { get; set; }
         public virtual SysDictionary Product { get; set; }
