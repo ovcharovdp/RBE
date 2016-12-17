@@ -20,7 +20,14 @@
                     read: { url: asu.Url("odata/") + a.entity + ((a.expand) ? "?$expand=Items,Items/Station,State,Items/Station/Organization,Items/State,Items/Product,Auto/Model,Items/Customer," + a.expand : "") + "&$select=*,State/ID,State/Description,TankFarm/ID,Auto/RegNum,Auto/Model/Name,Auto/Organization/ID,Items/*,Items/State/*,Items/Customer/FullName,Items/Product/Name,Items/Station/Name,Items/Station/Organization/ShortName", dataType: "json" }
                 },
                 schema: {
-                    model: { id: "ID", fields: a.fields },
+                    model: {
+                        id: "ID",
+                        volume: function () {
+                            var v = this.Items.reduce(function (a, b) { return (b.State.Code == "2") ? a : a + b.Volume; }, 0);
+                            return (v == 0) ? "" : v;
+                        },
+                        fields: a.fields
+                    },
                     data: function (r) { if (r.value !== undefined) return r.value; else { delete r["odata.metadata"]; return r; } },
                     total: function (r) { return r["odata.count"] }
                 },
