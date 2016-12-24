@@ -35,7 +35,8 @@ namespace FuelAPI.Logistica
         System.IO.StreamWriter _file;
         Dictionary<string, SysDictionary> _states;
 
-        public Logistica(System.IO.StreamWriter file) {
+        public Logistica(System.IO.StreamWriter file)
+        {
             _file = file;
         }
         /// <summary>
@@ -97,28 +98,53 @@ namespace FuelAPI.Logistica
         }
         private FlStation getStation(IDataReader data)
         {
-            Regex rgx = new Regex("[0-9]{1,3}", RegexOptions.IgnoreCase);
+            FlStation s;
+            Regex rgx = new Regex("(АЗС){1,}(.+)[0-9]{1,3}", RegexOptions.IgnoreCase);
             Match m = rgx.Match(data["azs"].ToString());
             if (String.IsNullOrEmpty(m.Value))
             {
-                throw new Exception("Номер АЗС не определен: " + data["azs"].ToString());
-            }
-            short number = Convert.ToInt16(m.Value);
-            string org = data["org_code"].ToString();
-            FlStation s = _stationList.SingleOrDefault(p => p.Number == number && p.Organization.Code.Equals(org));
-            if (s == null)
-            {
-                s = new FlStation()
+                string id = data["idazs"].ToString();
+                s = _stationList.FirstOrDefault(p => p.InfoOilCode == id);
+                if (s == null)
                 {
-                    Name = m.Value.PadLeft(3, '0'),
-                    Code = 0,
-                    Address = data["Address"].ToString(),
-                    Number = number,
-                    Organization = _filialList[org],
-                    Type = _azsType
-                };
-                StationOperations.New(_db, s);
-                _stationList.Add(s);
+                    string name = data["azs"].ToString();
+                    name = name.Length > 20 ? name.Substring(0, 19) : name;
+                    s = new FlStation()
+                    {
+                        Name = name,
+                        Code = 0,
+                        Address = data["Address"].ToString(),
+                        Number = 0,
+                        Organization = _filialList["777"],
+                        Type = _azsType,
+                        InfoOilCode = id
+                    };
+                    StationOperations.New(_db, s);
+                    _stationList.Add(s);
+                }
+            }
+            else
+            {
+                rgx = new Regex("[0-9]{1,3}", RegexOptions.IgnoreCase);
+                m = rgx.Match(m.Value);
+                short number = Convert.ToInt16(m.Value);
+                string org = data["org_code"].ToString();
+                s = _stationList.SingleOrDefault(p => p.Number == number && p.Organization.Code.Equals(org));
+
+                if (s == null)
+                {
+                    s = new FlStation()
+                    {
+                        Name = m.Value.PadLeft(3, '0'),
+                        Code = 0,
+                        Address = data["Address"].ToString(),
+                        Number = number,
+                        Organization = _filialList[org],
+                        Type = _azsType
+                    };
+                    StationOperations.New(_db, s);
+                    _stationList.Add(s);
+                }
             }
             if (String.IsNullOrEmpty(s.Address))
             {
@@ -164,6 +190,7 @@ namespace FuelAPI.Logistica
                             };
                             OrderOperations.AddItem(_db, newItem);
                             order.Items.Add(newItem);
+                            order.Volume += newItem.Volume;
                         }
                         else
                         {
@@ -262,6 +289,7 @@ namespace FuelAPI.Logistica
             _azsType = _db.SysDictionaries.Find(150);
             _stationList = _db.FlStations.Include("Organization").ToList();
             _filialList = _db.OrgDepartments.Where(p => p.ParentID == 102).ToDictionary(p => p.Code, p => p);
+            _filialList.Add("777", _db.OrgDepartments.FirstOrDefault(p => p.ID == 82));
 
             _states = OrderOperations.GetStates(_db).ToDictionary(p => p.Code, p => p);
         }
@@ -289,11 +317,12 @@ namespace FuelAPI.Logistica
                     "   and a.idMarka = m.idMarka" +
                     "   and u.idUTT = a.idUTT" +
                     " and mk.status=2" +
-                    // "   and a.Nomer like 'У344%'" +
+                    // "   and a.Nomer like '%362%'" +
                     " order by idMK, Nachalo";
                 SqlCommand oCmd = new SqlCommand(orderSQL, c);
                 string itemSql =
-                    "SELECT DENSE_RANK() over (order by mk.idSekcii) as SectionID, r.nomer, s.obem*1000 obem,g.idgsmasutp,g.idGSM,a.azs,a.idazs, p.Address, " +
+                    "SELECT mk.idMKDET, DENSE_RANK() over (order by mk.idSekcii) as SectionID, r.nomer, s.obem*1000 obem,case g.idGSM when 20 then 109 when 30 then 102 else g.idgsmasutp end as idgsmasutp,g.idGSM,"+
+                    " a.azs,case a.idazs when 448 then 267 when 454 then 267 when 458 then 267 when 459 then 460 else a.idazs end idazs,p.Address, " +
                     " case p.idFilial when 1 then 116 when 2 then 216 when 3 then 416 when 4 then 73 when 5 then 63 when 6 then 18 when 7 then 12 when 8 then 316 when 9 then 21 else 0 end as org_code" +
                     "  FROM [tMKDet] mk,[tMKDet] mko,[sAZS] a,[sReservuar] r,[sSekcii] s,[sGSM] g,[sPredpr] p " +
                     " where mko.idMKDet=@mkID " +

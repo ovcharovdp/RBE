@@ -72,8 +72,13 @@ namespace FuelAPI.TTN
         {
             XmlNode n = data["ДатаТТН"];
             if (!n.HasChildNodes) { throw new Exception("Нет даты ТТН"); }
-            this.DocDate = Convert.ToDateTime(n.InnerText);
+            DateTime d = Convert.ToDateTime(n.InnerText);
+            this.DocDate = d;
+            this.RequestDate = d;
 
+            n = data["ДатаЗаявки"];
+            if (n != null) this.RequestDate = Convert.ToDateTime(n.InnerText);
+            
             n = data["НомерТТН"];
             if (!n.HasChildNodes) { throw new Exception("Нет номера ТТН"); }
             this.DocNumber = Convert.ToInt32(n.InnerText);
@@ -111,6 +116,7 @@ namespace FuelAPI.TTN
         public int DocNumber { get; set; }
         public string DocNumberExt { get; set; }
         public DateTime DocDate { get; set; }
+        public DateTime RequestDate { get; set; }
         private string _regNum;
         public string RegNum
         {

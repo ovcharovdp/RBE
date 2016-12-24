@@ -16,7 +16,8 @@ public partial class FlOrder: BaseEntity
 	/// </summary>
     public FlOrder()
     {
-
+        this.Volume = 0;
+        this.Weight = 0;
         this.Items = new HashSet<FlOrderItem>();
 
     }
@@ -39,6 +40,10 @@ public partial class FlOrder: BaseEntity
     public Nullable<System.DateTime> FillDatePlan { get; set; }
 
     public Nullable<System.DateTime> FillDateFact { get; set; }
+
+    public int Volume { get; set; }
+
+    public int Weight { get; set; }
 
 
 

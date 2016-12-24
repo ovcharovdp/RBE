@@ -18,6 +18,8 @@
           <Property Name="state_id" Type="int8" Nullable="false" />
           <Property Name="fill_date_plan" Type="timestamp" />
           <Property Name="fill_date_fact" Type="timestamp" />
+          <Property Name="volume" Type="int4" Nullable="false" />
+          <Property Name="weight" Type="int4" Nullable="false" />
         </EntityType>
         <EntityType Name="fl__order_item">
           <Key>
@@ -50,7 +52,7 @@
           <Property Name="id" Type="int8" Nullable="false" />
           <Property Name="org_id" Type="int8" Nullable="false" />
           <Property Name="address" Type="varchar" MaxLength="100" />
-          <Property Name="name" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="type_id" Type="int8" Nullable="false" />
           <Property Name="number" Type="int2" Nullable="false" />
           <Property Name="code" Type="int4" />
@@ -2014,7 +2016,7 @@
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" />
           <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Number" Type="Int16" Nullable="false" />
           <NavigationProperty Name="Organization" Relationship="ModelPostgres.fl_station_fk1" FromRole="fl__station" ToRole="OrgDepartment" />
           <NavigationProperty Name="Type" Relationship="ModelPostgres.fl_station_fk2" FromRole="fl__station" ToRole="SysDictionary" />
@@ -2055,6 +2057,8 @@
           <NavigationProperty Name="State" Relationship="ModelPostgres.fl_order_state" FromRole="FlOrder" ToRole="SysDictionary" />
           <Property Name="FillDatePlan" Type="DateTime" Precision="6" />
           <Property Name="FillDateFact" Type="DateTime" Precision="6" />
+          <Property Name="Volume" Type="Int32" DefaultValue="0" Nullable="false" />
+          <Property Name="Weight" Type="Int32" DefaultValue="0" Nullable="false" />
         </EntityType>
         <Association Name="fl_order_auto">
           <End Type="ModelPostgres.TRNAuto" Role="TRNAuto" Multiplicity="1" />
@@ -2499,6 +2503,8 @@
           <EntitySetMapping Name="FlOrders">
             <EntityTypeMapping TypeName="ModelPostgres.FlOrder">
               <MappingFragment StoreEntitySet="fl__order">
+                <ScalarProperty Name="Weight" ColumnName="weight" />
+                <ScalarProperty Name="Volume" ColumnName="volume" />
                 <ScalarProperty Name="FillDateFact" ColumnName="fill_date_fact" />
                 <ScalarProperty Name="FillDatePlan" ColumnName="fill_date_plan" />
                 <ScalarProperty Name="LogID" ColumnName="log_id" />

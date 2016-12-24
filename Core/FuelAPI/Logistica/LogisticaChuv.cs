@@ -168,6 +168,7 @@ namespace FuelAPI.Logistica
                             };
                             OrderOperations.AddItem(_db, newItem);
                             order.Items.Add(newItem);
+                            order.Volume += newItem.Volume;
                         }
                         else
                         {

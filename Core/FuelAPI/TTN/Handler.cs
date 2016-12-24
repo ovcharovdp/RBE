@@ -94,7 +94,7 @@ namespace FuelAPI.TTN
                     try
                     {
                         TTN.Document ttn = new TTN.Document(doc);
-                        IList<FlOrder> orders = _db.FlOrders.Include("Items").Where(p => p.DocDate.Equals(ttn.DocDate) && p.Auto.RegNum.StartsWith(ttn.RegNum) //&& p.State.Code.Equals("1")
+                        IList<FlOrder> orders = _db.FlOrders.Include("Items").Where(p => p.DocDate.Equals(ttn.RequestDate) && p.Auto.RegNum.StartsWith(ttn.RegNum)
                             && p.TankFarm.ShortName.Equals(ttn.PlaceName)).OrderBy(p => p.Order).ToList();
                         long stateCanceledID = _states["2"].ID;
                         var _order = orders.Select(p => new { Order = p, Count = p.Items.Count(i => i.State.ID != stateCanceledID && ((i.WaybillNum == ttn.DocNumber) || (!i.WaybillNum.HasValue))) }).Where(p => p.Count >= ttn.Sections.Count).OrderBy(p => p.Order.Order).FirstOrDefault();
@@ -119,6 +119,10 @@ namespace FuelAPI.TTN
                                     if (section == null)
                                     {
                                         section = ttn.Sections.FirstOrDefault(p => p.SectionNum == item.SectionNum);
+                                        if (section.Volume >= item.Volume - 50 && section.Volume <= item.Volume + 50)
+                                        {
+                                            section = null;
+                                        }
                                     }
                                     if (section != null)
                                     {
@@ -143,16 +147,19 @@ namespace FuelAPI.TTN
                                     continue;
 
                                 _db.SaveChanges();
-                                if (!station.Key.Code.HasValue)
+                                if (station.Key.Number > 0)
                                 {
-                                    error = "Для АЗС " + station.Key.Name + " не задан идентификатор АСУТП";
-                                }
-                                else
-                                {
-                                    ttn.StationID = station.Key.Code.GetValueOrDefault().ToString();
-                                    ttn.CustomerName = station.Key.Organization.FullName;
-                                    ttn.CustomerCode = station.Key.Organization.ID.ToString();
-                                    ttn.CreateDocument(_config.Paths.OutPath + fileName.Replace(".xml", ttn.Sections.Count.ToString() + ".xml"));
+                                    if (!station.Key.Code.HasValue)
+                                    {
+                                        error = "Для АЗС " + station.Key.Name + " не задан идентификатор АСУТП";
+                                    }
+                                    else
+                                    {
+                                        ttn.StationID = station.Key.Code.GetValueOrDefault().ToString();
+                                        ttn.CustomerName = station.Key.Organization.FullName;
+                                        ttn.CustomerCode = station.Key.Organization.ID.ToString();
+                                        ttn.CreateDocument(_config.Paths.OutPath + fileName.Replace(".xml", ttn.Sections.Count.ToString() + ".xml"));
+                                    }
                                 }
                                 ttn.Sections.RemoveAll(p => p.AllowExport);
                             }
@@ -165,6 +172,9 @@ namespace FuelAPI.TTN
                             {
                                 order.State = _states["3"];
                                 order.FillDateFact = DateTime.Now;
+                                List<FlOrderItem> i = order.Items.Where(p => p.State.Equals(_states["3"])).ToList();
+                                order.Volume = i.Sum(p => p.VolumeFact).GetValueOrDefault(0);
+                                order.Weight = i.Sum(p => p.Weight).GetValueOrDefault(0);
                                 _db.SaveChanges();
                             }
                             if (!string.IsNullOrEmpty(error))

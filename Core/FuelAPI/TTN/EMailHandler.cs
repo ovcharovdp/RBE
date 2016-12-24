@@ -87,16 +87,19 @@ namespace FuelAPI.TTN
                                         section.AllowExport = true;
                                     }
                                     _db.SaveChanges();
-                                    if (!item.Station.Code.HasValue)
+                                    if (item.Station.Number > 0)
                                     {
-                                        error = "Для АЗС " + item.Station.Name + " не задан идентификатор АСУТП";
-                                    }
-                                    else
-                                    {
-                                        ttn.StationID = item.Station.Code.GetValueOrDefault().ToString();
-                                        ttn.CustomerName = item.Station.Organization.FullName;
-                                        ttn.CustomerCode = item.Station.Organization.ID.ToString();
-                                        ttn.CreateDocument(_config.Paths.OutPath + a.FileName);
+                                        if (!item.Station.Code.HasValue)
+                                        {
+                                            error = "Для АЗС " + item.Station.Name + " не задан идентификатор АСУТП";
+                                        }
+                                        else
+                                        {
+                                            ttn.StationID = item.Station.Code.GetValueOrDefault().ToString();
+                                            ttn.CustomerName = item.Station.Organization.FullName;
+                                            ttn.CustomerCode = item.Station.Organization.ID.ToString();
+                                            ttn.CreateDocument(_config.Paths.OutPath + a.FileName);
+                                        }
                                     }
                                     FlOrder order = item.Order;
                                     // если не осталось незапланированных секций, то переводим заказ в состояние "Погружен"
