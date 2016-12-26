@@ -119,7 +119,7 @@ namespace FuelAPI.TTN
                                     if (section == null)
                                     {
                                         section = ttn.Sections.FirstOrDefault(p => p.SectionNum == item.SectionNum);
-                                        if (section.Volume >= item.Volume - 50 && section.Volume <= item.Volume + 50)
+                                        if (section.Volume < item.Volume - 50 || section.Volume > item.Volume + 50)
                                         {
                                             section = null;
                                         }
