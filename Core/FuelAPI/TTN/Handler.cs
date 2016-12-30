@@ -119,10 +119,10 @@ namespace FuelAPI.TTN
                                     if (section == null)
                                     {
                                         section = ttn.Sections.FirstOrDefault(p => p.SectionNum == item.SectionNum);
-                                        if (section.Volume < item.Volume - 50 || section.Volume > item.Volume + 50)
-                                        {
-                                            section = null;
-                                        }
+                                        //if (section.Volume < item.Volume - 50 || section.Volume > item.Volume + 50)
+                                        //{
+                                        //    section = null;
+                                        //}
                                     }
                                     if (section != null)
                                     {
@@ -173,7 +173,7 @@ namespace FuelAPI.TTN
                                 order.State = _states["3"];
                                 order.FillDateFact = DateTime.Now;
                                 List<FlOrderItem> i = order.Items.Where(p => p.State.Equals(_states["3"])).ToList();
-                                order.Volume = i.Sum(p => p.VolumeFact).GetValueOrDefault(0);
+                                order.Volume = i.Sum(p => p.VolumeFact);
                                 order.Weight = i.Sum(p => p.Weight).GetValueOrDefault(0);
                                 _db.SaveChanges();
                             }

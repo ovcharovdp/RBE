@@ -7,10 +7,19 @@ namespace CoreDM
 
     public partial class FlOrderItem: BaseEntity
     {
+
+	    /// <summary>
+	    /// Конструктор
+	    /// </summary>
+        public FlOrderItem()
+        {
+            this.VolumeFact = 0m;
+        }
+
         public byte SectionNum { get; set; }
         public Nullable<decimal> TankNum { get; set; }
-        public int Volume { get; set; }
-        public Nullable<int> VolumeFact { get; set; }
+        public decimal Volume { get; set; }
+        public decimal VolumeFact { get; set; }
         public Nullable<int> WaybillNum { get; set; }
         public Nullable<System.DateTime> WaybillDate { get; set; }
 

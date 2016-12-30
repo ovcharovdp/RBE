@@ -22,10 +22,6 @@
                 schema: {
                     model: {
                         id: "ID",
-                        volume: function () {
-                            var v = this.Items.reduce(function (a, b) { return (b.State.Code == "2") ? a : a + b.Volume; }, 0);
-                            return (v == 0) ? "" : v;
-                        },
                         fields: a.fields
                     },
                     data: function (r) { if (r.value !== undefined) return r.value; else { delete r["odata.metadata"]; return r; } },

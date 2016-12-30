@@ -7,7 +7,11 @@ span.f-loaded {
     color: blue;
 }
 
-.f-canceled {
+span.f-canceled {
     font-weight: bold;
     color: red;
+}
+
+tr.f-canceled:not(.k-state-selected) {
+    background-color: darksalmon;
 }

@@ -10,7 +10,7 @@ namespace FuelAPI
         {
             FuelConfig fuelConfig = (FuelConfig)System.Configuration.ConfigurationManager.GetSection("fuelConfigGroup/fuelConfig");
             System.IO.StreamWriter file = new System.IO.StreamWriter(".\\Logs\\" + DateTime.Today.ToString("yyyy_MM_dd") + ".log", true);
-
+            file.WriteLine("*** " + DateTime.Now.ToShortTimeString() + " ***");
             try
             {
                 new Logistica.LogisticaChuv(file).UploadWaybills();

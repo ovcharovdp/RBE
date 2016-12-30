@@ -25,7 +25,7 @@ namespace FuelAPI.TTN
 
             n = s["Объем"];
             if (!n.HasChildNodes) { throw new Exception("Нет объема"); }
-            this.Volume = (int)Convert.ToDouble(n.InnerText, CultureInfo.InvariantCulture);
+            this.Volume = Convert.ToDecimal(n.InnerText, CultureInfo.InvariantCulture);
 
             n = s["Плотность"];
             if (!n.HasChildNodes) { throw new Exception("Нет плотности"); }
@@ -56,7 +56,7 @@ namespace FuelAPI.TTN
         public byte SectionNum { get; set; }
         public Int16 ProductCode { get; set; }
         public byte ProductClass { get; set; }
-        public Int32 Volume { get; set; }
+        public Decimal Volume { get; set; }
         public Decimal Density { get; set; }
         public int Weight { get; set; }
         public Decimal Temperature { get; set; }

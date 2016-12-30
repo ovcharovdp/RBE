@@ -18,7 +18,7 @@
           <Property Name="state_id" Type="int8" Nullable="false" />
           <Property Name="fill_date_plan" Type="timestamp" />
           <Property Name="fill_date_fact" Type="timestamp" />
-          <Property Name="volume" Type="int4" Nullable="false" />
+          <Property Name="volume" Type="numeric" Precision="6" Scale="1" Nullable="false" />
           <Property Name="weight" Type="int4" Nullable="false" />
         </EntityType>
         <EntityType Name="fl__order_item">
@@ -30,8 +30,8 @@
           <Property Name="station_id" Type="int8" Nullable="false" />
           <Property Name="section_num" Type="numeric" Precision="1" Scale="0" Nullable="false" />
           <Property Name="tank_num" Type="numeric" Precision="2" Scale="0" />
-          <Property Name="volume_plan" Type="int4" Nullable="false" />
-          <Property Name="volume_fact" Type="int4" />
+          <Property Name="volume_plan" Type="numeric" Precision="6" Scale="1" Nullable="false" />
+          <Property Name="volume_fact" Type="numeric" Precision="6" Scale="1" Nullable="false" />
           <Property Name="waybill_num" Type="int4" />
           <Property Name="waybill_date" Type="date" />
           <Property Name="density" Type="numeric" Precision="4" Scale="4" />
@@ -2057,7 +2057,7 @@
           <NavigationProperty Name="State" Relationship="ModelPostgres.fl_order_state" FromRole="FlOrder" ToRole="SysDictionary" />
           <Property Name="FillDatePlan" Type="DateTime" Precision="6" />
           <Property Name="FillDateFact" Type="DateTime" Precision="6" />
-          <Property Name="Volume" Type="Int32" DefaultValue="0" Nullable="false" />
+          <Property Name="Volume" Type="Decimal" Nullable="false" Precision="1" DefaultValue="0" />
           <Property Name="Weight" Type="Int32" DefaultValue="0" Nullable="false" />
         </EntityType>
         <Association Name="fl_order_auto">
@@ -2075,8 +2075,8 @@
           <Property Name="ID" Type="Int64" Nullable="false" />
           <Property Name="SectionNum" Type="Byte" Nullable="false" />
           <Property Name="TankNum" Type="Decimal" Precision="2" Scale="0" />
-          <Property Name="Volume" Type="Int32" Nullable="false" />
-          <Property Name="VolumeFact" Type="Int32" />
+          <Property Name="Volume" Type="Decimal" Nullable="false" Precision="1" />
+          <Property Name="VolumeFact" Type="Decimal" Precision="1" Scale="1" DefaultValue="0" Nullable="false" />
           <Property Name="WaybillNum" Type="Int32" />
           <Property Name="WaybillDate" Type="DateTime" Precision="0" />
           <Property Name="Density" Type="Decimal" Precision="4" Scale="4" />

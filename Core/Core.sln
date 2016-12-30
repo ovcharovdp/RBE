@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreTest", "Core\CoreTest\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuelAPI", "FuelAPI\FuelAPI.csproj", "{A3412DC2-AA7C-4776-8718-65DEFCC51CBB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TankBalance", "Core\TankBalance\TankBalance.csproj", "{475CE233-2122-4CC4-90EB-D5105BCA5231}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,14 @@ Global
 		{A3412DC2-AA7C-4776-8718-65DEFCC51CBB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A3412DC2-AA7C-4776-8718-65DEFCC51CBB}.ReleaseForms|Any CPU.ActiveCfg = Release|Any CPU
 		{A3412DC2-AA7C-4776-8718-65DEFCC51CBB}.ReleaseForms|Any CPU.Build.0 = Release|Any CPU
+		{475CE233-2122-4CC4-90EB-D5105BCA5231}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{475CE233-2122-4CC4-90EB-D5105BCA5231}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{475CE233-2122-4CC4-90EB-D5105BCA5231}.Pkg|Any CPU.ActiveCfg = Release|Any CPU
+		{475CE233-2122-4CC4-90EB-D5105BCA5231}.Pkg|Any CPU.Build.0 = Release|Any CPU
+		{475CE233-2122-4CC4-90EB-D5105BCA5231}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{475CE233-2122-4CC4-90EB-D5105BCA5231}.Release|Any CPU.Build.0 = Release|Any CPU
+		{475CE233-2122-4CC4-90EB-D5105BCA5231}.ReleaseForms|Any CPU.ActiveCfg = Release|Any CPU
+		{475CE233-2122-4CC4-90EB-D5105BCA5231}.ReleaseForms|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
