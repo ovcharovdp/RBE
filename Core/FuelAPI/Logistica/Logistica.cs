@@ -208,9 +208,11 @@ namespace FuelAPI.Logistica
                                     Density = item.Density,
                                     QPassportDate = item.QPassportDate,
                                     QPassportNum = item.QPassportNum,
+                                    QDensity = item.QDensity,
                                     ReceiveDate = DateTime.Now,
                                     Temperature = item.Temperature,
                                     VolumeFact = item.VolumeFact,
+                                    Weight = item.Weight,
                                     WaybillNum = item.WaybillNum,
                                     WaybillDate = item.WaybillDate
                                 };
@@ -321,7 +323,7 @@ namespace FuelAPI.Logistica
                     " order by idMK, Nachalo";
                 SqlCommand oCmd = new SqlCommand(orderSQL, c);
                 string itemSql =
-                    "SELECT mk.idMKDET, DENSE_RANK() over (order by mk.idSekcii) as SectionID, r.nomer, s.obem*1000 obem,case g.idGSM when 20 then 109 when 30 then 102 else g.idgsmasutp end as idgsmasutp,g.idGSM,"+
+                    "SELECT mk.idMKDET, DENSE_RANK() over (order by mk.idSekcii) as SectionID, r.nomer, s.obem*1000 obem,case g.idGSM when 20 then 109 when 30 then 102 else g.idgsmasutp end as idgsmasutp,g.idGSM," +
                     " a.azs,case a.idazs when 448 then 267 when 454 then 267 when 458 then 267 when 459 then 460 else a.idazs end idazs,p.Address, " +
                     " case p.idFilial when 1 then 116 when 2 then 216 when 3 then 416 when 4 then 73 when 5 then 63 when 6 then 18 when 7 then 12 when 8 then 316 when 9 then 21 else 0 end as org_code" +
                     "  FROM [tMKDet] mk,[tMKDet] mko,[sAZS] a,[sReservuar] r,[sSekcii] s,[sGSM] g,[sPredpr] p " +

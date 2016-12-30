@@ -186,9 +186,11 @@ namespace FuelAPI.Logistica
                                     Density = item.Density,
                                     QPassportDate = item.QPassportDate,
                                     QPassportNum = item.QPassportNum,
+                                    QDensity = item.QDensity,
                                     ReceiveDate = DateTime.Now,
                                     Temperature = item.Temperature,
                                     VolumeFact = item.VolumeFact,
+                                    Weight = item.Weight,
                                     WaybillNum = item.WaybillNum,
                                     WaybillDate = item.WaybillDate
                                 };
