@@ -112,6 +112,9 @@
     <Compile Include="FlStation.cs">
       <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>
+    <Compile Include="FlStationTank.cs">
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
+    </Compile>
     <Compile Include="ObjBlob.cs">
       <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>
