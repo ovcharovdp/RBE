@@ -195,8 +195,10 @@
     <Compile Include="Areas\Fuel\Controllers\OData\FlOrderItemsController.cs" />
     <Compile Include="Areas\Fuel\Controllers\OData\FlOrdersController.cs" />
     <Compile Include="Areas\Fuel\Controllers\OData\FlStationsController.cs" />
+    <Compile Include="Areas\Fuel\Controllers\OData\FlStationTanksController.cs" />
     <Compile Include="Areas\Fuel\Controllers\OrderController.cs" />
     <Compile Include="Areas\Fuel\Controllers\StationController.cs" />
+    <Compile Include="Areas\Fuel\Controllers\TankController.cs" />
     <Compile Include="Areas\Fuel\FuelAreaRegistration.cs" />
     <Compile Include="Areas\Fuel\Models\OrderCatalogColumnLoader.cs" />
     <Compile Include="Areas\Fuel\Models\StationCatalogColumnLoader.cs" />
@@ -445,6 +447,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Fuel\Views\Fuel\" />
     <Folder Include="Areas\Fuel\Views\Shared\" />
+    <Folder Include="Areas\Fuel\Views\Tank\" />
     <Folder Include="Areas\Org\Views\Shared\" />
     <Folder Include="Areas\Transport\Views\Auto\" />
     <Folder Include="Areas\Transport\Views\Driver\" />

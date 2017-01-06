@@ -15,3 +15,12 @@ span.f-canceled {
 tr.f-canceled:not(.k-state-selected) {
     background-color: darksalmon;
 }
+
+tr.f-done:not(.k-state-selected) {
+    background-color: lightgreen;
+}
+
+span.f-done {
+    font-weight: bold;
+    color: forestgreen;
+}

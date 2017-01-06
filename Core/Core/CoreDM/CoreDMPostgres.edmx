@@ -29,7 +29,7 @@
           <Property Name="product_id" Type="int8" Nullable="false" />
           <Property Name="station_id" Type="int8" Nullable="false" />
           <Property Name="section_num" Type="numeric" Precision="1" Scale="0" Nullable="false" />
-          <Property Name="tank_num" Type="numeric" Precision="2" Scale="0" />
+          <Property Name="tank_num" Type="int2" Nullable="false" />
           <Property Name="volume_plan" Type="numeric" Precision="6" Scale="1" Nullable="false" />
           <Property Name="volume_fact" Type="numeric" Precision="6" Scale="1" Nullable="false" />
           <Property Name="waybill_num" Type="int4" />
@@ -71,8 +71,10 @@
           <Property Name="product_id" Type="int8" Nullable="false" />
           <Property Name="product_asu_id" Type="int8" Nullable="false" />
           <Property Name="state_id" Type="int8" Nullable="false" />
-          <Property Name="week_sell" Type="int4" />
+          <Property Name="day_sell" Type="int4" Nullable="false" />
           <Property Name="balance_date" Type="timestamp" />
+          <Property Name="sell_days" Type="int2" Nullable="false" />
+          <Property Name="dead_date" Type="timestamp" Nullable="false" />
         </EntityType>
         <EntityType Name="obj__blob">
           <Key>
@@ -2173,7 +2175,7 @@
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" />
           <Property Name="SectionNum" Type="Byte" Nullable="false" />
-          <Property Name="TankNum" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="TankNum" Type="Byte" Nullable="false" DefaultValue="0" />
           <Property Name="Volume" Type="Decimal" Nullable="false" Precision="1" />
           <Property Name="VolumeFact" Type="Decimal" Precision="1" Scale="1" DefaultValue="0" Nullable="false" />
           <Property Name="WaybillNum" Type="Int32" />
@@ -2231,11 +2233,17 @@
           <Property Name="DeadVolume" Type="Int32" Nullable="false" DefaultValue="0" />
           <Property Name="Balance" Type="Int32" Nullable="false" DefaultValue="0" />
           <Property Name="BalanceDate" Type="DateTime" Nullable="false" />
-          <Property Name="WeekSell" Type="Int32" />
           <NavigationProperty Name="Station" Relationship="ModelPostgres.fl_station_tank_station" FromRole="fl__station_tank" ToRole="FlStation" />
           <NavigationProperty Name="State" Relationship="ModelPostgres.fl_station_state" FromRole="fl__station_tank" ToRole="SysDictionary" />
           <NavigationProperty Name="Product" Relationship="ModelPostgres.fl_tank_product" FromRole="fl__station_tank" ToRole="SysDictionary" />
           <NavigationProperty Name="ProductASU" Relationship="ModelPostgres.fl_tank_product_asu" FromRole="fl__station_tank" ToRole="SysDictionary" />
+          <Property Name="DaySell" Type="Int32" Nullable="false" DefaultValue="0" />
+          <Property Name="SellDays" Type="Byte" Nullable="false" />
+          <Property Name="DeadDate" Type="DateTime" Nullable="false" >
+            <Documentation>
+              <Summary>Прогнозная дата высыхания</Summary>
+            </Documentation>
+          </Property>
         </EntityType>
         <Association Name="fl_station_tank_station">
           <End Type="ModelPostgres.FlStation" Role="FlStation" Multiplicity="1" />
@@ -2732,7 +2740,9 @@
           <EntitySetMapping Name="FlStationTanks">
             <EntityTypeMapping TypeName="ModelPostgres.FlStationTank">
               <MappingFragment StoreEntitySet="fl__station_tank">
-                <ScalarProperty Name="WeekSell" ColumnName="week_sell" />
+                <ScalarProperty Name="DeadDate" ColumnName="dead_date" />
+                <ScalarProperty Name="SellDays" ColumnName="sell_days" />
+                <ScalarProperty Name="DaySell" ColumnName="day_sell" />
                 <ScalarProperty Name="BalanceDate" ColumnName="balance_date" />
                 <ScalarProperty Name="Balance" ColumnName="balance" />
                 <ScalarProperty Name="DeadVolume" ColumnName="dead_volume" />

@@ -24,6 +24,8 @@ public partial class FlStationTank: BaseEntity
 
         this.Balance = 0;
 
+        this.DaySell = 0;
+
     }
 
 
@@ -37,7 +39,15 @@ public partial class FlStationTank: BaseEntity
 
     public System.DateTime BalanceDate { get; set; }
 
-    public Nullable<int> WeekSell { get; set; }
+    public int DaySell { get; set; }
+
+    public byte SellDays { get; set; }
+
+	/// <summary>
+	/// Прогнозная дата высыхания
+	/// </summary>
+
+    public System.DateTime DeadDate { get; set; }
 
 
 

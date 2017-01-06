@@ -2,6 +2,7 @@
 using CoreAPI.Operations;
 using CoreDM;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FuelAPI.Operations
@@ -42,6 +43,24 @@ namespace FuelAPI.Operations
                 throw new Exception("Ошибка при создании заказа.", e);
             }
             return element.ID;
+        }
+        public static bool ChangeState(FlOrder order)
+        {
+            try
+            {
+                SysDictionary state = order.Items.Where(p => !p.State.Code.Equals("2")).Select(p => p.State).Distinct().SingleOrDefault();
+                order.State = state;
+                if (state.Code.Equals("3"))
+                    order.FillDateFact = DateTime.Now;
+                List<FlOrderItem> i = order.Items.Where(p => p.State.Equals(state)).ToList();
+                order.Volume = i.Sum(p => p.VolumeFact);
+                order.Weight = i.Sum(p => p.Weight).GetValueOrDefault(0);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

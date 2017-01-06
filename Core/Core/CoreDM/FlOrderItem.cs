@@ -13,11 +13,12 @@ namespace CoreDM
 	    /// </summary>
         public FlOrderItem()
         {
+            this.TankNum = 0;
             this.VolumeFact = 0m;
         }
 
         public byte SectionNum { get; set; }
-        public Nullable<decimal> TankNum { get; set; }
+        public byte TankNum { get; set; }
         public decimal Volume { get; set; }
         public decimal VolumeFact { get; set; }
         public Nullable<int> WaybillNum { get; set; }

@@ -101,17 +101,9 @@ namespace FuelAPI.TTN
                                             ttn.CreateDocument(_config.Paths.OutPath + a.FileName);
                                         }
                                     }
-                                    FlOrder order = item.Order;
-                                    // если не осталось незапланированных секций, то переводим заказ в состояние "Погружен"
-                                    if (order.State.ID == _states["1"].ID && !order.Items.Any(p => p.State.Equals(_states["1"])))
-                                    {
-                                        order.State = _states["3"];
-                                        order.FillDateFact = DateTime.Now;
-                                        List<FlOrderItem> i = order.Items.Where(p => p.State.Equals(_states["3"])).ToList();
-                                        order.Volume = i.Sum(p => p.VolumeFact);
-                                        order.Weight = i.Sum(p => p.Weight).GetValueOrDefault(0);
+                                    if (OrderOperations.ChangeState(item.Order))
                                         _db.SaveChanges();
-                                    }
+
                                     if (!string.IsNullOrEmpty(error))
                                     {
                                         throw new Exception(error);

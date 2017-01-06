@@ -1,10 +1,9 @@
-﻿using CoreDM;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text.RegularExpressions;
 using System.Xml;
 using System.Linq;
+using FuelAPI.Operations;
 
 namespace FuelAPI.TTN
 {
@@ -78,7 +77,7 @@ namespace FuelAPI.TTN
 
             n = data["ДатаЗаявки"];
             if (n != null) this.RequestDate = Convert.ToDateTime(n.InnerText);
-            
+
             n = data["НомерТТН"];
             if (!n.HasChildNodes) { throw new Exception("Нет номера ТТН"); }
             this.DocNumber = Convert.ToInt32(n.InnerText);
@@ -123,21 +122,7 @@ namespace FuelAPI.TTN
             get { return _regNum; }
             set
             {
-                _regNum = value.Replace(" ", "");
-                // определяем основную часть номера
-                Regex rgx = new Regex(@"[А-Я]\d{3}[А-Я]{2}");
-                Match m = rgx.Match(_regNum);
-                if (m.Success)
-                {
-                    // определяем регион
-                    Regex rgxRegion = new Regex(@"\d{2,3}$");
-                    Match mReg = rgxRegion.Match(_regNum);
-                    _regNum = m.Value + ((mReg.Success) ? "-" + mReg.Value : "");
-                }
-                else
-                {
-                    _regNum = value;
-                }
+                _regNum = AutoOperations.GetFormatedRegNum(value);
             }
         }
         public string Driver { get; set; }

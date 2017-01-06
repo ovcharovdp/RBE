@@ -281,7 +281,7 @@ namespace FuelAPI.Logistica
             {
                 string orderSQL =
                     @"SELECT mkd.Nachalo,g.id_object as idUTT,replace(g.Naimen,'Гараж ','') as UTT,upper(a.Nomer) as RegNum," +
-                    " case n.id_object when 249 then 318 when 283 then 318 when 320 then 6 when 377 then 485 else n.id_object end idNPU,n.Naimen as NPU," +
+                    " case n.id_object when 249 then 318 when 283 then 318 when 320 then 6 when 377 then 485 when 336 then 29 when 248 then 31 when 330 then 404 else n.id_object end idNPU,n.Naimen as NPU," +
                     " mk.id_mk as idMK,id_mkavto as idMKDet,mk.Data," +
                     " case a.Marka when 'Scania' then 52 when 'КамАЗ' then 57 when 'ГАЗ' then 54 when 'МАЗ' then 59 else 0 end as idMarka,a.Marka" +
                     " FROM [tMK_Avto] mkd,[tMK] mk,[tBenzovoz] a,[tPredpriyatiya] g,[tPredpriyatiya] n" +

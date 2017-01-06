@@ -44,5 +44,20 @@ namespace FuelAPI.Operations
                 throw new Exception("Ошибка удаления АЗС.", e);
             }
         }
+        public static long AddTank(CoreEntities DB, FlStationTank tank)
+        {
+            try
+            {
+                if (tank.ID == 0)
+                    tank.ID = GetNextID(DB);
+                //DB.CoreEntities.FlStations.Add(tank);
+                //DB.CoreEntities.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Ошибка при добавлении резервуара.", e);
+            }
+            return tank.ID;
+        }
     }
 }
