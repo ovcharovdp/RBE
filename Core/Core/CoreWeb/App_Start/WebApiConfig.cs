@@ -38,7 +38,10 @@ namespace CoreWeb
             builder.EntitySet<TRNDriver>("TRNDrivers");
             builder.EntitySet<FlStation>("FlStations");
             builder.EntitySet<FlStationTank>("FlStationTanks");
-            builder.EntitySet<FlOrder>("FlOrders");
+
+            var e = builder.EntitySet<FlOrder>("FlOrders");
+            e.EntityType.Action("Cancel").ReturnsFromEntitySet<FlOrder>("FlOrders");
+
             builder.EntitySet<TRNAuto>("TRNAutoes");
             builder.EntitySet<TRNAutoSection>("TRNAutoSections");
             builder.EntitySet<FlOrderItem>("FlOrderItems");
@@ -58,7 +61,7 @@ namespace CoreWeb
 
             builder.EntitySet<SysUserRole>("SysUserRoles");
         }
-         /// <summary>
+        /// <summary>
         /// Регистрация сущностей OData для работы с состояниями и правилами
         /// </summary>
         /// <param name="builder">Построитель модели</param>

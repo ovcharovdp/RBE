@@ -1,4 +1,5 @@
-﻿asu.fuel = {
+﻿var test;
+asu.fuel = {
     orderModel: function (a) {
         var today = new Date(); today.setMinutes(0); today.setHours(0); today.setSeconds(0);
         this._model = new kendo.observable({
@@ -7,12 +8,18 @@
                     case "menu": showMainMenu(); break;
                     case "add": this.addObject(); break;
                     case "edit": this.edit(); break;
-                    case "del": this.delElement(); break;
+                    case "del": this.cancelOrder(); break;// this.delElement(); break;
                     case "saveAsExcel": $("#grid").data("kendoGrid").saveAsExcel();// this.saveAsExcel();
                         break;
                     case "reload": this.elements.read(); break;
                     default:
                 }
+            },
+            cancelOrder: function () {
+                var g = $("#grid").data("kendoGrid");
+                var r = g.dataItem(g.select()[0]);
+                // вызов сервиса
+                this.elements.pushUpdate(r);
             },
             elements: new kendo.data.DataSource({
                 type: "odata",
@@ -57,6 +64,7 @@
             }
         })
         var _m = this._model;
+        test = _m;
         return _m;
     }
 }
