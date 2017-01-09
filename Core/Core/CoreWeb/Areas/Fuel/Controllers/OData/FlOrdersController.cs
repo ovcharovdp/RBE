@@ -32,7 +32,7 @@ namespace CoreWeb.Areas.Fuel.Controllers.OData
         private CoreEntities db = new CoreEntities();
 
         // GET: odata/FlOrders
-        [EnableQuery(MaxExpansionDepth =3)]
+        [EnableQuery(MaxExpansionDepth = 3)]
         public IQueryable<FlOrder> GetFlOrders()
         {
             return db.FlOrders;
@@ -46,41 +46,41 @@ namespace CoreWeb.Areas.Fuel.Controllers.OData
         }
 
         // PUT: odata/FlOrders(5)
-        public IHttpActionResult Put([FromODataUri] long key, Delta<FlOrder> patch)
-        {
-            Validate(patch.GetEntity());
+        //public IHttpActionResult Put([FromODataUri] long key, Delta<FlOrder> patch)
+        //{
+        //    Validate(patch.GetEntity());
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            FlOrder flOrder = db.FlOrders.Find(key);
-            if (flOrder == null)
-            {
-                return NotFound();
-            }
+        //    FlOrder flOrder = db.FlOrders.Find(key);
+        //    if (flOrder == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            patch.Put(flOrder);
+        //    patch.Put(flOrder);
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FlOrderExists(key))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        db.SaveChanges();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!FlOrderExists(key))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return Updated(flOrder);
-        }
+        //    return Updated(flOrder);
+        //}
 
         // POST: odata/FlOrders
         //public IHttpActionResult Post(FlOrder flOrder)
@@ -163,7 +163,13 @@ namespace CoreWeb.Areas.Fuel.Controllers.OData
 
         //    return StatusCode(HttpStatusCode.NoContent);
         //}
-
+        [HttpPost]
+        [EnableQuery]
+        public IHttpActionResult Cancel([FromODataUri] long key)
+        {
+            FlOrder o = db.FlOrders.Include("State").FirstOrDefault(p => p.ID == key);
+            return Ok(o);
+        }
         // GET: odata/FlOrders(5)/Auto
         [EnableQuery]
         public SingleResult<TRNAuto> GetAuto([FromODataUri] long key)
