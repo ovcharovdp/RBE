@@ -35,7 +35,7 @@ namespace TankBalance.Loader
             string tankFarm = data[18].Trim().Remove(3);
             string regNum = AutoOperations.GetFormatedRegNum(data[24].Trim());
 
-            FlOrderItem q = _db.FlOrderItems.Include("State,Order").FirstOrDefault(p => p.Order.TankFarm.ShortName.StartsWith(tankFarm)
+            FlOrderItem q = _db.FlOrderItems.Include("State").Include("Order").FirstOrDefault(p => p.Order.TankFarm.ShortName.StartsWith(tankFarm)
                 && p.WaybillNum == waybill
                 && p.VolumeFact == volume
                 && p.State.ID != _canceledStateID);
@@ -59,7 +59,7 @@ namespace TankBalance.Loader
                 }
                 DateTime startDate = date.Date.AddDays(-1);
                 DateTime endDate = date.Date;
-                var d = _db.FlOrderItems.Include("State,Order").Where(p => p.Station.ID == station.ID
+                var d = _db.FlOrderItems.Include("State").Include("Order").Where(p => p.Station.ID == station.ID
                     && p.Order.Auto.RegNum.StartsWith(regNum)
                     && p.Order.TankFarm.ShortName.StartsWith(tankFarm)
                     && p.Order.DocDate >= startDate
