@@ -32,7 +32,14 @@ namespace TankBalance.Loader
             Regex rgx = new Regex(@"\d+");
             Match m = rgx.Match(data[17]);
             int waybill = int.Parse(m.Value);
-            string tankFarm = data[18].Trim().Remove(3);
+            rgx = new Regex(@"\d{2}");
+            m = rgx.Match(data[18]);
+            if (!m.Success)
+            {
+                _logFile.WriteLine(string.Format("Не определен грузоотправитель: {0},{1},{2},{3},{4},{5}", data[18].Trim(), date, volume, waybill, station.Name, data[10].Trim()));
+                return false;
+            }
+            string tankFarm = m.Value;
             string regNum = AutoOperations.GetFormatedRegNum(data[24].Trim());
 
             FlOrderItem q = _db.FlOrderItems.Include("State").Include("Order").FirstOrDefault(p => p.Order.TankFarm.ShortName.StartsWith(tankFarm)
