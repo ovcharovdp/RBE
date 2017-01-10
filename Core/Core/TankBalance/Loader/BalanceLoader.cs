@@ -79,7 +79,7 @@ namespace TankBalance.Loader
                     if (operationCode == 1 && tank != null)
                     {
                         tank.InputVolume += volume;
-                        result = result && _planHandler.Handle(station, balanceDate, data);
+                        result = _planHandler.Handle(station, balanceDate, data) && result;
                     }
                 }
                 file.Close();
@@ -167,8 +167,8 @@ namespace TankBalance.Loader
                                     {
                                         throw new Exception("АЗС не определено");
                                     }
-                                    LoadBalance(station, file);
-                                    fileInf.Delete();
+                                    if (LoadBalance(station, file))
+                                        fileInf.Delete();
                                 }
                                 catch (Exception e)
                                 {

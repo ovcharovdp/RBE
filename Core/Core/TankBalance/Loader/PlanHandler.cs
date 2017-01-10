@@ -58,7 +58,7 @@ namespace TankBalance.Loader
             }
             else
             {
-                TRNAuto auto = _db.TRNAutos.FirstOrDefault(p => p.RegNum.StartsWith(regNum));
+                TRNAuto auto = _db.TRNAutos.FirstOrDefault(p => p.RegNum.StartsWith(regNum) || p.RegNumExt.StartsWith(regNum));
                 if (auto == null)
                 {
                     _logFile.WriteLine(string.Format("Авто не найдено: {0},{1},{2},{3},{4},{5}", regNum, date, volume, waybill, station.Name, data[10].Trim()));
@@ -67,11 +67,11 @@ namespace TankBalance.Loader
                 DateTime startDate = date.Date.AddDays(-1);
                 DateTime endDate = date.Date;
                 var d = _db.FlOrderItems.Include("State").Include("Order").Where(p => p.Station.ID == station.ID
-                    && p.Order.Auto.RegNum.StartsWith(regNum)
+                    && p.Order.Auto.ID == auto.ID
                     && p.Order.TankFarm.ShortName.StartsWith(tankFarm)
                     && p.Order.DocDate >= startDate
                     && p.Order.DocDate <= endDate
-                    && p.Volume > volume - 30 && p.Volume < volume + 30
+                    && p.Volume > volume - 50 && p.Volume < volume + 50
                     && p.State.ID != _canceledStateID
                     && p.WaybillNum == null).ToList();
                 if (d.Count > 1)
