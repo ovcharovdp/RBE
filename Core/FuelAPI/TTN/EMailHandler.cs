@@ -115,7 +115,7 @@ namespace FuelAPI.TTN
                                     errNode.InnerText = e.Message;
                                     root.AppendChild(errNode);
                                     ttnFile.Save(_config.Paths.ErrorPath + a.FileName);
-                                    Console.WriteLine(e.Message);
+                                    //Console.WriteLine(e.Message);
                                 }
                             }
                         }

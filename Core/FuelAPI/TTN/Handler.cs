@@ -182,7 +182,7 @@ namespace FuelAPI.TTN
                         errNode.InnerText = e.Message;
                         ttnFile.DocumentElement.AppendChild(errNode);
                         ttnFile.Save(_config.Paths.ErrorPath + fileName);
-                        Console.WriteLine(e.Message);
+                       // Console.WriteLine(e.Message);
                     }
                 }
                 DeleteFile(fileName);

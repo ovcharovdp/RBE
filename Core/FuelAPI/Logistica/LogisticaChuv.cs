@@ -147,12 +147,14 @@ namespace FuelAPI.Logistica
                         {
                             throw new Exception("ГСМ;" + rr["idgsmasutp"].ToString());
                         }
+                        string productCode = rr["idgsmasutp"].ToString();
+                        if (!_gsmList.ContainsKey(productCode))
+                            throw new Exception("Отсутствует продукт с кодом " + productCode);
 
                         FlStation station = getStation(rr);
-                        string productCode = rr["idgsmasutp"].ToString();
                         byte sectionNum = Convert.ToByte(rr["SectionID"]);
                         SysDictionary stateCanceled = _states["2"];
-                        FlOrderItem item = order.Items.FirstOrDefault(p => p.SectionNum == sectionNum && p.State.ID != stateCanceled.ID);
+                        FlOrderItem item = order.Items.FirstOrDefault(p => p.SectionNum == sectionNum && ((p.State.ID != stateCanceled.ID && !p.IsChanged) || p.IsChanged));
                         if (item == null)
                         {
                             FlOrderItem newItem = new FlOrderItem()
@@ -172,6 +174,9 @@ namespace FuelAPI.Logistica
                         }
                         else
                         {
+                            if (item.IsChanged)
+                                continue;
+
                             if (item.Station.ID != station.ID || !item.Product.Code.Equals(productCode))
                             {
                                 FlOrderItem newItem = new FlOrderItem()

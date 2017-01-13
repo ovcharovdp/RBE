@@ -26,6 +26,9 @@ namespace TankBalance.Loader
 
         public bool Handle(FlStation station, DateTime date, string[] data)
         {
+            if (byte.Parse(data[10]) == 40)
+                return true;
+
             decimal volume = decimal.Parse(data[26], CultureInfo.InvariantCulture);
             decimal density = decimal.Parse(data[27], CultureInfo.InvariantCulture);
             int weight = (int)decimal.Parse(data[29], CultureInfo.InvariantCulture);
@@ -48,12 +51,39 @@ namespace TankBalance.Loader
                 && p.State.ID != _canceledStateID);
             if (q != null)
             {
-                // предусмотреть несовпадение АЗС и изменение плана
-                q.State = _states["4"];
                 q.ReceiveDate = date;
+                // предусмотреть несовпадение АЗС и изменение плана
                 if (q.Station.ID != station.ID)
                 {
-                    _logFile.WriteLine(String.Format("АЗС по плану и факту не совпадают: {0},{1},{2},{3},{4}", regNum, date, volume, waybill, station.Name));
+                    FlOrderItem newItem = new FlOrderItem()
+                    {
+                        SectionNum = q.SectionNum,
+                        TankNum = byte.Parse(data[11]),
+                        Volume = volume,
+                        Station = station,
+                        Product = q.Product,
+                        State = _states["4"],
+                        Customer = station.Organization,
+                        Density = density,
+                        QPassportDate = q.QPassportDate,
+                        QPassportNum = q.QPassportNum,
+                        QDensity = q.QDensity,
+                        ReceiveDate = date,
+                        Temperature = q.Temperature,
+                        VolumeFact = volume,
+                        Weight = weight,
+                        WaybillNum = q.WaybillNum,
+                        WaybillDate = q.WaybillDate,
+                        IsChanged = true
+                    };
+                    OrderOperations.AddItem(_db, newItem);
+                    q.Order.Items.Add(newItem);
+                    q.State = _states["2"];
+                    q.IsChanged = true;
+                }
+                else
+                {
+                    q.State = _states["4"];
                 }
             }
             else
@@ -76,11 +106,14 @@ namespace TankBalance.Loader
                     && p.WaybillNum == null).ToList();
                 if (d.Count > 1)
                 {
-                    d = d.Where(p => p.Volume > volume - 3 && p.Volume < volume + 3).ToList();
+                    q = d.OrderBy(p => Math.Abs(p.Volume - volume)).FirstOrDefault();
                 }
-                if (d.Count == 1)
+                else
                 {
-                    q = d[0];
+                    if (d.Count == 1) q = d[0];
+                }
+                if (q != null)
+                {
                     switch (q.State.Code)
                     {
                         // "Погружен"
@@ -103,7 +136,7 @@ namespace TankBalance.Loader
                 }
                 else
                 {
-                    _logFile.WriteLine(String.Format("{0} соответствий для слива: {1},{2},{3},{4},{5},{6}", d.Count, regNum, date, volume, waybill, station.Name, data[10].Trim()));
+                    _logFile.WriteLine(String.Format("{0} соответствий для слива: {1},{2},{3},{4},{5},{6},{7}", d.Count, regNum, date, volume, waybill, station.Name, data[10].Trim(), data[18].Trim()));
                     return false;
                 }
             }

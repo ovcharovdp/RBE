@@ -44,6 +44,7 @@
           <Property Name="id" Type="int8" Nullable="false" />
           <Property Name="weight" Type="int4" />
           <Property Name="q_density" Type="numeric" Precision="4" Scale="4" />
+          <Property Name="is_changed" Type="bool" Nullable="false" />
         </EntityType>
         <EntityType Name="fl__station">
           <Key>
@@ -2196,6 +2197,7 @@
               <Summary>Плотность продукта при температуре приведения</Summary>
             </Documentation>
           </Property>
+          <Property Name="IsChanged" Type="Boolean" DefaultValue="false" Nullable="false" />
         </EntityType>
         <Association Name="fl_order_item_order">
           <End Type="ModelPostgres.FlOrder" Role="FlOrder" Multiplicity="1">
@@ -2672,6 +2674,7 @@
           <EntitySetMapping Name="FlOrderItems">
             <EntityTypeMapping TypeName="ModelPostgres.FlOrderItem">
               <MappingFragment StoreEntitySet="fl__order_item">
+                <ScalarProperty Name="IsChanged" ColumnName="is_changed" />
                 <ScalarProperty Name="QDensity" ColumnName="q_density" />
                 <ScalarProperty Name="Weight" ColumnName="weight" />
                 <ScalarProperty Name="ID" ColumnName="id" />

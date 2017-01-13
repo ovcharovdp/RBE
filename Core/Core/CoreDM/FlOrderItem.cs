@@ -15,6 +15,7 @@ namespace CoreDM
         {
             this.TankNum = 0;
             this.VolumeFact = 0m;
+            this.IsChanged = false;
         }
 
         public byte SectionNum { get; set; }
@@ -37,6 +38,8 @@ namespace CoreDM
 	    /// </summary>
 
         public Nullable<decimal> QDensity { get; set; }
+
+        public bool IsChanged { get; set; }
 
         public virtual FlOrder Order { get; set; }
         public virtual OrgDepartment Customer { get; set; }

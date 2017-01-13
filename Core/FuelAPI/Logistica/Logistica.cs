@@ -173,12 +173,11 @@ namespace FuelAPI.Logistica
                         string productCode = rr["idgsmasutp"].ToString();
                         byte sectionNum = Convert.ToByte(rr["SectionID"]);
                         SysDictionary stateCanceled = _states["2"];
-                        FlOrderItem item = order.Items.FirstOrDefault(p => p.SectionNum == sectionNum && p.State.ID != stateCanceled.ID);
+                        FlOrderItem item = order.Items.FirstOrDefault(p => p.SectionNum == sectionNum && ((p.State.ID != stateCanceled.ID && !p.IsChanged) || p.IsChanged));
                         if (item == null)
                         {
                             FlOrderItem newItem = new FlOrderItem()
                             {
-                                // OrderID = order.ID,
                                 SectionNum = sectionNum,
                                 TankNum = Convert.ToByte(rr["nomer"]),
                                 Volume = Convert.ToInt16(rr["obem"]),
@@ -194,6 +193,9 @@ namespace FuelAPI.Logistica
                         }
                         else
                         {
+                            if (item.IsChanged)
+                                continue;
+
                             if (item.Station.ID != station.ID || !item.Product.Code.Equals(productCode))
                             {
                                 FlOrderItem newItem = new FlOrderItem()
