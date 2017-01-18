@@ -1,12 +1,7 @@
 ﻿using CoreAPI.Operations;
 using CoreDM;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Transactions;
 
 namespace FuelAPI.Operations
 {
@@ -29,7 +24,7 @@ namespace FuelAPI.Operations
         }
         public static string GetFormatedRegNum(string value)
         {
-            string regNum = value.ToUpper().Replace(" ", "");
+            string regNum = value.ToUpper().Replace(" ", "").Replace("RUS", "");
             // определяем основную часть номера
             Regex rgx = new Regex(@"[А-Я]\d{3}[А-Я]{2}");
             Match m = rgx.Match(regNum);

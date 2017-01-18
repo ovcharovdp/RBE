@@ -70,9 +70,11 @@
     <Compile Include="Config\FtpSourceConfig.cs" />
     <Compile Include="Config\FuelConfig.cs" />
     <Compile Include="Config\PathConfig.cs" />
+    <Compile Include="Fact\FactHandler.cs" />
     <Compile Include="Logistica\Logistica.cs" />
     <Compile Include="Logistica\LogisticaChuv.cs" />
     <Compile Include="Operations\AutoOperations.cs" />
+    <Compile Include="Operations\FactOperations.cs" />
     <Compile Include="Operations\OrderOperations.cs" />
     <Compile Include="Operations\StationOperations.cs" />
     <Compile Include="Program.cs" />

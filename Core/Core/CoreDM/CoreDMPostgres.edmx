@@ -5,6 +5,23 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Хранилище ModelPostgres" Provider="Npgsql" ProviderManifestToken="9.4.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="fl__fact_error">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="reg_num" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="tank_farm_code" Type="varchar" MaxLength="20" />
+          <Property Name="station_id" Type="int8" Nullable="false" />
+          <Property Name="fact_date" Type="timestamp" Nullable="false" />
+          <Property Name="volume" Type="numeric" Precision="6" Scale="1" Nullable="false" />
+          <Property Name="weight" Type="int4" Nullable="false" />
+          <Property Name="density" Type="numeric" Precision="4" Scale="4" Nullable="false" />
+          <Property Name="waybill_num" Type="int4" Nullable="false" />
+          <Property Name="product_code" Type="int2" Nullable="false" />
+          <Property Name="tank_num" Type="int2" Nullable="false" />
+          <Property Name="state_id" Type="int8" Nullable="false" />
+        </EntityType>
         <EntityType Name="fl__order">
           <Key>
             <PropertyRef Name="id" />
@@ -351,6 +368,30 @@
           <Property Name="doc_date" Type="date" />
           <Property Name="reg_address" Type="varchar" MaxLength="100" />
         </EntityType>
+        <Association Name="fl_fact_error_state">
+          <End Role="sys__dictionary" Type="Self.sys__dictionary" Multiplicity="1" />
+          <End Role="fl__fact_error" Type="Self.fl__fact_error" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys__dictionary">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fl__fact_error">
+              <PropertyRef Name="state_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fl_fact_error_station">
+          <End Role="fl__station" Type="Self.fl__station" Multiplicity="1" />
+          <End Role="fl__fact_error" Type="Self.fl__fact_error" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fl__station">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fl__fact_error">
+              <PropertyRef Name="station_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fl_order_auto">
           <End Role="trn__auto" Type="Self.trn__auto" Multiplicity="1" />
           <End Role="fl__order" Type="Self.fl__order" Multiplicity="*" />
@@ -820,6 +861,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище ModelPostgresContainer">
+          <EntitySet Name="fl__fact_error" EntityType="Self.fl__fact_error" Schema="public" store:Type="Tables" />
           <EntitySet Name="fl__order" EntityType="Self.fl__order" Schema="public" store:Type="Tables" />
           <EntitySet Name="fl__order_item" EntityType="Self.fl__order_item" Schema="public" store:Type="Tables" />
           <EntitySet Name="fl__station" EntityType="Self.fl__station" Schema="public" store:Type="Tables" />
@@ -848,6 +890,14 @@
           <EntitySet Name="tnr__auto_section" EntityType="Self.tnr__auto_section" Schema="public" store:Type="Tables" />
           <EntitySet Name="trn__auto" EntityType="Self.trn__auto" Schema="public" store:Type="Tables" />
           <EntitySet Name="trn__driver" EntityType="Self.trn__driver" Schema="public" store:Type="Tables" />
+          <AssociationSet Name="fl_fact_error_state" Association="Self.fl_fact_error_state">
+            <End Role="sys__dictionary" EntitySet="sys__dictionary" />
+            <End Role="fl__fact_error" EntitySet="fl__fact_error" />
+          </AssociationSet>
+          <AssociationSet Name="fl_fact_error_station" Association="Self.fl_fact_error_station">
+            <End Role="fl__station" EntitySet="fl__station" />
+            <End Role="fl__fact_error" EntitySet="fl__fact_error" />
+          </AssociationSet>
           <AssociationSet Name="fl_order_auto" Association="Self.fl_order_auto">
             <End Role="trn__auto" EntitySet="trn__auto" />
             <End Role="fl__order" EntitySet="fl__order" />
@@ -1236,6 +1286,15 @@
           <AssociationSet Name="fl_tank_product_asu" Association="ModelPostgres.fl_tank_product_asu">
             <End Role="SysDictionary" EntitySet="SysDictionaries" />
             <End Role="fl__station_tank" EntitySet="FlStationTanks" />
+          </AssociationSet>
+          <EntitySet Name="FlFacts" EntityType="ModelPostgres.FlFact" />
+          <AssociationSet Name="fl_fact_error_state" Association="ModelPostgres.fl_fact_error_state">
+            <End Role="SysDictionary" EntitySet="SysDictionaries" />
+            <End Role="FlFactError" EntitySet="FlFacts" />
+          </AssociationSet>
+          <AssociationSet Name="fl_fact_error_station" Association="ModelPostgres.fl_fact_error_station">
+            <End Role="FlStation" EntitySet="FlStations" />
+            <End Role="FlFactError" EntitySet="FlFacts" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="SysRole">
@@ -2263,6 +2322,31 @@
           <End Type="ModelPostgres.SysDictionary" Role="SysDictionary" Multiplicity="1" />
           <End Type="ModelPostgres.FlStationTank" Role="fl__station_tank" Multiplicity="*" />
         </Association>
+        <EntityType Name="FlFact">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="RegNum" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="TankFarmCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="FactDate" Type="DateTime" Nullable="false" />
+          <Property Name="Volume" Type="Decimal" Nullable="false" Precision="1" Scale="1" />
+          <Property Name="Weight" Type="Int32" Nullable="false" />
+          <Property Name="Density" Type="Decimal" Nullable="false" Precision="4" Scale="4" />
+          <Property Name="WaybillNum" Type="Int32" Nullable="false" />
+          <Property Name="ProductCode" Type="Byte" Nullable="false" />
+          <Property Name="TankNum" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="State" Relationship="ModelPostgres.fl_fact_error_state" FromRole="FlFactError" ToRole="SysDictionary" />
+          <NavigationProperty Name="Station" Relationship="ModelPostgres.fl_fact_error_station" FromRole="FlFactError" ToRole="FlStation" />
+        </EntityType>
+        <Association Name="fl_fact_error_state">
+          <End Type="ModelPostgres.SysDictionary" Role="SysDictionary" Multiplicity="1" />
+          <End Type="ModelPostgres.FlFact" Role="FlFactError" Multiplicity="*" />
+        </Association>
+        <Association Name="fl_fact_error_station">
+          <End Type="ModelPostgres.FlStation" Role="FlStation" Multiplicity="1" />
+          <End Type="ModelPostgres.FlFact" Role="FlFactError" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2785,6 +2869,38 @@
             </EndProperty>
             <EndProperty Name="SysDictionary">
               <ScalarProperty Name="ID" ColumnName="product_asu_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="FlFacts">
+            <EntityTypeMapping TypeName="ModelPostgres.FlFact">
+              <MappingFragment StoreEntitySet="fl__fact_error">
+                <ScalarProperty Name="TankNum" ColumnName="tank_num" />
+                <ScalarProperty Name="ProductCode" ColumnName="product_code" />
+                <ScalarProperty Name="WaybillNum" ColumnName="waybill_num" />
+                <ScalarProperty Name="Density" ColumnName="density" />
+                <ScalarProperty Name="Weight" ColumnName="weight" />
+                <ScalarProperty Name="Volume" ColumnName="volume" />
+                <ScalarProperty Name="FactDate" ColumnName="fact_date" />
+                <ScalarProperty Name="TankFarmCode" ColumnName="tank_farm_code" />
+                <ScalarProperty Name="RegNum" ColumnName="reg_num" />
+                <ScalarProperty Name="ID" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="fl_fact_error_state" TypeName="ModelPostgres.fl_fact_error_state" StoreEntitySet="fl__fact_error">
+            <EndProperty Name="FlFactError">
+              <ScalarProperty Name="ID" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="SysDictionary">
+              <ScalarProperty Name="ID" ColumnName="state_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="fl_fact_error_station" TypeName="ModelPostgres.fl_fact_error_station" StoreEntitySet="fl__fact_error">
+            <EndProperty Name="FlFactError">
+              <ScalarProperty Name="ID" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="FlStation">
+              <ScalarProperty Name="ID" ColumnName="station_id" />
             </EndProperty>
           </AssociationSetMapping>
           </EntityContainerMapping>

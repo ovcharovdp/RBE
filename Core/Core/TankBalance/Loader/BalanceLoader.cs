@@ -1,6 +1,7 @@
 ﻿using BaseEntities;
 using CoreAPI.Const;
 using CoreDM;
+using FuelAPI.Fact;
 using FuelAPI.Operations;
 using OpenPop.Mime;
 using OpenPop.Pop3;
@@ -11,7 +12,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using TankBalance.Config;
 
 namespace TankBalance.Loader
@@ -20,8 +21,7 @@ namespace TankBalance.Loader
     {
         BalanceConfig _config;
         CoreEntities _db;
-        PlanHandler _planHandler;
-        // List<OrgDepartment> _orgList;
+        FactHandler _factHandler;
         Dictionary<string, SysDictionary> _productList;
         SysDictionary _tankStateActive;
         StreamWriter _logFile;
@@ -30,11 +30,10 @@ namespace TankBalance.Loader
             _logFile = file;
             _config = config;
             _db = new CoreEntities();
-            _planHandler = new PlanHandler(_db, _logFile);
+            _factHandler = new FactHandler(_db);
         }
         private void Init()
         {
-            //_orgList = _db.OrgDepartments.AsNoTracking().Where(p => p.Type.ID == 104).ToList();
             IConstLoader l = new GroupIDLoader(_db);
             long groupID = l.Load("73A6CA9F-4630-43C7-A37B-CF18535809E3");
             var m = from og in _db.ObjGroupObjects.Where(p => p.GroupID == groupID)
@@ -44,9 +43,27 @@ namespace TankBalance.Loader
 
             _tankStateActive = _db.SysDictionaries.Find(61655);
         }
-        private bool LoadBalance(FlStation station, string fileName)
+        void LinkPlan(FlStation station, DateTime date, string[] data)
         {
-            bool result = true;
+            FlFact fact = new FlFact()
+            {
+                Station = station,
+                FactDate = date,
+                Volume = decimal.Parse(data[26], CultureInfo.InvariantCulture),
+                Density = decimal.Parse(data[27], CultureInfo.InvariantCulture),
+                Weight = (int)decimal.Parse(data[29], CultureInfo.InvariantCulture),
+                TankNum = byte.Parse(data[11]),
+                TankFarmCode = data[18].Trim(),
+                RegNum = AutoOperations.GetFormatedRegNum(data[24]),
+                ProductCode = byte.Parse(data[10])
+            };
+            Regex rgx = new Regex(@"\d+");
+            Match m = rgx.Match(data[17]);
+            fact.WaybillNum = int.Parse(m.Value);
+            _factHandler.Handle(fact);
+        }
+        private void LoadBalance(FlStation station, string fileName)
+        {
             List<TankData> tanks = new List<TankData>();
             using (StreamReader file = new StreamReader(@".\Out\" + fileName, Encoding.GetEncoding(1251)))
             {
@@ -79,7 +96,7 @@ namespace TankBalance.Loader
                     if (operationCode == 1 && tank != null)
                     {
                         tank.InputVolume += volume;
-                        result = _planHandler.Handle(station, balanceDate, data) && result;
+                        this.LinkPlan(station, balanceDate, data);
                     }
                 }
                 file.Close();
@@ -92,6 +109,12 @@ namespace TankBalance.Loader
                     _logFile.WriteLine(fileName + ": продукта с кодом " + tank.ProductCode.ToString() + " нет");
                     continue;
                 }
+                if (tank.BalanceDate > DateTime.Now)
+                {
+                    _logFile.WriteLine(fileName + ": дата остатка больше текущей");
+                    continue;
+                }
+
                 FlStationTank sTank = station.Tanks.FirstOrDefault(p => p.Num == tank.Num);
                 if (sTank == null)
                 {
@@ -125,7 +148,6 @@ namespace TankBalance.Loader
                     sTank.DeadDate = sTank.BalanceDate.AddDays((sTank.Balance - sTank.DeadVolume) / (double)sTank.DaySell);
             }
             _db.SaveChanges();
-            return result;
         }
         public void Load()
         {
@@ -167,8 +189,8 @@ namespace TankBalance.Loader
                                     {
                                         throw new Exception("АЗС не определено");
                                     }
-                                    if (LoadBalance(station, file))
-                                        fileInf.Delete();
+                                    LoadBalance(station, file);
+                                    fileInf.Delete();
                                 }
                                 catch (Exception e)
                                 {

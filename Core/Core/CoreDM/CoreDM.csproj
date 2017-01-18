@@ -103,6 +103,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CoreDMPostgres.edmx</DependentUpon>
     </Compile>
+    <Compile Include="FlFact.cs">
+      <DependentUpon>CoreDMPostgres.tt</DependentUpon>
+    </Compile>
     <Compile Include="FlOrder.cs">
       <DependentUpon>CoreDMPostgres.tt</DependentUpon>
     </Compile>

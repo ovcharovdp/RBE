@@ -99,5 +99,12 @@ namespace CoreAPI.Operations
                    join d in DB.SysDictionaries.AsNoTracking() on og.ObjectID equals d.ID
                    select d;
         }
+        public static IQueryable<SysDictionary> GetItems(CoreEntities DB, string guid)
+        {
+            return from g in DB.ObjGroups.Where(p => p.Code.Equals(guid))
+                   join og in DB.ObjGroupObjects on g.ID equals og.GroupID
+                   join d in DB.SysDictionaries on og.ObjectID equals d.ID
+                   select d;
+        }
     }
 }

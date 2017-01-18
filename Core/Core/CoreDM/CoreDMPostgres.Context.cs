@@ -169,6 +169,8 @@ public partial class CoreEntities : DbContext
 
     public DbSet<FlStationTank> FlStationTanks { get; set; }
 
+    public DbSet<FlFact> FlFacts { get; set; }
+
 }
 
 }

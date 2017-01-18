@@ -192,6 +192,8 @@
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Fuel\Controllers\FactErrorController.cs" />
+    <Compile Include="Areas\Fuel\Controllers\OData\FlFactErrorsController.cs" />
     <Compile Include="Areas\Fuel\Controllers\OData\FlOrderItemsController.cs" />
     <Compile Include="Areas\Fuel\Controllers\OData\FlOrdersController.cs" />
     <Compile Include="Areas\Fuel\Controllers\OData\FlStationsController.cs" />
@@ -335,7 +337,9 @@
     <Content Include="Content\kendo\kendo.fiori.min.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\Menu\16\act.png" />
+    <Content Include="Content\Menu\16\alert-info.png" />
     <Content Include="Content\Menu\16\catalog.png" />
+    <Content Include="Content\Menu\16\database-design.png" />
     <Content Include="Content\Menu\16\dictionary.png" />
     <Content Include="Content\images\16\excel.png" />
     <Content Include="Content\Menu\16\help.png" />
@@ -347,7 +351,9 @@
     <Content Include="Content\Menu\16\settings.png" />
     <Content Include="Content\Menu\16\visit.png" />
     <Content Include="Content\Menu\64\act.png" />
+    <Content Include="Content\Menu\64\alert-info.png" />
     <Content Include="Content\Menu\64\catalog.png" />
+    <Content Include="Content\Menu\64\database-design.png" />
     <Content Include="Content\Menu\64\dictionary.png" />
     <Content Include="Content\Menu\64\help.png" />
     <Content Include="Content\Menu\64\home.png" />
@@ -445,6 +451,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Fuel\Views\FactError\" />
     <Folder Include="Areas\Fuel\Views\Fuel\" />
     <Folder Include="Areas\Fuel\Views\Shared\" />
     <Folder Include="Areas\Fuel\Views\Tank\" />

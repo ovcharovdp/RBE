@@ -60,8 +60,10 @@
         <EntityTypeShape EntityType="ModelPostgres.FlOrderItem" Width="1.5" PointX="2.75" PointY="4.25" />
         <AssociationConnector Association="ModelPostgres.fl_order_item_order" />
         <AssociationConnector Association="ModelPostgres.fl_order_item_station" />
-        <EntityTypeShape EntityType="ModelPostgres.FlStationTank" Width="1.5" PointX="7.375" PointY="4" />
+        <EntityTypeShape EntityType="ModelPostgres.FlStationTank" Width="1.5" PointX="7.375" PointY="4.25" />
         <AssociationConnector Association="ModelPostgres.fl_station_tank_station" />
+        <EntityTypeShape EntityType="ModelPostgres.FlFact" Width="1.5" PointX="7.375" PointY="0.5" />
+        <AssociationConnector Association="ModelPostgres.fl_fact_error_station" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
