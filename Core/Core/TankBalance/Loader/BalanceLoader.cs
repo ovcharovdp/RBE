@@ -103,26 +103,36 @@ namespace TankBalance.Loader
             }
             foreach (TankData tank in tanks)
             {
-                if (tank.ProductCode == 93) tank.ProductCode = 92;
-                if (!_productList.ContainsKey(tank.ProductCode.ToString()))
-                {
-                    _logFile.WriteLine(fileName + ": продукта с кодом " + tank.ProductCode.ToString() + " нет");
-                    continue;
-                }
                 if (tank.BalanceDate > DateTime.Now)
                 {
                     _logFile.WriteLine(fileName + ": дата остатка больше текущей");
                     continue;
                 }
-
                 FlStationTank sTank = station.Tanks.FirstOrDefault(p => p.Num == tank.Num);
                 if (sTank == null)
                 {
+                    SysDictionary product;
+                    if (tank.ProductCode == 93)
+                    {
+                        product = _productList["92"];
+                    }
+                    else
+                    {
+                        if (!_productList.ContainsKey(tank.ProductCode.ToString()))
+                        {
+                            _logFile.WriteLine(fileName + ": продукта с кодом " + tank.ProductCode.ToString() + " нет");
+                            continue;
+                        }
+                        else
+                        {
+                            product = _productList[tank.ProductCode.ToString()];
+                        }
+                    }
                     sTank = new FlStationTank()
                     {
                         Num = tank.Num,
-                        Product = _productList[tank.ProductCode.ToString()],
-                        ProductASU = _productList[tank.ProductCode.ToString()],
+                        Product = product,
+                        ProductCode = tank.ProductCode,
                         State = _tankStateActive,
                         DaySell = tank.StartVolume - tank.Volume + tank.InputVolume,
                         SellDays = 1,

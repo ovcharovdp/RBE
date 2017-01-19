@@ -49,6 +49,7 @@ public partial class FlStationTank: BaseEntity
 
     public System.DateTime DeadDate { get; set; }
 
+    public byte ProductCode { get; set; }
 
 
     public virtual FlStation Station { get; set; }
@@ -56,8 +57,6 @@ public partial class FlStationTank: BaseEntity
     public virtual SysDictionary State { get; set; }
 
     public virtual SysDictionary Product { get; set; }
-
-    public virtual SysDictionary ProductASU { get; set; }
 
 }
 

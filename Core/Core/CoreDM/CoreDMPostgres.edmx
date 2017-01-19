@@ -87,12 +87,12 @@
           <Property Name="dead_volume" Type="int4" Nullable="false" />
           <Property Name="balance" Type="int4" Nullable="false" />
           <Property Name="product_id" Type="int8" Nullable="false" />
-          <Property Name="product_asu_id" Type="int8" Nullable="false" />
           <Property Name="state_id" Type="int8" Nullable="false" />
           <Property Name="day_sell" Type="int4" Nullable="false" />
           <Property Name="balance_date" Type="timestamp" />
           <Property Name="sell_days" Type="int2" Nullable="false" />
           <Property Name="dead_date" Type="timestamp" Nullable="false" />
+          <Property Name="product_code" Type="int2" Nullable="false" />
         </EntityType>
         <EntityType Name="obj__blob">
           <Key>
@@ -550,18 +550,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fl_tank_product_asu">
-          <End Role="sys__dictionary" Type="Self.sys__dictionary" Multiplicity="1" />
-          <End Role="fl__station_tank" Type="Self.fl__station_tank" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="sys__dictionary">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="fl__station_tank">
-              <PropertyRef Name="product_asu_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="obj_catalog_field_fk">
           <End Role="obj__catalog" Type="Self.obj__catalog" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -950,10 +938,6 @@
             <End Role="sys__dictionary" EntitySet="sys__dictionary" />
             <End Role="fl__station_tank" EntitySet="fl__station_tank" />
           </AssociationSet>
-          <AssociationSet Name="fl_tank_product_asu" Association="Self.fl_tank_product_asu">
-            <End Role="sys__dictionary" EntitySet="sys__dictionary" />
-            <End Role="fl__station_tank" EntitySet="fl__station_tank" />
-          </AssociationSet>
           <AssociationSet Name="obj_catalog_field_fk" Association="Self.obj_catalog_field_fk">
             <End Role="obj__catalog" EntitySet="obj__catalog" />
             <End Role="obj__catalog_field" EntitySet="obj__catalog_field" />
@@ -1280,10 +1264,6 @@
             <End Role="fl__station_tank" EntitySet="FlStationTanks" />
           </AssociationSet>
           <AssociationSet Name="fl_tank_product" Association="ModelPostgres.fl_tank_product">
-            <End Role="SysDictionary" EntitySet="SysDictionaries" />
-            <End Role="fl__station_tank" EntitySet="FlStationTanks" />
-          </AssociationSet>
-          <AssociationSet Name="fl_tank_product_asu" Association="ModelPostgres.fl_tank_product_asu">
             <End Role="SysDictionary" EntitySet="SysDictionaries" />
             <End Role="fl__station_tank" EntitySet="FlStationTanks" />
           </AssociationSet>
@@ -2297,7 +2277,6 @@
           <NavigationProperty Name="Station" Relationship="ModelPostgres.fl_station_tank_station" FromRole="fl__station_tank" ToRole="FlStation" />
           <NavigationProperty Name="State" Relationship="ModelPostgres.fl_station_state" FromRole="fl__station_tank" ToRole="SysDictionary" />
           <NavigationProperty Name="Product" Relationship="ModelPostgres.fl_tank_product" FromRole="fl__station_tank" ToRole="SysDictionary" />
-          <NavigationProperty Name="ProductASU" Relationship="ModelPostgres.fl_tank_product_asu" FromRole="fl__station_tank" ToRole="SysDictionary" />
           <Property Name="DaySell" Type="Int32" Nullable="false" DefaultValue="0" />
           <Property Name="SellDays" Type="Byte" Nullable="false" />
           <Property Name="DeadDate" Type="DateTime" Nullable="false" >
@@ -2305,6 +2284,7 @@
               <Summary>Прогнозная дата высыхания</Summary>
             </Documentation>
           </Property>
+          <Property Name="ProductCode" Type="Byte" Nullable="false" />
         </EntityType>
         <Association Name="fl_station_tank_station">
           <End Type="ModelPostgres.FlStation" Role="FlStation" Multiplicity="1" />
@@ -2315,10 +2295,6 @@
           <End Type="ModelPostgres.FlStationTank" Role="fl__station_tank" Multiplicity="*" />
         </Association>
         <Association Name="fl_tank_product">
-          <End Type="ModelPostgres.SysDictionary" Role="SysDictionary" Multiplicity="1" />
-          <End Type="ModelPostgres.FlStationTank" Role="fl__station_tank" Multiplicity="*" />
-        </Association>
-        <Association Name="fl_tank_product_asu">
           <End Type="ModelPostgres.SysDictionary" Role="SysDictionary" Multiplicity="1" />
           <End Type="ModelPostgres.FlStationTank" Role="fl__station_tank" Multiplicity="*" />
         </Association>
@@ -2827,6 +2803,7 @@
           <EntitySetMapping Name="FlStationTanks">
             <EntityTypeMapping TypeName="ModelPostgres.FlStationTank">
               <MappingFragment StoreEntitySet="fl__station_tank">
+                <ScalarProperty Name="ProductCode" ColumnName="product_code" />
                 <ScalarProperty Name="DeadDate" ColumnName="dead_date" />
                 <ScalarProperty Name="SellDays" ColumnName="sell_days" />
                 <ScalarProperty Name="DaySell" ColumnName="day_sell" />
@@ -2861,14 +2838,6 @@
             </EndProperty>
             <EndProperty Name="SysDictionary">
               <ScalarProperty Name="ID" ColumnName="product_id" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="fl_tank_product_asu" TypeName="ModelPostgres.fl_tank_product_asu" StoreEntitySet="fl__station_tank">
-            <EndProperty Name="fl__station_tank">
-              <ScalarProperty Name="ID" ColumnName="id" />
-            </EndProperty>
-            <EndProperty Name="SysDictionary">
-              <ScalarProperty Name="ID" ColumnName="product_asu_id" />
             </EndProperty>
           </AssociationSetMapping>
           <EntitySetMapping Name="FlFacts">

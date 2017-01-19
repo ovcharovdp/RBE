@@ -46,123 +46,123 @@ namespace CoreWeb.Areas.Fuel.Controllers.OData
         }
 
         // PUT: odata/FlStationTanks(5)
-        public IHttpActionResult Put([FromODataUri] long key, Delta<FlStationTank> patch)
-        {
-            Validate(patch.GetEntity());
+        //public IHttpActionResult Put([FromODataUri] long key, Delta<FlStationTank> patch)
+        //{
+        //    Validate(patch.GetEntity());
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            FlStationTank flStationTank = db.FlStationTanks.Find(key);
-            if (flStationTank == null)
-            {
-                return NotFound();
-            }
+        //    FlStationTank flStationTank = db.FlStationTanks.Find(key);
+        //    if (flStationTank == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            patch.Put(flStationTank);
+        //    patch.Put(flStationTank);
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FlStationTankExists(key))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        db.SaveChanges();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!FlStationTankExists(key))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return Updated(flStationTank);
-        }
+        //    return Updated(flStationTank);
+        //}
 
-        // POST: odata/FlStationTanks
-        public IHttpActionResult Post(FlStationTank flStationTank)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //// POST: odata/FlStationTanks
+        //public IHttpActionResult Post(FlStationTank flStationTank)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            db.FlStationTanks.Add(flStationTank);
+        //    db.FlStationTanks.Add(flStationTank);
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (FlStationTankExists(flStationTank.ID))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        db.SaveChanges();
+        //    }
+        //    catch (DbUpdateException)
+        //    {
+        //        if (FlStationTankExists(flStationTank.ID))
+        //        {
+        //            return Conflict();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return Created(flStationTank);
-        }
+        //    return Created(flStationTank);
+        //}
 
-        // PATCH: odata/FlStationTanks(5)
-        [AcceptVerbs("PATCH", "MERGE")]
-        public IHttpActionResult Patch([FromODataUri] long key, Delta<FlStationTank> patch)
-        {
-            Validate(patch.GetEntity());
+        //// PATCH: odata/FlStationTanks(5)
+        //[AcceptVerbs("PATCH", "MERGE")]
+        //public IHttpActionResult Patch([FromODataUri] long key, Delta<FlStationTank> patch)
+        //{
+        //    Validate(patch.GetEntity());
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            FlStationTank flStationTank = db.FlStationTanks.Find(key);
-            if (flStationTank == null)
-            {
-                return NotFound();
-            }
+        //    FlStationTank flStationTank = db.FlStationTanks.Find(key);
+        //    if (flStationTank == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            patch.Patch(flStationTank);
+        //    patch.Patch(flStationTank);
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FlStationTankExists(key))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        db.SaveChanges();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!FlStationTankExists(key))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return Updated(flStationTank);
-        }
+        //    return Updated(flStationTank);
+        //}
 
-        // DELETE: odata/FlStationTanks(5)
-        public IHttpActionResult Delete([FromODataUri] long key)
-        {
-            FlStationTank flStationTank = db.FlStationTanks.Find(key);
-            if (flStationTank == null)
-            {
-                return NotFound();
-            }
+        //// DELETE: odata/FlStationTanks(5)
+        //public IHttpActionResult Delete([FromODataUri] long key)
+        //{
+        //    FlStationTank flStationTank = db.FlStationTanks.Find(key);
+        //    if (flStationTank == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            db.FlStationTanks.Remove(flStationTank);
-            db.SaveChanges();
+        //    db.FlStationTanks.Remove(flStationTank);
+        //    db.SaveChanges();
 
-            return StatusCode(HttpStatusCode.NoContent);
-        }
+        //    return StatusCode(HttpStatusCode.NoContent);
+        //}
 
         // GET: odata/FlStationTanks(5)/Station
         [EnableQuery]
@@ -183,13 +183,6 @@ namespace CoreWeb.Areas.Fuel.Controllers.OData
         public SingleResult<SysDictionary> GetProduct([FromODataUri] long key)
         {
             return SingleResult.Create(db.FlStationTanks.Where(m => m.ID == key).Select(m => m.Product));
-        }
-
-        // GET: odata/FlStationTanks(5)/ProductASU
-        [EnableQuery]
-        public SingleResult<SysDictionary> GetProductASU([FromODataUri] long key)
-        {
-            return SingleResult.Create(db.FlStationTanks.Where(m => m.ID == key).Select(m => m.ProductASU));
         }
 
         protected override void Dispose(bool disposing)
