@@ -192,8 +192,8 @@
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Areas\Fuel\Controllers\FactErrorController.cs" />
-    <Compile Include="Areas\Fuel\Controllers\OData\FlFactErrorsController.cs" />
+    <Compile Include="Areas\Fuel\Controllers\FactController.cs" />
+    <Compile Include="Areas\Fuel\Controllers\OData\FlFactsController.cs" />
     <Compile Include="Areas\Fuel\Controllers\OData\FlOrderItemsController.cs" />
     <Compile Include="Areas\Fuel\Controllers\OData\FlOrdersController.cs" />
     <Compile Include="Areas\Fuel\Controllers\OData\FlStationsController.cs" />
@@ -202,6 +202,7 @@
     <Compile Include="Areas\Fuel\Controllers\StationController.cs" />
     <Compile Include="Areas\Fuel\Controllers\TankController.cs" />
     <Compile Include="Areas\Fuel\FuelAreaRegistration.cs" />
+    <Compile Include="Areas\Fuel\Models\FactEditModel.cs" />
     <Compile Include="Areas\Fuel\Models\OrderCatalogColumnLoader.cs" />
     <Compile Include="Areas\Fuel\Models\StationCatalogColumnLoader.cs" />
     <Compile Include="Areas\Fuel\Models\StationEditModel.cs" />

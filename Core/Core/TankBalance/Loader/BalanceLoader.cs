@@ -105,8 +105,7 @@ namespace TankBalance.Loader
             {
                 if (tank.BalanceDate > DateTime.Now)
                 {
-                    _logFile.WriteLine(fileName + ": дата остатка больше текущей");
-                    continue;
+                    throw new Exception("дата остатка больше текущей");
                 }
                 FlStationTank sTank = station.Tanks.FirstOrDefault(p => p.Num == tank.Num);
                 if (sTank == null)
@@ -144,6 +143,7 @@ namespace TankBalance.Loader
                 }
                 else
                 {
+                    sTank.ProductCode = tank.ProductCode;
                     // если дата в базе более актуальная
                     if (sTank.BalanceDate < tank.BalanceDate)
                     {

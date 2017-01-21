@@ -27,20 +27,20 @@ namespace CoreWeb.Areas.Fuel.Controllers.OData
     builder.EntitySet<FlStation>("FlStations"); 
     config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
     */
-    public class FlFactErrorsController : ODataController
+    public class FlFactsController : ODataController
     {
         private CoreEntities db = new CoreEntities();
 
         // GET: odata/FlFactErrors
         [EnableQuery]
-        public IQueryable<FlFact> GetFlFactErrors()
+        public IQueryable<FlFact> GetFlFacts()
         {
             return db.FlFacts;
         }
 
         // GET: odata/FlFactErrors(5)
         [EnableQuery]
-        public SingleResult<FlFact> GetFlFactError([FromODataUri] long key)
+        public SingleResult<FlFact> GetFlFact([FromODataUri] long key)
         {
             return SingleResult.Create(db.FlFacts.Where(flFactError => flFactError.ID == key));
         }
@@ -187,7 +187,7 @@ namespace CoreWeb.Areas.Fuel.Controllers.OData
             base.Dispose(disposing);
         }
 
-        private bool FlFactErrorExists(long key)
+        private bool FlFactExists(long key)
         {
             return db.FlFacts.Count(e => e.ID == key) > 0;
         }

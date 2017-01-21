@@ -28,19 +28,8 @@ namespace FuelAPI.Fact
             if (fact.ProductCode == 40)
                 return;
 
-            Regex rgx = new Regex(@"\d{2}");
-            Match m = rgx.Match(fact.TankFarmCode);
-            if (!m.Success)
-            {
-                FactOperations.Resolve(_db, fact);
-                fact.State = _factStates["01"];
-                _db.SaveChanges();
-                return;
-            }
-
-            string tankFarm = m.Value;
-
-            FlOrderItem q = _db.FlOrderItems.Include("State").Include("Order").FirstOrDefault(p => p.Order.TankFarm.ShortName.StartsWith(tankFarm)
+            DateTime startDate = fact.FactDate.Date.AddDays(-3);
+            FlOrderItem q = _db.FlOrderItems.Include("State").Include("Order").FirstOrDefault(p => p.Order.DocDate >= startDate
                 && p.WaybillNum == fact.WaybillNum
                 && p.VolumeFact == fact.Volume
                 && p.State.ID != _canceledStateID);
@@ -92,8 +81,17 @@ namespace FuelAPI.Fact
                     _db.SaveChanges();
                     return;
                 }
-
-                DateTime startDate = fact.FactDate.Date.AddDays(-1);
+                Regex rgx = new Regex(@"\d{2}");
+                Match m = rgx.Match(fact.TankFarmCode);
+                if (!m.Success)
+                {
+                    FactOperations.Resolve(_db, fact);
+                    fact.State = _factStates["01"];
+                    _db.SaveChanges();
+                    return;
+                }
+                string tankFarm = m.Value;
+                startDate = fact.FactDate.Date.AddDays(-1);
                 DateTime endDate = fact.FactDate.Date;
                 var d = _db.FlOrderItems.Include("State").Include("Order").Where(p => p.Station.ID == fact.Station.ID
                     && p.Order.Auto.ID == auto.ID
@@ -141,8 +139,26 @@ namespace FuelAPI.Fact
                     return;
                 }
             }
+            fact.State = _factStates["00"];
             _db.SaveChanges();
             OrderOperations.ChangeState(q.Order);
+        }
+        public void SplitHandle(FlStation station, DateTime date)
+        {
+            var _state = _factStates["00"];
+            var q = from f in _db.FlFacts.Where(p => p.Station.ID == station.ID && p.State.ID != _state.ID)
+                    join i in _db.FlOrderItems.Where(p => p.Station.ID == station.ID && p.State.ID == 202) on f.WaybillNum equals i.WaybillNum
+                    where i.VolumeFact == _db.FlFacts.Where(p => p.WaybillNum == i.WaybillNum && p.Station.ID == station.ID && p.State.ID != _state.ID).Sum(p => p.Volume)
+                        && i.Weight == _db.FlFacts.Where(p => p.WaybillNum == i.WaybillNum && p.Station.ID == station.ID && p.State.ID != _state.ID).Sum(p => p.Weight)
+                    group i by i into Item
+                    select Item;
+            foreach (var item in q)
+            {
+                foreach (var fact in item)
+                {
+
+                }
+            }
         }
     }
 }

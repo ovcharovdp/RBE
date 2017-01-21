@@ -20,7 +20,7 @@ namespace FuelAPI.TTN
         {
             XmlNode n = s["КодТоплива"];
             if (!n.HasChildNodes) { throw new Exception("Нет кода топлива"); }
-            this.ProductCode = Convert.ToInt16(n.InnerText);
+            this.ProductCode = Convert.ToByte(n.InnerText);
 
             n = s["Объем"];
             if (!n.HasChildNodes) { throw new Exception("Нет объема"); }
@@ -53,7 +53,7 @@ namespace FuelAPI.TTN
             if (n != null) this.PassDensity = Convert.ToDecimal(n.InnerText, CultureInfo.InvariantCulture);
         }
         public byte SectionNum { get; set; }
-        public Int16 ProductCode { get; set; }
+        public byte ProductCode { get; set; }
         public byte ProductClass { get; set; }
         public Decimal Volume { get; set; }
         public Decimal Density { get; set; }

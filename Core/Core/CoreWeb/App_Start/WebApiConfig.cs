@@ -38,7 +38,7 @@ namespace CoreWeb
             builder.EntitySet<TRNDriver>("TRNDrivers");
             builder.EntitySet<FlStation>("FlStations");
             builder.EntitySet<FlStationTank>("FlStationTanks");
-            builder.EntitySet<FlFact>("FlFactErrors");
+            builder.EntitySet<FlFact>("FlFacts");
 
             var e = builder.EntitySet<FlOrder>("FlOrders");
             e.EntityType.Action("Cancel").ReturnsFromEntitySet<FlOrder>("FlOrders");

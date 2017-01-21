@@ -140,6 +140,12 @@ namespace FuelAPI.TTN
                                         {
                                             item.QDensity = section.PassDensity;
                                         }
+                                        // установка кода топлива, который указан для резервуара в АСУТП на АЗС
+                                        //FlStationTank tank = station.Key.Tanks.FirstOrDefault(p => p.Num == item.TankNum);
+                                        //if (tank.ProductCode != section.ProductCode)
+                                        //{
+                                        //    section.ProductCode = tank.ProductCode;
+                                        //}
                                         section.AllowExport = true;
                                     }
                                 }
@@ -182,7 +188,7 @@ namespace FuelAPI.TTN
                         errNode.InnerText = e.Message;
                         ttnFile.DocumentElement.AppendChild(errNode);
                         ttnFile.Save(_config.Paths.ErrorPath + fileName);
-                       // Console.WriteLine(e.Message);
+                        // Console.WriteLine(e.Message);
                     }
                 }
                 DeleteFile(fileName);
