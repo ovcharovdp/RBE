@@ -24,3 +24,9 @@ span.f-done {
     font-weight: bold;
     color: forestgreen;
 }
+
+.i-change {
+    height: 16px;
+    cursor: pointer;
+    background: url("./images/16/database-edit.png") no-repeat;
+}

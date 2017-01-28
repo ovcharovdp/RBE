@@ -103,9 +103,9 @@ namespace TankBalance.Loader
             }
             foreach (TankData tank in tanks)
             {
-                if (tank.BalanceDate > DateTime.Now)
+                if (tank.BalanceDate > DateTime.Now.AddHours(1))
                 {
-                    throw new Exception("дата остатка больше текущей");
+                    throw new Exception("дата остатка больше текущей (в файле: " + tank.BalanceDate.ToString("dd.MM.yyyy H:mm") + "; текущая: " + DateTime.Now.ToString("dd.MM.yyyy H:mm"));
                 }
                 FlStationTank sTank = station.Tanks.FirstOrDefault(p => p.Num == tank.Num);
                 if (sTank == null)

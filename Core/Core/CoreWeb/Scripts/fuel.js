@@ -1,4 +1,4 @@
-﻿var test;
+﻿var test, test1;
 asu.fuel = {
     orderModel: function (a) {
         var today = new Date(); today.setMinutes(0); today.setHours(0); today.setSeconds(0);
@@ -24,7 +24,7 @@ asu.fuel = {
             elements: new kendo.data.DataSource({
                 type: "odata",
                 transport: {
-                    read: { url: asu.Url("odata/") + a.entity + ((a.expand) ? "?$expand=Items,Items/Station,State,Items/Station/Organization,Items/State,Items/Product,Auto/Model,Items/Customer," + a.expand : "") + "&$select=*,State/ID,State/Description,TankFarm/ID,Auto/RegNum,Auto/Model/Name,Auto/Organization/ID,Items/*,Items/State/*,Items/Customer/FullName,Items/Product/Name,Items/Station/Name,Items/Station/Organization/ShortName", dataType: "json" }
+                    read: { url: asu.Url("odata/") + a.entity + ((a.expand) ? "?$expand=State,Auto/Model," + a.expand : "") + "&$select=*,State/ID,State/Description,TankFarm/ID,Auto/RegNum,Auto/Model/Name,Auto/Organization/ID", dataType: "json" }
                 },
                 schema: {
                     model: {
@@ -56,15 +56,53 @@ asu.fuel = {
                 items.each(function (index) {
                     var dataItem = e.sender.dataItem(this);
                     this.className += " " + dataItem.State.Description;
-                })
+                });
+                //this.expandRow(this.tbody.find("tr.k-master-row"));
+            },
+            detailModel: function (id) {
+                var _mm = new kendo.observable({
+                    items: new kendo.data.DataSource({
+                        type: "odata",
+                        transport: {
+                            read: { url: asu.Url("odata/FlOrders(" + id + ")/Items") + "?$expand=Station,Station/Organization,State,Product,Customer&$select=*,State/*,Customer/FullName,Product/Name,Station/Name,Station/Organization/ShortName", dataType: "json" }
+                        },
+                        schema: {
+                            model: {
+                                id: "ID"
+                                //,fields: a.fields
+                            },
+                            data: function (r) { if (r.value !== undefined) return r.value; else { delete r["odata.metadata"]; return r; } },
+                            total: function (r) { return r["odata.count"] }
+                        },
+                        push: function (e) {
+                            if (e.type == "update") {
+                                var f = this.options.schema.model.fields;
+                                var kk = Object.keys(f);
+                                kk.forEach(function (ee) {
+                                    if (f[ee].type == "date" && e.items[0][ee]) e.items[0].set(ee, kendo.parseDate(e.items[0][ee]))
+                                });
+                            }
+                        },
+                        sort: { field: "SectionNum", dir: "asc" },
+                        serverPaging: false,
+                        serverFiltering: false,
+                        serverSorting: false,
+                        error: function (r) { showError(r.xhr); }
+                    }),
+                    changeStation: function (e) {
+                        //test = e;
+                        test1 = this;
+                    }
+                });
+                return _mm
             },
             detailInit: function (e) {
                 var dataItem = e.sender.dataItem(e.masterRow);
-                kendo.bind(e.detailCell, dataItem);
+                kendo.bind(e.detailCell, this.detailModel(dataItem.ID));
             }
         })
         var _m = this._model;
-        test = _m;
+        //test = _m;
         return _m;
     }
 }

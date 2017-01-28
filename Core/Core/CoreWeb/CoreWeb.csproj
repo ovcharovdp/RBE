@@ -285,6 +285,7 @@
   <ItemGroup>
     <Content Include="Content\fuel.css" />
     <Content Include="Content\images\16\add.png" />
+    <Content Include="Content\images\16\database-edit.png" />
     <Content Include="Content\images\16\del.png" />
     <Content Include="Content\images\16\edit.png" />
     <Content Include="Content\images\16\exec.png" />
@@ -350,6 +351,8 @@
     <Content Include="Content\Menu\16\report.png" />
     <Content Include="Content\Menu\16\role.png" />
     <Content Include="Content\Menu\16\settings.png" />
+    <Content Include="Content\Menu\16\transport-customer.png" />
+    <Content Include="Content\Menu\16\transport.png" />
     <Content Include="Content\Menu\16\visit.png" />
     <Content Include="Content\Menu\64\act.png" />
     <Content Include="Content\Menu\64\alert-info.png" />
@@ -364,6 +367,8 @@
     <Content Include="Content\Menu\64\role.png" />
     <Content Include="Content\Menu\64\settings-menu.png" />
     <Content Include="Content\Menu\64\settings.png" />
+    <Content Include="Content\Menu\64\transport-customer.png" />
+    <Content Include="Content\Menu\64\transport.png" />
     <Content Include="Content\Menu\64\visit.png" />
     <Content Include="Content\Menu\64\well-obx.png" />
     <Content Include="Content\Menu\64\well.png" />
