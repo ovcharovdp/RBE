@@ -6,6 +6,8 @@
         Model.Columns.Any(p => p.Exportable) ? ",{ 'type': 'button', 'id': 'saveAsExcel', 'spriteCssClass': 'i-excel', text: ' Экспорт в Excel' }" : ""))"></div>
 <div id="grid" style="border-style: none; height: 100%;" data-role="grid" data-selectable="true" data-sortable="true" data-filterable="{extra:false}" data-excel="{fileName:'Orders.xlsx',allPages:true}"
      data-scrollable="true" data-detail-template="detailTemplate" data-pageable="true" data-bind="source: elements, events: {detailInit:detailInit,dataBound:dataBound }" data-columns='[@Html.KendoGridColumns(Model.Columns)]'></div>
+@*<div data-role="window" data-title="Смена АЗС" data-width="615" data-modal="true" data-draggable="false"
+                 data-actions="{}" data-bind="visible:visibleCS,events:{open:openDialog}">gngngn</div>*@
 <script id="detailTemplate" type="text/x-kendo-template">
     <div data-role="grid" data-scrollable="false" data-sortable="true"
          data-bind="source:items"
@@ -13,7 +15,7 @@
     </div>
 </script>
 <script>
-    var m = asu.fuel.orderModel({
+    var orderModel = asu.fuel.orderModel({
         container: $("#grid"),
         fields: {@Html.KendoModelFields(Model.Columns) },
         url: "@Url.Action("")",
@@ -21,7 +23,7 @@
         entity: "@Model.ODataEntity",
         expand: "@Model.ExpandEntity",
         columnsExcel: [@Html.KendoGridColumns(Model.Columns.Where(p=>p.Exportable).ToList())]});
-    kendo.bind($("#content"), m);
+    kendo.bind($("#content"), orderModel);
     function resizeContainers() {
         var headerHeight = $("#toolbar").outerHeight(true), dataGrid = $("#grid").data("kendoGrid");
         dataGrid.element.height(mainHeight() - headerHeight); dataGrid.resize();

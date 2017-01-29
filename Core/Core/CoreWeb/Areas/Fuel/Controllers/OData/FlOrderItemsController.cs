@@ -186,6 +186,13 @@ namespace CoreWeb.Areas.Fuel.Controllers.OData
             return SingleResult.Create(db.FlOrderItems.Where(m => m.Order.ID == key).Select(m => m.Station));
         }
 
+        [HttpPost]
+        [EnableQuery]
+        public IHttpActionResult SetStation([FromODataUri] long key, [FromODataUri] long stationID)
+        {
+            var item = db.FlOrderItems.Find(key);
+            return Ok(item);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

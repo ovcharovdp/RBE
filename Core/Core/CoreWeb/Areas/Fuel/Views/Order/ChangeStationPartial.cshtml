@@ -1,0 +1,16 @@
+﻿<script id="stationTempl" type="text/x-kendo-templ">
+    <tr><td>#=Name#, #=Organization.Name#</td></tr>
+</script>
+<div id="editContent">
+    <input data-role="autocomplete" data-value-primitive="false" data-text-field="Name"
+           data-ignore-case="false" data-template="stationTempl" data-min-length="1"
+           data-enforce-min-length="false" data-bind="value:selectedStation,source:stations,events:{change:onSelectStation}"
+           style="width: 100%;" />
+    <div style="width: 100%; border-top-color: #b8bac2; border-top-style: solid; border-top-width: 1px; margin-top: 10px; margin-bottom: 0px; padding: 10px 0px 10px 0px">
+        <button data-role="button" style="float: right" onclick="cancelSave(editWnd)">Отмена</button>
+        <button data-role="button" style="float: right; margin-right: 10px" data-bind="events:{click:onChangeStation}">Сохранить</button>
+    </div>
+</div>
+<script>
+    kendo.bind($("#editContent"), orderModel);
+</script>

@@ -385,6 +385,7 @@
     <Content Include="Areas\Transport\Views\web.config" />
     <Content Include="Areas\Fuel\Views\web.config" />
     <Content Include="Areas\Fuel\Views\Order\FlatCatalogPartial.cshtml" />
+    <Content Include="Areas\Fuel\Views\Order\ChangeStationPartial.cshtml" />
     <None Include="Properties\PublishProfiles\Core.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\common.js" />

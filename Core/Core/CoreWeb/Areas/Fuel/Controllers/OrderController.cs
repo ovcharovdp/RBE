@@ -40,5 +40,10 @@ namespace CoreWeb.Areas.Fuel.Controllers
         {
             throw new NotImplementedException();
         }
+
+        public ActionResult ChangeStation()
+        {
+            return PartialView("ChangeStationPartial");
+        }
     }
 }

@@ -45,7 +45,10 @@ namespace CoreWeb
 
             builder.EntitySet<TRNAuto>("TRNAutoes");
             builder.EntitySet<TRNAutoSection>("TRNAutoSections");
-            builder.EntitySet<FlOrderItem>("FlOrderItems");
+            var i = builder.EntitySet<FlOrderItem>("FlOrderItems");
+            var a = i.EntityType.Action("SetStation");
+            a.ReturnsFromEntitySet<FlOrderItem>("FlOrderItems");
+           // a.Parameter<int>("stationID");
 
             return builder.GetEdmModel();
         }
