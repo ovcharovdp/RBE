@@ -62,5 +62,12 @@ namespace FuelAPI.Operations
                 return false;
             }
         }
+        public static FlOrderItem SetStation(CoreEntities db, FlOrderItem item, long stationID)
+        {
+            FlStation station = db.FlStations.Find(stationID);
+            if (station == null)
+                throw new ArgumentException("АЗС не найдена (ID:" + stationID.ToString() + ")");
+            return item;
+        }
     }
 }
