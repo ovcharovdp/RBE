@@ -133,15 +133,46 @@ namespace FuelAPI.Fact
                 }
                 else
                 {
-                    FactOperations.Resolve(_db, fact);
-                    fact.State = _factStates["03"];
-                    _db.SaveChanges();
-                    return;
+                    if (!JoinedHandle(fact))
+                    {
+                        FactOperations.Resolve(_db, fact);
+                        fact.State = _factStates["03"];
+                        _db.SaveChanges();
+                        return;
+                    }
                 }
             }
             fact.State = _factStates["00"];
             _db.SaveChanges();
-            OrderOperations.ChangeState(q.Order);
+            if (q != null)
+                OrderOperations.ChangeState(q.Order);
+        }
+        public bool JoinedHandle(FlFact fact)
+        {
+            var q = _db.FlOrders.Where(p => p.Items.Where(i => i.WaybillNum == fact.WaybillNum && i.State.ID == 202).Sum(i => i.VolumeFact) == fact.Volume)
+                .SelectMany(p => p.Items.Where(i => i.WaybillNum == fact.WaybillNum && i.State.ID == 202)).ToList();
+            foreach (var i in q)
+            {
+                if (i.Station.ID != fact.Station.ID)
+                {
+                    // изменяем план
+                    OrderOperations.SetStation(_db, i, fact.Station.ID);
+                }
+                else
+                {
+                    // фиксируем слив
+                    i.ReceiveDate = DateTime.Now;
+                    i.State = _orderStates["4"];
+                    i.IsChanged = true;
+                }
+            }
+            if (q.Count > 0)
+            {
+                _db.SaveChanges();
+                OrderOperations.ChangeState(q[0].Order);
+                return true;
+            }
+            return false;
         }
         public void SplitHandle(FlStation station, DateTime date)
         {
