@@ -57,22 +57,17 @@ asu.fuel = {
                 serverSorting: true,
                 error: function (r) { showError(r.xhr); }
             }),
-            //selectedStationText: null,
             changedOrder: null,
             changingItem: null,
             selectedStation: null,
             onSelectStation: function (e) {
-                //test1 = e;
-                //console.log(this.value());
-                var item = e.sender.dataItem();
-                //  selectedStation = item;
-                //  this.set("selectedStation", item.Name + ", "+item.Organization.Name);
-                // console.log(item);
+                this.selectedStation = e.sender.dataItem();
             },
             onChangeStation: function (e) {
+                console.log(this.selectedStation);
                 if (this.changingItem.Station.ID != this.selectedStation.ID) {
-                    $.post(asu.Url("odata/FlOrderItems(" + this.changingItem.ID + ")/SetStation?stationID=" + this.selectedStation.ID), null, function (d) { }, "json");
-                    this.changedOrder.read();
+                    var order = this.changedOrder;
+                    $.post(asu.Url("odata/FlOrderItems(" + this.changingItem.ID + ")/SetStation?stationID=" + this.selectedStation.ID), null, function (d) { order.read() }, "json");
                 }
                 editWnd.close();
             },

@@ -191,6 +191,7 @@ namespace CoreWeb.Areas.Fuel.Controllers.OData
         public IHttpActionResult SetStation([FromODataUri] long key, [FromODataUri] long stationID)
         {
             var item = db.FlOrderItems.Find(key);
+            FuelAPI.Operations.OrderOperations.SetStation(db, item, stationID);
             return Ok(item);
         }
         protected override void Dispose(bool disposing)
