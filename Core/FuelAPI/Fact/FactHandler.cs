@@ -149,8 +149,15 @@ namespace FuelAPI.Fact
         }
         public bool JoinedHandle(FlFact fact)
         {
+            // смотрим в целом по рейсу
             var q = _db.FlOrders.Where(p => p.Items.Where(i => i.WaybillNum == fact.WaybillNum && i.State.ID == 202).Sum(i => i.VolumeFact) == fact.Volume)
                 .SelectMany(p => p.Items.Where(i => i.WaybillNum == fact.WaybillNum && i.State.ID == 202)).ToList();
+            if (q.Count == 0)
+            {
+                // смотрим с фильтром по АЗС
+                q = _db.FlOrders.Where(p => p.Items.Where(i => i.WaybillNum == fact.WaybillNum && i.State.ID == 202 && fact.Station.ID == i.Station.ID).Sum(i => i.VolumeFact) == fact.Volume)
+                .SelectMany(p => p.Items.Where(i => i.WaybillNum == fact.WaybillNum && i.State.ID == 202 && fact.Station.ID == i.Station.ID)).ToList();
+            }
             foreach (var i in q)
             {
                 if (i.Station.ID != fact.Station.ID)
