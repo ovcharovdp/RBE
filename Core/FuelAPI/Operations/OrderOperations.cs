@@ -1,6 +1,7 @@
 ﻿using BaseEntities;
 using CoreAPI.Operations;
 using CoreDM;
+using FuelAPI.Fact;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -97,6 +98,7 @@ namespace FuelAPI.Operations
                 };
                 AddItem(db, newItem);
                 result = newItem;
+                // если 
                 if (item.WaybillNum == null)
                 {
                     Regex rgx = new Regex(@"\d{2}");
@@ -129,10 +131,18 @@ namespace FuelAPI.Operations
                 item.ReceiveDate = DateTime.Now;
                 item.State = _states["2"];
                 item.IsChanged = true;
+                db.SaveChanges();
+                if (needChangeState)
+                {
+                    ChangeState(order);
+                }
+                else
+                {
+                    var f = new FactHandler(db);
+                    f.SplitHandle(newItem);
+                }
+                db.SaveChanges();
             }
-            if (needChangeState)
-                ChangeState(order);
-            db.SaveChanges();
             return result;
         }
     }

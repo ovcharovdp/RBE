@@ -38,7 +38,8 @@ namespace CoreWeb
             builder.EntitySet<TRNDriver>("TRNDrivers");
             builder.EntitySet<FlStation>("FlStations");
             builder.EntitySet<FlStationTank>("FlStationTanks");
-            builder.EntitySet<FlFact>("FlFacts");
+            var f=builder.EntitySet<FlFact>("FlFacts");
+            f.EntityType.Action("Handle").ReturnsFromEntitySet<FlFact>("FlFacts");
 
             var e = builder.EntitySet<FlOrder>("FlOrders");
             e.EntityType.Action("Cancel").ReturnsFromEntitySet<FlOrder>("FlOrders");
@@ -46,8 +47,7 @@ namespace CoreWeb
             builder.EntitySet<TRNAuto>("TRNAutoes");
             builder.EntitySet<TRNAutoSection>("TRNAutoSections");
             var i = builder.EntitySet<FlOrderItem>("FlOrderItems");
-            var a = i.EntityType.Action("SetStation");
-            a.ReturnsFromEntitySet<FlOrderItem>("FlOrderItems");
+            i.EntityType.Action("SetStation").ReturnsFromEntitySet<FlOrderItem>("FlOrderItems");
            // a.Parameter<int>("stationID");
 
             return builder.GetEdmModel();

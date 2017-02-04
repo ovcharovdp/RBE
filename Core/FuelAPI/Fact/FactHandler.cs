@@ -183,19 +183,21 @@ namespace FuelAPI.Fact
             }
             return false;
         }
-        public void SplitHandle(FlOrderItem item)
+        public bool SplitHandle(FlOrderItem item)
         {
             var q = _db.FlFacts.Where(p => p.Station.ID == item.Station.ID && p.WaybillNum == item.WaybillNum && p.FactDate > item.Order.DocDate).ToList();
             if (item.VolumeFact == q.Sum(p => p.Volume))
             {
                 item.State = _orderStates["4"];
                 item.ReceiveDate = q.Min(p => p.FactDate);
-                foreach(var f in q)
+                OrderOperations.ChangeState(item.Order);
+                foreach (var f in q)
                 {
                     f.State = _factStates["00"];
                 }
-                //_db.FlFacts..RemoveRange(q);
+                return true;
             }
+            return false;
         }
         public void SplitHandle(FlFact fact)
         {
@@ -203,13 +205,11 @@ namespace FuelAPI.Fact
             long stateID = _orderStates["3"].ID;
             var d = _db.FlOrderItems.Where(p => p.Order.DocDate > startDate && p.State.ID == stateID && p.Station.ID == fact.Station.ID
                 && p.VolumeFact == _db.FlFacts.Where(f => f.Station.ID == p.Station.ID && f.WaybillNum == p.WaybillNum && f.FactDate > startDate).Sum(f => f.Volume));
-            //var d = 
 
             var q = d.ToList();
             if (q.Count > 0)
             {
                 SplitHandle(q[0]);
-                OrderOperations.ChangeState(q[0].Order);
                 _db.SaveChanges();
             }
         }

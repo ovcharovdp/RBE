@@ -12,6 +12,7 @@ using System.Web.Http.OData;
 using System.Web.Http.OData.Routing;
 using CoreDM;
 using BaseEntities;
+using FuelAPI.Fact;
 
 namespace CoreWeb.Areas.Fuel.Controllers.OData
 {
@@ -177,7 +178,15 @@ namespace CoreWeb.Areas.Fuel.Controllers.OData
         {
             return SingleResult.Create(db.FlFacts.Where(m => m.ID == key).Select(m => m.Station));
         }
-
+        [HttpPost]
+        [EnableQuery]
+        public IHttpActionResult Handle([FromODataUri] long key)
+        {
+            FlFact fact = db.FlFacts.Find(key);
+            FactHandler handler = new FactHandler(db);
+            handler.Handle(fact);
+            return Ok(fact);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

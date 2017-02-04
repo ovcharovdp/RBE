@@ -1,0 +1,29 @@
+﻿@model CoreWeb.Models.Catalog.CatalogModel
+<div id="toolbar" style="border-style:none none solid none" data-role="toolbar" data-bind="events:{click:cmd}" data-items="@Html.Raw(string.Format(
+        "[{0}{1}{2}]", "{ 'type': 'button', 'id': 'menu', 'spriteCssClass': 'i-menu' }",
+        ",{'type': 'buttonGroup', 'buttons': ["+@*{ 'id': 'add', 'spriteCssClass': 'i-add' }," +*@
+        "{ 'id': 'edit', 'spriteCssClass': 'i-edit' },{ 'id': 'reload', 'spriteCssClass': 'i-reload'}]}",
+        Model.Columns.Any(p => p.Exportable) ? ",{ 'type': 'button', 'id': 'saveAsExcel', 'spriteCssClass': 'i-excel', text: ' Экспорт в Excel' }" : ""))"></div>
+<div id="grid" style="border-style: none; height: 100%;" data-role="grid" data-selectable="true" data-sortable="true" data-filterable="{extra:false}" data-excel="{fileName:'Facts.xlsx',allPages:true}"
+     data-scrollable="true" @*data-detail-template="detailTemplate"*@ data-pageable="true" data-bind="source: elements,events:{dataBound:dataBound }"
+     data-columns='[@Html.KendoGridColumns(Model.Columns),{field:"cmd",title:" ",width:30,sortable:false,filterable:false,template:"\#if(State.Code==\"03\"){\#<div title=\"Обработать\" class=\"i-exec\" data-bind=\"events:{click:handle}\"><\/div> \#}\#"}]'></div>
+<script>
+    var factModel = asu.fuel.factModel({
+        container: $("#grid"),
+        fields: {@Html.KendoModelFields(Model.Columns) },
+        url: "@Url.Action("")",
+        popup: editWnd,
+        entity: "@Model.ODataEntity",
+        expand: "@Model.ExpandEntity",
+        columnsExcel: [@Html.KendoGridColumns(Model.Columns.Where(p=>p.Exportable).ToList())]
+    });
+    kendo.bind($("#content"), factModel);
+    function resizeContainers() {
+        var headerHeight = $("#toolbar").outerHeight(true), dataGrid = $("#grid").data("kendoGrid");
+        dataGrid.element.height(mainHeight() - headerHeight); dataGrid.resize();
+    }
+    function editElement(id) {
+        saveEntity("@Url.Action("Edit")", function (r) { editWnd.close(); factModel.elements.pushUpdate(r) }, { id: id });
+    }
+    $(document).ready(resizeContainers);
+</script>
