@@ -69,7 +69,8 @@ namespace FuelAPI.Operations
             FlStation station = db.FlStations.Find(stationID);
             if (station == null)
                 throw new ArgumentException("АЗС не найдена (ID:" + stationID.ToString() + ")");
-            var order = item.Order;
+            FlOrder order = item.Order;
+            FlOrderItem result = item;
             if (item.Station.ID != stationID)
             {
                 var _states = GetStates(db).ToDictionary(p => p.Code, p => p);
@@ -95,6 +96,7 @@ namespace FuelAPI.Operations
                     IsChanged = true
                 };
                 AddItem(db, newItem);
+                result = newItem;
                 if (item.WaybillNum == null)
                 {
                     Regex rgx = new Regex(@"\d{2}");
@@ -131,7 +133,7 @@ namespace FuelAPI.Operations
             if (needChangeState)
                 ChangeState(order);
             db.SaveChanges();
-            return item;
+            return result;
         }
     }
 }

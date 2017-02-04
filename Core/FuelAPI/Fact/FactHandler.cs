@@ -67,6 +67,7 @@ namespace FuelAPI.Fact
                 }
                 else
                 {
+                    q.TankNum = fact.TankNum;
                     q.State = _orderStates["4"];
                 }
             }
@@ -116,11 +117,13 @@ namespace FuelAPI.Fact
                         // "Погружен"
                         case "3":
                             q.State = _orderStates["4"];
+                            q.TankNum = fact.TankNum;
                             q.ReceiveDate = fact.FactDate;
                             break;
                         // "Запланирован"
                         case "1":
                             q.State = _orderStates["4"];
+                            q.TankNum = fact.TankNum;
                             q.ReceiveDate = fact.FactDate;
                             q.WaybillNum = fact.WaybillNum;
                             q.Weight = fact.Weight;
@@ -138,6 +141,7 @@ namespace FuelAPI.Fact
                         FactOperations.Resolve(_db, fact);
                         fact.State = _factStates["03"];
                         _db.SaveChanges();
+                        SplitHandle(fact);
                         return;
                     }
                 }
@@ -160,18 +164,16 @@ namespace FuelAPI.Fact
             }
             foreach (var i in q)
             {
-                if (i.Station.ID != fact.Station.ID)
+                var item = i;
+                if (item.Station.ID != fact.Station.ID)
                 {
                     // изменяем план
-                    OrderOperations.SetStation(_db, i, fact.Station.ID);
+                    item = OrderOperations.SetStation(_db, item, fact.Station.ID);
                 }
-                else
-                {
-                    // фиксируем слив
-                    i.ReceiveDate = DateTime.Now;
-                    i.State = _orderStates["4"];
-                    i.IsChanged = true;
-                }
+                // фиксируем слив
+                item.ReceiveDate = fact.FactDate;
+                item.TankNum = fact.TankNum;
+                item.State = _orderStates["4"];
             }
             if (q.Count > 0)
             {
@@ -181,21 +183,34 @@ namespace FuelAPI.Fact
             }
             return false;
         }
-        public void SplitHandle(FlStation station, DateTime date)
+        public void SplitHandle(FlOrderItem item)
         {
-            var _state = _factStates["00"];
-            var q = from f in _db.FlFacts.Where(p => p.Station.ID == station.ID && p.State.ID != _state.ID)
-                    join i in _db.FlOrderItems.Where(p => p.Station.ID == station.ID && p.State.ID == 202) on f.WaybillNum equals i.WaybillNum
-                    where i.VolumeFact == _db.FlFacts.Where(p => p.WaybillNum == i.WaybillNum && p.Station.ID == station.ID && p.State.ID != _state.ID).Sum(p => p.Volume)
-                        && i.Weight == _db.FlFacts.Where(p => p.WaybillNum == i.WaybillNum && p.Station.ID == station.ID && p.State.ID != _state.ID).Sum(p => p.Weight)
-                    group i by i into Item
-                    select Item;
-            foreach (var item in q)
+            var q = _db.FlFacts.Where(p => p.Station.ID == item.Station.ID && p.WaybillNum == item.WaybillNum && p.FactDate > item.Order.DocDate).ToList();
+            if (item.VolumeFact == q.Sum(p => p.Volume))
             {
-                foreach (var fact in item)
+                item.State = _orderStates["4"];
+                item.ReceiveDate = q.Min(p => p.FactDate);
+                foreach(var f in q)
                 {
-
+                    f.State = _factStates["00"];
                 }
+                //_db.FlFacts..RemoveRange(q);
+            }
+        }
+        public void SplitHandle(FlFact fact)
+        {
+            DateTime startDate = fact.FactDate.AddDays(-3);
+            long stateID = _orderStates["3"].ID;
+            var d = _db.FlOrderItems.Where(p => p.Order.DocDate > startDate && p.State.ID == stateID && p.Station.ID == fact.Station.ID
+                && p.VolumeFact == _db.FlFacts.Where(f => f.Station.ID == p.Station.ID && f.WaybillNum == p.WaybillNum && f.FactDate > startDate).Sum(f => f.Volume));
+            //var d = 
+
+            var q = d.ToList();
+            if (q.Count > 0)
+            {
+                SplitHandle(q[0]);
+                OrderOperations.ChangeState(q[0].Order);
+                _db.SaveChanges();
             }
         }
     }
