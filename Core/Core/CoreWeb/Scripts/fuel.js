@@ -40,7 +40,7 @@ asu.fuel = {
                     data: function (r) { if (r.value !== undefined) return r.value; else { delete r["odata.metadata"]; return r; } },
                     total: function (r) { return r["odata.count"] }
                 },
-                filter: { field: "DocDate", operator: "gte", value: today },
+                filter: [{ field: "DocDate", operator: "gte", value: today }, { field: "DocDate", operator: "lte", value: today }],
                 push: function (e) {
                     if (e.type == "update") {
                         var f = this.options.schema.model.fields;
@@ -64,10 +64,10 @@ asu.fuel = {
                 this.selectedStation = e.sender.dataItem();
             },
             onChangeStation: function (e) {
-                //console.log(this.selectedStation);
                 if (this.changingItem.Station.ID != this.selectedStation.ID) {
                     var order = this.changedOrder;
-                    $.post(asu.Url("odata/FlOrderItems(" + this.changingItem.ID + ")/SetStation?stationID=" + this.selectedStation.ID), null, function (d) { order.read() }, "json");
+                    $.post(asu.Url("odata/FlOrderItems(" + this.changingItem.ID + ")/SetStation?stationID=" + this.selectedStation.ID), null, function (d) { order.read() }, "json")
+                        .error(function (r) { showError(r) });
                 }
                 editWnd.close();
             },

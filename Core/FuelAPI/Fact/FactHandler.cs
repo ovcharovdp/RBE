@@ -186,7 +186,7 @@ namespace FuelAPI.Fact
         public bool SplitHandle(FlOrderItem item)
         {
             var q = _db.FlFacts.Where(p => p.Station.ID == item.Station.ID && p.WaybillNum == item.WaybillNum && p.FactDate > item.Order.DocDate).ToList();
-            if (item.VolumeFact == q.Sum(p => p.Volume))
+            if (item.VolumeFact > 0 && item.VolumeFact == q.Sum(p => p.Volume))
             {
                 item.State = _orderStates["4"];
                 item.ReceiveDate = q.Min(p => p.FactDate);

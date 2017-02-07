@@ -190,9 +190,16 @@ namespace CoreWeb.Areas.Fuel.Controllers.OData
         [EnableQuery]
         public IHttpActionResult SetStation([FromODataUri] long key, [FromODataUri] long stationID)
         {
-            var item = db.FlOrderItems.Find(key);
-            item = FuelAPI.Operations.OrderOperations.SetStation(db, item, stationID);
-            return Ok(item);
+            try
+            {
+                var item = db.FlOrderItems.Find(key);
+                item = FuelAPI.Operations.OrderOperations.SetStation(db, item, stationID);
+                return Ok(item);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
         protected override void Dispose(bool disposing)
         {
