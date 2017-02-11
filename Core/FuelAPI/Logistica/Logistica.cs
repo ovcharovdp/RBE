@@ -271,9 +271,7 @@ namespace FuelAPI.Logistica
             _tankFarmList = q.ToDictionary(p => p.Code, p => p);
 
             _UTTGroupID = l.Load("A160B3B8-52D3-43F4-8DB0-ACF01A2F6344");
-            q = from og in _db.ObjGroupObjects.Where(p => p.GroupID == _UTTGroupID)
-                join o in _db.OrgDepartments.Where(p => p.Code != null) on og.ObjectID equals o.ID
-                select o;
+            q = _db.OrgDepartments.Where(p => p.Type.ID == 205 && p.Code != null);
             _uttList = q.ToDictionary(p => p.Code, p => p);
 
             _modelGroupID = l.Load("F2D2896C-B93E-4FF8-A7EF-8BBFB70E1868");
