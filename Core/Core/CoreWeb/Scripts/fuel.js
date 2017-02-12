@@ -230,9 +230,64 @@ asu.fuel = {
                     editWnd.show("Редактировать", a.url + "/PopupEdit", { id: id });
                 }
             },
+            detailModel: function (e) {
+                var _startDate = new Date("2017-02-02T00:00:00");
+                var _mm = new kendo.observable({
+                    mM: this,
+                    items: new kendo.data.DataSource({
+                        type: "odata",
+                        transport: {
+                            read: { url: asu.Url("odata/FlOrderItems") + "?$expand=Order,Order/TankFarm,Station,Station/Organization,State,Product,Customer&$select=*,State/*,Customer/FullName,Product/Name,Station/*,Order/*,Order/TankFarm/ShortName", dataType: "json" }
+                        },
+                        schema: {
+                            model: {
+                                id: "ID",
+                                order: function () {
+                                    return kendo.toString(kendo.parseDate(this.Order.DocDate), "d")
+                                        + ", рейс: " + this.Order.Order
+                                        + ", " + this.Order.TankFarm.ShortName
+                                }
+                                //, fields: { "Order.LogID": { type: "number" } }
+                                //,fields: a.fields
+                            },
+                            data: function (r) { if (r.value !== undefined) return r.value; else { delete r["odata.metadata"]; return r; } },
+                            total: function (r) { return r["odata.count"] }
+                        },
+                        push: function (e) {
+                            if (e.type == "update") {
+                                var f = this.options.schema.model.fields;
+                                var kk = Object.keys(f);
+                                kk.forEach(function (ee) {
+                                    if (f[ee].type == "date" && e.items[0][ee]) e.items[0].set(ee, kendo.parseDate(e.items[0][ee]))
+                                });
+                            }
+                        },
+                        group: {
+                            field: "order()",
+                            dir: "asc"
+                        },
+                        // sort: { field: "SectionNum", dir: "asc" },
+                        filter: [
+                            { field: "Order.DocDate", operator: "ge", value: _startDate },
+                            { field: "Order.Auto.RegNum", operator: "startswith", value: e.RegNum },
+                            { field: "State.Code", operator: "neq", value: "2" }],
+                        serverPaging: false,
+                        serverFiltering: true,
+                        serverSorting: false,
+                        error: function (r) { showError(r.xhr); }
+                    }),
+                    changeStation: function (e) {
+                        this.mM.changingItem = e.data;
+                        this.mM.changedOrder = this.items;
+                        this.mM.set("selectedStation", e.data.Station);
+                        editWnd.show("Смена объекта", a.url + "/ChangeStation");
+                    }
+                });
+                return _mm
+            },
             detailInit: function (e) {
                 var dataItem = e.sender.dataItem(e.masterRow);
-                kendo.bind(e.detailCell, this.detailModel(dataItem.ID));
+                kendo.bind(e.detailCell, this.detailModel(dataItem));
             },
             handle: function (e) {
                 var m = this;
